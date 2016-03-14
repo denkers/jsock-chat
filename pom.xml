@@ -9,5 +9,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+	</properties>
+
+	<dependencies>
+		<dependency>
+				<groupId>com.synthetica</groupId>
+				<artifactId>syntheticalib</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.synthetica</groupId>
+				<artifactId>syntheticaAluOxidelib</artifactId>
+				<version>1.0</version>
+			</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>synthetica.local</id>
+			<name>synthetica-repo</name>
+			<url>file:${basedir}/data/lib/synthetica</url>
+		</repository>
+	</repositories>
 </project>
