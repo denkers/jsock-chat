@@ -6,47 +6,48 @@ import java.net.Socket;
 import java.util.List;
 
 
-public class AbstractUser implements User, Serializable
+public abstract class AbstractUser implements User, Serializable
 {
     private String username;
     private String displayName;
     private transient String password;
     private List<String> currentRooms;
-    private int accLevel;
+    private AccountLevel accLevel;
+    private Socket clientSocket;
     
     @Override
-    public String getUsername() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getUsername() 
+    {
+        return username;
     }
 
     @Override
-    public void executeCommand(String command) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public abstract void executeCommand(String command);
+
+    @Override
+    public List<String> getActiveRooms() 
+    {
+        return currentRooms;
     }
 
     @Override
-    public List<String> getActiveRooms() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String getDisplayName() 
+    {
+        return displayName;
     }
 
     @Override
-    public String getDisplayName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Socket getClientSocket() 
+    {
+        return clientSocket;
     }
 
     @Override
-    public Socket getClientSocket() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public abstract void authenticate();
 
     @Override
-    public void authenticate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AccountLevel getAccountLevel() 
+    {
+        return accLevel;
     }
-
-    @Override
-    public AccountLevel getAccountLevel() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }
