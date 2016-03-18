@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.commons.room;
 
 import java.util.List;
+import java.util.Set;
 
 enum RoomType
 {
@@ -11,9 +12,11 @@ enum RoomType
 
 public interface Room 
 {
-    public List<String> getUserList();
+    public Set<String> getUserList();
     
     public int getNumUsersInRoom();
+    
+    public String getOwner();
     
     public RoomType getRoomType();
     
@@ -25,7 +28,7 @@ public interface Room
     
     public void setRoomPassword(String password);
     
-    public void setUserList(List<String> userList);
+    public void setUserList(Set<String> userList);
     
     public void leaveRoom(String username);
     
