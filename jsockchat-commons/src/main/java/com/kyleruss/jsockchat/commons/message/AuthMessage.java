@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public abstract class AuthMessage 
+public class AuthMessage 
 {
     private String username;
     private String password;
