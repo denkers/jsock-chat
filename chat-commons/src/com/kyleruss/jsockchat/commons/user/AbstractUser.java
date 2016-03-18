@@ -10,7 +10,6 @@ public abstract class AbstractUser implements User, Serializable
 {
     private String username;
     private String displayName;
-    private transient String password;
     private List<String> currentRooms;
     private AccountLevel accLevel;
     private Socket clientSocket;
