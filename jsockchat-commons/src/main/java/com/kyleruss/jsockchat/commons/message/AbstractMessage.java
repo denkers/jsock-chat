@@ -5,6 +5,10 @@ public abstract class AbstractMessage implements Message
 {
     private String source;
     private String content;
+    private MessageType messageType;
+    
+    @Override
+    public abstract void action();
     
     @Override
     public String getSource()
@@ -18,6 +22,13 @@ public abstract class AbstractMessage implements Message
         return content;
     }
     
-    @Override
-    public abstract void action();
+    public MessageType getMessageType()
+    {
+        return messageType;
+    }
+    
+    public void setMessageType(MessageType messageType)
+    {
+        this.messageType    =   messageType;
+    }
 }
