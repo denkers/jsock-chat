@@ -23,7 +23,12 @@
 				<artifactId>syntheticaAluOxidelib</artifactId>
 				<version>1.0</version>
 			</dependency>
-		</dependencies>
+		 <dependency>
+		   	<groupId>com.kyleruss.jsockchat</groupId>
+			<artifactId>jsockchat-commons</artifactId>
+			<version>1.0</version>
+		 </dependency>
+	</dependencies>
 
 		<repositories>
 			<repository>
