@@ -1,11 +1,20 @@
 
 package com.kyleruss.jsockchat.server.message;
 
+import com.kyleruss.jsockchat.commons.message.AbstractMessage;
 import com.kyleruss.jsockchat.commons.message.Message;
 
-public interface ServerMessage 
+public abstract class ServerMessage<T extends Message> extends AbstractMessage
 {
-    public Message getWrappedMessage();
+    private T message;
     
-    public void setWrappedMessage(Message message);
+    public T getWrappedMessage()
+    {
+        return message;
+    }
+    
+    public void setWrappedMessage(T message)
+    {
+        this.message    =   message;
+    }
 }
