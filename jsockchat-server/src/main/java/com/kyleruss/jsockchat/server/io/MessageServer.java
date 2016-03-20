@@ -98,7 +98,7 @@ public final class MessageServer extends Thread
             
             catch(IOException e)
             {
-                
+                System.out.println("[MessageServer@run]: " + e.getMessage());
             }
         }
     }
@@ -108,5 +108,4 @@ public final class MessageServer extends Thread
         if(instance == null) instance = new MessageServer();
         return instance;
     }
-    
 }

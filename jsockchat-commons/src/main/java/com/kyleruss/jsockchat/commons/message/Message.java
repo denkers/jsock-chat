@@ -1,13 +1,15 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
+import java.io.Serializable;
+
 enum MessageType
 {
     REQUEST,
     RESPONSE
 }
 
-public interface Message 
+public interface Message extends Serializable
 {
     public String getSource();
     
