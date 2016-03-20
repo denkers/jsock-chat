@@ -7,7 +7,21 @@ enum DisconnectContext
     APPLICATION
 }
 
-public interface DisconnectMessage
+public abstract class DisconnectMessage extends AbstractMessage
 {
-    public DisconnectContext getContext();
+    private DisconnectContext context;
+    private String room;
+    
+    public DisconnectContext getContext()
+    {
+        return context;
+    }
+    
+    public String getRoom()
+    {
+        if(context == DisconnectContext.APPLICATION)
+            return null;
+        
+        else return room;
+    }
 }

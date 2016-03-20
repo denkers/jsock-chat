@@ -1,6 +1,8 @@
 
 package com.kyleruss.jsockchat.server.io;
 
+import com.kyleruss.jsockchat.commons.message.DisconnectMessage;
+import com.kyleruss.jsockchat.server.message.ServerDisconnectMessage;
 import com.kyleruss.jsockchat.server.message.ServerMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,10 +21,12 @@ public class MessageSocketHandler extends Thread
     {
         try
         {
-            ServerMessage serverMessage;
             Object clientMessage  =   inputStream.readObject();
             
-            if(clientMessage instanceof )
+            if(clientMessage instanceof DisconnectMessage)
+                return new ServerDisconnectMessage((DisconnectMessage) clientMessage);
+            
+            else return null;
         }
         
         catch(IOException | ClassNotFoundException | ClassCastException e)
