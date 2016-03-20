@@ -1,7 +1,6 @@
 
 package com.kyleruss.jsockchat.commons.room;
 
-import java.util.List;
 import java.util.Set;
 
 enum RoomType
