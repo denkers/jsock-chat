@@ -8,6 +8,11 @@ public abstract class ServerMessage<T extends Message> extends AbstractMessage
 {
     private T message;
     
+    public ServerMessage(T message)
+    {
+        this.message    =   message;
+    }
+    
     public T getWrappedMessage()
     {
         return message;
