@@ -12,7 +12,7 @@ public abstract class AbstractUser implements User, Serializable
     private String displayName;
     private List<String> currentRooms;
     private AccountLevel accLevel;
-    private Socket clientSocket;
+    private transient Socket clientSocket;
     
     @Override
     public String getUsername() 

@@ -1,6 +1,7 @@
 
 package com.kyleruss.jsockchat.commons.user;
 
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.List;
 
@@ -11,7 +12,7 @@ enum AccountLevel
     BANNED
 }
 
-public interface User 
+public interface User extends Serializable
 {
     public String getUsername();
     
