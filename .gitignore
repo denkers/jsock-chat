@@ -5,3 +5,5 @@ nbactions.xml
 /chat-commons/dist/
 /chat-commons/build/
 /jsockchat-server/nbproject/
+/TestLib/nbproject/private/
+/TestLib/build/
