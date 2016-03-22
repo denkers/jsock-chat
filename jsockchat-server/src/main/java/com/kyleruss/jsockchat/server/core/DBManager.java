@@ -18,7 +18,7 @@ public class DBManager
     
     private void initDriver()
     {
-        try { Class.forName(ServerConfig.JDBC_DRIVER); }
+        try { Class.forName(ServerConfig.JDBC_CLASS); }
         catch(ClassNotFoundException e)
         {
             System.out.println("[DBManager@initDriver]: " + e.getMessage());

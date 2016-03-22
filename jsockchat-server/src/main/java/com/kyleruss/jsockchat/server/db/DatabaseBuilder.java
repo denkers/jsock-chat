@@ -48,4 +48,9 @@ public class DatabaseBuilder
                 + "FOREIGN KEY(friend_a) REFERENCES User(username) ON DELETE CASCADE"
         + ");";
     }
+    
+    public static void main(String[] args)
+    {
+        DatabaseBuilder.createTables();
+    }
 }
