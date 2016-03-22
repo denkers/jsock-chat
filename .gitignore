@@ -7,3 +7,4 @@ nbactions.xml
 /jsockchat-server/nbproject/
 /TestLib/nbproject/private/
 /TestLib/build/
+jsockchat-server/data/db/*.db
