@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.server.io;
 
-import com.kyleruss.jsockchat.server.config.ServerConfig;
+import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
