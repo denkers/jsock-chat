@@ -25,16 +25,16 @@ public class DBManager
         }
     }
     
-    public boolean sendUpdates(String... updateStrs) throws SQLException
+    public void sendUpdates(String... updateStrs) throws SQLException
     {
         try(Connection connection   =   DriverManager.getConnection(ServerConfig.CONN_URL))
         {
             Statement statement =   connection.createStatement();
             for(String updateStr : updateStrs)
                 statement.addBatch(updateStr);
-            
-            return statement.executeBatch() != null;
-        }
+
+            statement.executeBatch();
+        }   
     }
     
     public ResultSet sendQuery(String query) throws SQLException

@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.commons.message;
 
 import java.io.Serializable;
+import java.util.Date;
 
 enum MessageType
 {
@@ -11,11 +12,9 @@ enum MessageType
 
 public interface Message extends Serializable
 {
-    public String getSource();
-    
-    public String getContent();
-    
     public void action();
+
+    public Date getTimeSent();
     
     public MessageType getMessageType();
     
