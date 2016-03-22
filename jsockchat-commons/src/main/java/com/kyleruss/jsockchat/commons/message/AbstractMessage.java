@@ -1,9 +1,12 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
+import java.util.Date;
+
 public abstract class AbstractMessage implements Message
 {
     private MessageType messageType;
+    private Date timeSent;
     
     @Override
     public abstract void action();
@@ -16,5 +19,10 @@ public abstract class AbstractMessage implements Message
     public void setMessageType(MessageType messageType)
     {
         this.messageType    =   messageType;
+    }
+    
+    public Date getTimeSent()
+    {
+        return timeSent;
     }
 }
