@@ -10,4 +10,6 @@ public interface RequestMessage extends Message
     public boolean isIDSet();
     
     public boolean hasSource();
+    
+    public void witnessAction();
 }
