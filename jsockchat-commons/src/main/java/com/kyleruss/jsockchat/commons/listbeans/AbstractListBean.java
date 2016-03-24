@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public abstract class AbstractListBean<T extends Serializable> 
+public abstract class AbstractListBean<T extends Serializable> implements Serializable
 {
     protected List<T> listData;
     protected Date updateTime;
