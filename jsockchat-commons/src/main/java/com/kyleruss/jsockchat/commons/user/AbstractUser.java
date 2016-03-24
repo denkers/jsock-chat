@@ -49,4 +49,22 @@ public abstract class AbstractUser implements User, Serializable
     {
         return accLevel;
     }
+    
+    @Override
+    public int hashCode()
+    {
+        return username.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object other)
+    {
+        if(other instanceof AbstractUser)
+        {
+            AbstractUser otherUser  =   (AbstractUser) other;
+            return this.username.equals(otherUser.getUsername());
+        }
+        
+        return false;
+    }
 }
