@@ -1,4 +1,4 @@
-package com.kyleruss.jsockchat.commons.listbeans;
+package com.kyleruss.jsockchat.commons.listbean;
 
 import com.kyleruss.jsockchat.commons.room.Room;
 

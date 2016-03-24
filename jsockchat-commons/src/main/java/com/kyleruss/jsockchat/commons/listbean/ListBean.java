@@ -1,5 +1,5 @@
 
-package com.kyleruss.jsockchat.commons.listbeans;
+package com.kyleruss.jsockchat.commons.listbean;
 
 import java.io.Serializable;
 import java.util.Date;
