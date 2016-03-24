@@ -59,12 +59,6 @@ public abstract class AbstractUser implements User, Serializable
     @Override
     public boolean equals(Object other)
     {
-        if(other instanceof AbstractUser)
-        {
-            AbstractUser otherUser  =   (AbstractUser) other;
-            return this.username.equals(otherUser.getUsername());
-        }
-        
-        return false;
+        return other instanceof AbstractUser && ((AbstractUser) other).getUsername().equals(username);
     }
 }

@@ -76,4 +76,15 @@ public class AbstractRoom implements Room
         return roomOwner;
     }
     
+    @Override
+    public int hashCode()
+    {
+        return roomName.hashCode();
+    }
+    
+    @Override
+    public boolean equals(Object other)
+    {
+        return other instanceof AbstractRoom && ((AbstractRoom) other).getRoomName().equals(roomName);
+    }
 }
