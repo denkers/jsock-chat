@@ -4,8 +4,15 @@ import com.kyleruss.jsockchat.commons.room.Room;
 
 public class RoomListBean extends AbstractListBean<Room>
 {
-    public int getNumRoomUsers()
+    private String channelNotice;
+    
+    public String getChannelNotice()
     {
-        return listData.size();
+        return channelNotice;
+    }
+    
+    public void setChannelNotice(String channelNotice)
+    {
+        this.channelNotice  =   channelNotice;
     }
 }
