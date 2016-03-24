@@ -59,7 +59,7 @@ public final class MessageServer extends Thread
         }
     }
     
-    public boolean stopServer()
+    public synchronized boolean stopServer()
     {
         if(serverSocket == null || serverSocket.isClosed())
             return true;
