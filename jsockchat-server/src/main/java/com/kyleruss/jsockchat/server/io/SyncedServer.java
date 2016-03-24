@@ -11,7 +11,7 @@ public abstract class SyncedServer extends Thread
     
     public abstract void setServing(boolean serving);
     
-    public abstract void runServerOperations();
+    protected abstract void runServerOperations();
     
     protected synchronized void setServingSync(boolean serving)
     {

@@ -80,7 +80,7 @@ public final class MessageServer extends SyncedServer
     }
 
     @Override
-    public synchronized void runServerOperations() 
+    protected synchronized void runServerOperations() 
     {
         try
         {
