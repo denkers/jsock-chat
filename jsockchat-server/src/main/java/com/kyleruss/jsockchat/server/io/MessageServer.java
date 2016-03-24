@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public final class MessageServer extends Thread
+public final class MessageServer extends SyncedServer
 {
     private static MessageServer instance;
     private boolean isListening;
@@ -18,30 +18,7 @@ public final class MessageServer extends Thread
         initSocket();
     }
     
-    public synchronized void setListening(boolean isRunning)
-    {
-        this.isListening  =   isRunning;
-        notify();
-    }
-    
-    public boolean isListening()
-    {
-        return isListening;
-    }
-    
-    private synchronized void getListeningLock()
-    {
-        try
-        {
-            if(!isListening)
-                wait();
-        }
-        
-        catch(InterruptedException e)
-        {
-            System.out.println("[MessageServer@getListeningLock]: " + e.getMessage());
-        }
-    }
+
     
     private void initSocket()
     {
@@ -59,6 +36,7 @@ public final class MessageServer extends Thread
         }
     }
     
+    @Override
     public synchronized boolean stopServer()
     {
         if(serverSocket == null || serverSocket.isClosed())
@@ -82,24 +60,40 @@ public final class MessageServer extends Thread
         MessageSocketHandler messageHandler =   new MessageSocketHandler(socket);
         messageHandler.start();
     }
-    
+
     @Override
-    public void run()
+    public boolean isServing() 
     {
-        while(serverSocket != null && !serverSocket.isClosed())
+        return isListening;
+    }
+
+    @Override
+    public boolean isStopped() 
+    {
+        return serverSocket == null || serverSocket.isClosed();
+    }
+
+    @Override
+    public void setServing(boolean serving) 
+    {
+        isListening =   serving;
+    }
+
+    @Override
+    public synchronized void runServerOperations() 
+    {
+        try
         {
-            getListeningLock();
-            
-            try
+            if(!isStopped() && isServing())
             {
                 Socket clientSocket =   serverSocket.accept();
                 handleClientSocket(clientSocket);
             }
+        }
             
-            catch(IOException e)
-            {
-                System.out.println("[MessageServer@run]: " + e.getMessage());
-            }
+        catch(IOException e)
+        {
+            System.out.println("[MessageServer@runServerOperations]: " + e.getMessage());
         }
     }
     

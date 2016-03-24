@@ -7,6 +7,8 @@ public abstract class SyncedServer extends Thread
     
     public abstract boolean isStopped();
     
+    public abstract boolean stopServer();
+    
     public abstract void setServing(boolean serving);
     
     public abstract void runServerOperations();
