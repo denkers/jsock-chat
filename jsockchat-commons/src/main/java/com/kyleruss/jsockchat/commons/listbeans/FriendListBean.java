@@ -5,5 +5,8 @@ import com.kyleruss.jsockchat.commons.user.User;
 
 public class FriendListBean extends AbstractListBean<User>
 {
-    
+    public int getNumFriends()
+    {
+        return listData.size();
+    }
 }
