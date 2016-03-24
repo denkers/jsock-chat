@@ -1,19 +1,31 @@
 package com.kyleruss.jsockchat.server.io;
 
+import java.net.DatagramSocket;
+import java.net.SocketException;
+
 public class ListBroadcastServer extends SyncedServer
 {
     private static ListBroadcastServer instance;
     private boolean isBroadcasting;
+    private DatagramSocket socket;
     
     private ListBroadcastServer()
     {
         isBroadcasting  =   true;
     }
-
-    public static ListBroadcastServer getInstance()
+    
+    @Override
+    protected void initSocket()
     {
-        if(instance == null) instance   =   new ListBroadcastServer();
-        return instance;
+        try
+        {
+            socket  =   new DatagramSocket();
+        }
+        
+        catch(SocketException e)
+        {
+            System.out.println("[ListBroadcastServer@initSocket]: " + e.getMessage());
+        }
     }
 
     @Override
@@ -25,7 +37,7 @@ public class ListBroadcastServer extends SyncedServer
     @Override
     public boolean isStopped() 
     {
-        return false;
+        return socket != null || socket.isClosed();
     }
 
     @Override
@@ -44,5 +56,11 @@ public class ListBroadcastServer extends SyncedServer
     public boolean stopServer() 
     {
         return false;
+    }
+    
+    public static ListBroadcastServer getInstance()
+    {
+        if(instance == null) instance   =   new ListBroadcastServer();
+        return instance;
     }
 }

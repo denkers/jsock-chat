@@ -18,9 +18,8 @@ public final class MessageServer extends SyncedServer
         initSocket();
     }
     
-
-    
-    private void initSocket()
+    @Override
+    protected void initSocket()
     {
         try
         {
