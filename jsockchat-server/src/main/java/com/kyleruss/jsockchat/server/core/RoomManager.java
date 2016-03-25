@@ -16,12 +16,6 @@ public final class RoomManager
         rooms   =   new HashMap<>();
     }
     
-    public static RoomManager getInstance()
-    {
-        if(instance == null) instance = new RoomManager();
-        return instance;
-    }
-    
     public synchronized boolean addRoom(String roomName, Room room)
     {
         return rooms.put(roomName, room) != null;
@@ -32,15 +26,19 @@ public final class RoomManager
         return rooms.remove(roomName);
     }
     
-    public Room getRoom(String roomName)
+    public synchronized Room getRoom(String roomName)
     {
         return rooms.get(roomName);
     }
     
-    public Collection<Room> getRooms()
+    public synchronized Collection<Room> getRooms()
     {
         return rooms.values();
     }
     
-    
+    public static RoomManager getInstance()
+    {
+        if(instance == null) instance = new RoomManager();
+        return instance;
+    }
 }
