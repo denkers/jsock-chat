@@ -1,7 +1,5 @@
 package com.kyleruss.jsockchat.server.io;
 
-import com.kyleruss.jsockchat.commons.listbean.ListBean;
-import com.kyleruss.jsockchat.commons.user.User;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.concurrent.Semaphore;
@@ -10,7 +8,7 @@ public class ListBroadcastServer
 {
     private static ListBroadcastServer instance;
     private DatagramSocket socket;
-    private Semaphore mutex;
+    private final Semaphore mutex;
     private final FriendListBroadcaster friendBroadcaster;
     private final RoomListBroadcaster roomBroadcaster;
     private final RoomUserListBroadcaster roomUserBroadcaster;

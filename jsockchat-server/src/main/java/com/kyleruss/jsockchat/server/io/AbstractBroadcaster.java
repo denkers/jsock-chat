@@ -4,6 +4,10 @@ package com.kyleruss.jsockchat.server.io;
 import com.kyleruss.jsockchat.commons.listbean.ListBean;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -54,7 +58,7 @@ public abstract class AbstractBroadcaster extends SyncedServer
         this.updateTime =   updateTime;
     }
     
-    protected synchronized void sendListBean(ListBean bean, User user)
+    protected synchronized void sendListBean(ListBean bean, User user) throws IOException
     {
         Socket userSocket   =   user.getClientSocket();
         
@@ -62,6 +66,14 @@ public abstract class AbstractBroadcaster extends SyncedServer
         {
             InetAddress host    =   userSocket.getInetAddress();
             int port            =   ServerConfig.BROADCAST_PORT;
+            
+            ByteArrayOutputStream baos  =   new ByteArrayOutputStream();
+            ObjectOutputStream oos      =   new ObjectOutputStream(baos);
+            oos.writeObject(bean);
+
+            byte[] bData                =   baos.toByteArray();
+            DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
+            socket.send(packet);
         }
     }
     

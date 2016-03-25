@@ -1,7 +1,6 @@
 
 package com.kyleruss.jsockchat.server.core;
 
-import com.kyleruss.jsockchat.commons.room.Room;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
