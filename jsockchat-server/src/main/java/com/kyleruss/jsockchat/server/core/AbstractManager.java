@@ -11,7 +11,7 @@ public class AbstractManager<K, V>
 {
     protected Map<K, V> data;
     
-    public AbstractManager()
+    protected AbstractManager()
     {
         data   =   new HashMap<>();
     }
@@ -33,6 +33,12 @@ public class AbstractManager<K, V>
     
     public synchronized Collection<V> getDataValues()
     {
-        return data.values();
+        return data.values();   
     }
+    
+    public synchronized boolean find(K name)
+    {
+        return data.containsKey(name);
+    }
+    
 }
