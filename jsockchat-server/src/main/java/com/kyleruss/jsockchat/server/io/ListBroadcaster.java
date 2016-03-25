@@ -33,6 +33,11 @@ public class ListBroadcaster
     {
         return mutex;
     }
+    
+    protected DatagramSocket getSocket()
+    {
+        return socket;
+    }
 
     public static ListBroadcaster getInstance()
     {
