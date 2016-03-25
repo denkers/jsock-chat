@@ -8,5 +8,6 @@ public class RoomListBroadcastServer extends AbstractBroadcastServer
     }
 
     @Override
-    protected void runServerOperations() {}
+    protected void runBroadcastOperations() {}
+
 }

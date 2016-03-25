@@ -48,8 +48,24 @@ public abstract class AbstractBroadcastServer extends SyncedServer
     {
         this.updateTime =   updateTime;
     }
+    
+    protected abstract void runBroadcastOperations();
 
     @Override
-    protected abstract void runServerOperations();
+    protected synchronized void runServerOperations()
+    {
+        try
+        {
+            wait(updateTime);
+            broadcaster.getMutex().acquire();
+            runBroadcastOperations();
+            broadcaster.getMutex().release();
+        }
+        
+        catch(InterruptedException e)
+        {
+            System.out.println("[AbstractBroadcastServer@runServerOperations]: " + e.getMessage());
+        }
+    }
     
 }

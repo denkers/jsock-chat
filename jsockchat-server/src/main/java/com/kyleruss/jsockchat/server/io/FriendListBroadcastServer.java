@@ -9,6 +9,6 @@ public class FriendListBroadcastServer extends AbstractBroadcastServer
     }
 
     @Override
-    protected void runServerOperations() {}
+    protected void runBroadcastOperations() {}
 
 }

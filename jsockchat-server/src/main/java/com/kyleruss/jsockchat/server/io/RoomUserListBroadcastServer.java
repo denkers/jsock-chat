@@ -9,7 +9,5 @@ public class RoomUserListBroadcastServer extends AbstractBroadcastServer
     }
 
     @Override
-    protected void runServerOperations() 
-    {
-    }
+    protected void runBroadcastOperations() {}
 }
