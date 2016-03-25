@@ -10,5 +10,5 @@ public interface User extends Serializable
     
     public String getDisplayName();
     
-    public List<String> getActiveRooms();
+    public List<String> getCurrentRooms();
 }

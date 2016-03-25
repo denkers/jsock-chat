@@ -2,7 +2,7 @@
 package com.kyleruss.jsockchat.commons.user;
 
 import java.io.Serializable;
-import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -12,6 +12,13 @@ public abstract class AbstractUser implements User, Serializable
     private String displayName;
     private List<String> currentRooms;
     
+    public AbstractUser(String username, String displayName)
+    {
+        this.username       =   username;
+        this.displayName    =   displayName;
+        currentRooms        =   new LinkedList<>();
+    }
+    
     @Override
     public String getUsername() 
     {
@@ -19,7 +26,7 @@ public abstract class AbstractUser implements User, Serializable
     }
 
     @Override
-    public List<String> getActiveRooms() 
+    public List<String> getCurrentRooms() 
     {
         return currentRooms;
     }
