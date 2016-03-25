@@ -1,9 +1,9 @@
 
 package com.kyleruss.jsockchat.commons.listbean;
 
-import com.kyleruss.jsockchat.commons.user.User;
+import com.kyleruss.jsockchat.commons.user.IUser;
 
-public class UserRoomListBean extends AbstractListBean<User>
+public class UserRoomListBean extends AbstractListBean<IUser>
 {
     private String roomName;
     

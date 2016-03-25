@@ -1,10 +1,10 @@
 
 package com.kyleruss.jsockchat.commons.listbean;
 
-import com.kyleruss.jsockchat.commons.user.User;
 import java.util.List;
+import com.kyleruss.jsockchat.commons.user.IUser;
 
-public class FriendListBean extends AbstractListBean<User>
+public class FriendListBean extends AbstractListBean<IUser>
 {
     private List<Integer> onlineFriendIndexes;
     

@@ -1,9 +1,9 @@
 
 package com.kyleruss.jsockchat.server.core;
 
-import com.kyleruss.jsockchat.commons.user.User;
+import com.kyleruss.jsockchat.commons.user.IUser;
 
-public final class UserManager extends AbstractManager<String, User>
+public final class UserManager extends AbstractManager<String, IUser>
 {
     private static UserManager instance;
     
