@@ -8,6 +8,7 @@ public abstract class AbstractBroadcastServer extends SyncedServer
     private final ListBroadcaster broadcaster;
     private final DatagramSocket socket;
     private boolean isStopped;
+    private int updateTime;
     
     public AbstractBroadcastServer(ListBroadcaster broadcaster)
     {
@@ -36,6 +37,16 @@ public abstract class AbstractBroadcastServer extends SyncedServer
     protected DatagramSocket getSocket()
     {
         return socket;
+    }
+    
+    public int getUpdateTime()
+    {
+        return updateTime;
+    }
+    
+    public void setUpdateTime(int updateTime)
+    {
+        this.updateTime =   updateTime;
     }
 
     @Override
