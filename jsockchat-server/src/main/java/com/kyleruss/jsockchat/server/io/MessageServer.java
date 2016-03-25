@@ -9,12 +9,10 @@ import java.net.Socket;
 public final class MessageServer extends SyncedServer
 {
     private static MessageServer instance;
-    private boolean isListening;
     private ServerSocket serverSocket;
     
     private MessageServer()
     {
-        isListening =   true;
         initSocket();
     }
     
@@ -60,21 +58,9 @@ public final class MessageServer extends SyncedServer
     }
 
     @Override
-    public boolean isServing() 
-    {
-        return isListening;
-    }
-
-    @Override
     public boolean isStopped() 
     {
         return serverSocket == null || serverSocket.isClosed();
-    }
-
-    @Override
-    public void setServing(boolean serving) 
-    {
-        isListening =   serving;
     }
 
     @Override
