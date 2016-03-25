@@ -4,7 +4,6 @@ package com.kyleruss.jsockchat.server.io;
 import com.kyleruss.jsockchat.commons.message.DisconnectMessage;
 import com.kyleruss.jsockchat.server.message.ServerDisconnectMessage;
 import com.kyleruss.jsockchat.server.message.ServerMessage;
-import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;

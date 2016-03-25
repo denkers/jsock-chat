@@ -3,18 +3,18 @@ package com.kyleruss.jsockchat.server.io;
 
 import java.net.DatagramSocket;
 
-public abstract class AbstractBroadcastServer extends SyncedServer
+public abstract class AbstractBroadcaster extends SyncedServer
 {
-    private final ListBroadcaster broadcaster;
+    private final ListBroadcastServer broadcastServer;
     private final DatagramSocket socket;
     private boolean isStopped;
     private int updateTime;
     
-    public AbstractBroadcastServer(ListBroadcaster broadcaster)
+    public AbstractBroadcaster(ListBroadcastServer broadcaster)
     {
-        this.broadcaster    =   broadcaster;
-        this.socket         =   broadcaster.getSocket();
-        isStopped           =   true;
+        this.broadcastServer    =   broadcaster;
+        this.socket             =   broadcaster.getSocket();
+        isStopped               =   true;
     }
     
     @Override
@@ -29,9 +29,9 @@ public abstract class AbstractBroadcastServer extends SyncedServer
         return isStopped = true;
     }
     
-    protected ListBroadcaster getBroadcaster()
+    protected ListBroadcastServer getBroadcastServer()
     {
-        return broadcaster;
+        return broadcastServer;
     }
     
     protected DatagramSocket getSocket()
@@ -57,9 +57,9 @@ public abstract class AbstractBroadcastServer extends SyncedServer
         try
         {
             wait(updateTime);
-            broadcaster.getMutex().acquire();
+            broadcastServer.getMutex().acquire();
             runBroadcastOperations();
-            broadcaster.getMutex().release();
+            broadcastServer.getMutex().release();
         }
         
         catch(InterruptedException e)

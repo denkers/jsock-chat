@@ -1,8 +1,9 @@
 package com.kyleruss.jsockchat.server.io;
 
-public class RoomListBroadcastServer extends AbstractBroadcastServer
+
+public class FriendListBroadcaster extends AbstractBroadcaster
 {
-    public RoomListBroadcastServer(ListBroadcaster broadcaster) 
+    public FriendListBroadcaster(ListBroadcastServer broadcaster) 
     {
         super(broadcaster);
     }
