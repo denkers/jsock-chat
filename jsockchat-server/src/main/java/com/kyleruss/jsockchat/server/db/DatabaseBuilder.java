@@ -27,7 +27,7 @@ public class DatabaseBuilder
     private static String getUserTableSQL()
     {
         return
-            "CREATE TABLE IF NOT EXISTS User"
+            "CREATE TABLE IF NOT EXISTS Users"
         +   "("
                 + "username VARCHAR(18) NOT NULL PRIMARY KEY, "
                 + "password VARCHAR(255) NOT NULL, "
@@ -47,5 +47,10 @@ public class DatabaseBuilder
                 + "befriend_date DATE DEFAULT CURRENT_TIMESTAMP, "
                 + "FOREIGN KEY(friend_a) REFERENCES User(username) ON DELETE CASCADE"
         + ");";
+    }
+    
+    public static void main(String[] args)
+    {
+        createTables();
     }
 }

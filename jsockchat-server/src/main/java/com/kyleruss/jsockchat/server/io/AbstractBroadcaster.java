@@ -67,13 +67,15 @@ public abstract class AbstractBroadcaster extends SyncedServer
             InetAddress host    =   userSocket.getInetAddress();
             int port            =   ServerConfig.BROADCAST_PORT;
             
-            ByteArrayOutputStream baos  =   new ByteArrayOutputStream();
-            ObjectOutputStream oos      =   new ObjectOutputStream(baos);
-            oos.writeObject(bean);
+            ByteArrayOutputStream baos      =   new ByteArrayOutputStream();
+            try(ObjectOutputStream oos      =   new ObjectOutputStream(baos))
+            {
+                oos.writeObject(bean);
 
-            byte[] bData                =   baos.toByteArray();
-            DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
-            socket.send(packet);
+                byte[] bData                =   baos.toByteArray();
+                DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
+                socket.send(packet);
+            }
         }
     }
     
