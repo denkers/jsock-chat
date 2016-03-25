@@ -4,13 +4,13 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.concurrent.Semaphore;
 
-public class ListBroadcastServer
+public class ListBroadcaster
 {
-    private static ListBroadcastServer instance;
+    private static ListBroadcaster instance;
     private DatagramSocket socket;
     private Semaphore mutex;
     
-    private ListBroadcastServer()
+    private ListBroadcaster()
     {
         mutex   =   new Semaphore(1);
         initSocket();
@@ -34,9 +34,9 @@ public class ListBroadcastServer
         return mutex;
     }
 
-    public static ListBroadcastServer getInstance()
+    public static ListBroadcaster getInstance()
     {
-        if(instance == null) instance   =   new ListBroadcastServer();
+        if(instance == null) instance   =   new ListBroadcaster();
         return instance;
     }
 }
