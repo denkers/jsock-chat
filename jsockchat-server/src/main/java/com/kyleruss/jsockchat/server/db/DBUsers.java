@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.server.db;
 
-public class DBUsers 
+public class DBUsers extends DBModel
 {
     
 }
