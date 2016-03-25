@@ -2,20 +2,21 @@ package com.kyleruss.jsockchat.server.io;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.concurrent.Semaphore;
 
-public class ListBroadcastServer extends SyncedServer
+public class ListBroadcastServer
 {
     private static ListBroadcastServer instance;
-    private boolean isBroadcasting;
     private DatagramSocket socket;
+    private Semaphore mutex;
     
     private ListBroadcastServer()
     {
-        isBroadcasting  =   true;
+        mutex   =   new Semaphore(1);
+        initSocket();
     }
     
-    @Override
-    protected void initSocket()
+    private void initSocket()
     {
         try
         {
@@ -27,37 +28,12 @@ public class ListBroadcastServer extends SyncedServer
             System.out.println("[ListBroadcastServer@initSocket]: " + e.getMessage());
         }
     }
-
-    @Override
-    public boolean isServing() 
-    {
-        return isBroadcasting;
-    }
-
-    @Override
-    public boolean isStopped() 
-    {
-        return socket != null || socket.isClosed();
-    }
-
-    @Override
-    public void setServing(boolean serving) 
-    {
-        isBroadcasting  =   serving;
-    }
-
-    @Override
-    public synchronized void runServerOperations() 
-    {
-        
-    }
-
-    @Override
-    public boolean stopServer() 
-    {
-        return false;
-    }
     
+    protected Semaphore getMutex()
+    {
+        return mutex;
+    }
+
     public static ListBroadcastServer getInstance()
     {
         if(instance == null) instance   =   new ListBroadcastServer();
