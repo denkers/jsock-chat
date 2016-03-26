@@ -6,18 +6,18 @@ import java.util.List;
 public class AbstractRoom implements Room
 {
     private List<String> userList;
-    private String roomName;
-    private String roomPassword;
-    private String roomOwner;
-    private RoomType roomType;
+    private final String name;
+    private final String password;
+    private final String owner;
+    private boolean isPrivate;
     
-    public AbstractRoom()
+    public AbstractRoom(String roomName, String roomOwner, boolean isPrivate, String roomPassword)
     {
-        userList        =   new ArrayList<>();
-        roomType        =   RoomType.OPEN;
-        roomName        =   "JSockChat chat room";
-        roomPassword    =   null;
-        roomOwner       =   null;
+        userList            =   new ArrayList<>();
+        this.isPrivate      =   isPrivate;
+        this.owner          =   roomOwner;
+        this.password       =   roomPassword;
+        this.name           =   roomName;
     }
     
     @Override
@@ -29,13 +29,7 @@ public class AbstractRoom implements Room
     @Override
     public String getRoomPassword() 
     {
-        return roomPassword;
-    }
-
-    @Override
-    public void setRoomPassword(String roomPassword) 
-    {
-        this.roomPassword   =   roomPassword;
+        return password;
     }
 
     @Override
@@ -60,7 +54,7 @@ public class AbstractRoom implements Room
     @Override
     public String getRoomName()
     {
-        return roomName;
+        return name;
     }
 
     @Override
@@ -70,32 +64,38 @@ public class AbstractRoom implements Room
     }
 
     @Override
-    public RoomType getRoomType() 
+    public boolean isPrivate()
     {
-        return roomType;
+        return isPrivate;
+    }
+    
+    @Override
+    public void setPrivate(boolean isPrivate)
+    {
+        this.isPrivate  =   isPrivate;
     }
 
     @Override
     public boolean isPassProtected() 
     {
-        return roomPassword != null;
+        return password != null;
     }
 
     @Override
     public String getOwner() 
     {
-        return roomOwner;
+        return owner;
     }
     
     @Override
     public int hashCode()
     {
-        return roomName.hashCode();
+        return name.hashCode();
     }
     
     @Override
     public boolean equals(Object other)
     {
-        return other instanceof AbstractRoom && ((AbstractRoom) other).getRoomName().equals(roomName);
+        return other instanceof AbstractRoom && ((AbstractRoom) other).getRoomName().equals(name);
     }
 }
