@@ -16,7 +16,10 @@ public class ListUpdateListener extends Thread
     @Override
     public void run()
     {
-        
+        while(socket != null && !socket.isClosed())
+        {
+            
+        }   
     }
     
     public static ListUpdateListener getInstance(DatagramSocket socket)

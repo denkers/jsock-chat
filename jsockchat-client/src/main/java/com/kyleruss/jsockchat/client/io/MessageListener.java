@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class MessageListener extends Thread
 {
-    private Socket socket;
+    private final Socket socket;
     private static MessageListener instance;
     
     private MessageListener(Socket socket)
@@ -17,7 +17,10 @@ public class MessageListener extends Thread
     @Override
     public void run()
     {
-        
+        while(socket != null && !socket.isClosed())
+        {
+            
+        }   
     }
     
     public static MessageListener getInstance(Socket socket)
