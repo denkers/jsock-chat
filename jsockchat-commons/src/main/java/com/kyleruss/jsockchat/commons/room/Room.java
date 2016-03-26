@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.commons.room;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 enum RoomType
@@ -12,7 +13,7 @@ enum RoomType
 
 public interface Room extends Serializable
 {
-    public Set<String> getUserList();
+    public List<String> getUserList();
     
     public int getNumUsersInRoom();
     
@@ -28,7 +29,7 @@ public interface Room extends Serializable
     
     public void setRoomPassword(String password);
     
-    public void setUserList(Set<String> userList);
+    public void setUserList(List<String> userList);
     
     public void leaveRoom(String username);
     

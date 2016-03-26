@@ -1,17 +1,27 @@
 package com.kyleruss.jsockchat.commons.room;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AbstractRoom implements Room
 {
-    private Set<String> userList;
+    private List<String> userList;
     private String roomName;
     private String roomPassword;
     private String roomOwner;
     private RoomType roomType;
     
+    public AbstractRoom()
+    {
+        userList        =   new ArrayList<>();
+        roomType        =   RoomType.OPEN;
+        roomName        =   "JSockChat chat room";
+        roomPassword    =   null;
+        roomOwner       =   null;
+    }
+    
     @Override
-    public Set<String> getUserList()
+    public List<String> getUserList()
     {
         return userList;
     }
@@ -29,7 +39,7 @@ public class AbstractRoom implements Room
     }
 
     @Override
-    public void setUserList(Set<String> userList) 
+    public void setUserList(List<String> userList) 
     {
         this.userList   =   userList;
     }
@@ -43,7 +53,8 @@ public class AbstractRoom implements Room
     @Override
     public boolean joinRoom(String username)
     {
-        return userList.add(username);
+        if(userList.contains(username)) return false;
+        else return userList.add(username);
     }
 
     @Override
