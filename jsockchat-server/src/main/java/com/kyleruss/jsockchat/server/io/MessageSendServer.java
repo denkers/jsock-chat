@@ -5,7 +5,6 @@ import com.kyleruss.jsockchat.commons.message.Message;
 import com.kyleruss.jsockchat.server.message.MessageQueueItem;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 

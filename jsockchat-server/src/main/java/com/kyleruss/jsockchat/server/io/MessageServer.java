@@ -52,7 +52,7 @@ public final class MessageServer extends SyncedServer
     
     private void handleClientSocket(Socket socket)
     {
-        MessageSocketHandler messageHandler =   new MessageSocketHandler(socket);
+        MessageListener messageHandler =   new MessageListener(socket);
         messageHandler.start();
     }
 

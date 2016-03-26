@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public class MessageSocketHandler extends Thread
+public class MessageListener extends Thread
 {
     private final Socket socket;
     
-    public MessageSocketHandler(Socket socket)
+    public MessageListener(Socket socket)
     {
         this.socket =   socket;
     }
