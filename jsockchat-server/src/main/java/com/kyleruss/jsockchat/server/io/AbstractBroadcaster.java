@@ -16,14 +16,12 @@ public abstract class AbstractBroadcaster extends SyncedServer
 {
     private final ListBroadcastServer broadcastServer;
     private final DatagramSocket socket;
-    private boolean isStopped;
     private int updateTime;
     
     public AbstractBroadcaster(ListBroadcastServer broadcaster)
     {
         this.broadcastServer    =   broadcaster;
         this.socket             =   broadcaster.getSocket();
-        isStopped               =   true;
     }
     
     @Override
@@ -32,12 +30,6 @@ public abstract class AbstractBroadcaster extends SyncedServer
         return isStopped || socket == null || socket.isClosed();
     }
 
-    @Override
-    public boolean stopServer() 
-    {
-        return isStopped = true;
-    }
-    
     protected ListBroadcastServer getBroadcastServer()
     {
         return broadcastServer;

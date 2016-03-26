@@ -4,17 +4,25 @@ package com.kyleruss.jsockchat.server.io;
 public abstract class SyncedServer extends Thread
 {
     protected boolean isServing;
+    protected boolean isStopped;
     
     public SyncedServer()
     {
         isServing   =   true;
+        isStopped   =   false;
     }
     
-    public abstract boolean isStopped();
-    
-    public abstract boolean stopServer();
-    
     protected abstract void runServerOperations();
+    
+    public boolean isStopped()
+    {
+        return isStopped;
+    }
+    
+    public void stopServer()
+    {
+        isStopped   =   false;
+    }
     
     public boolean isServing()
     {

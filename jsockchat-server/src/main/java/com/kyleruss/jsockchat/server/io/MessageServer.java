@@ -33,21 +33,20 @@ public final class MessageServer extends SyncedServer
     }
     
     @Override
-    public synchronized boolean stopServer()
+    public synchronized void stopServer()
     {
-        if(serverSocket == null || serverSocket.isClosed())
-            return true;
+        if(isStopped || serverSocket == null || serverSocket.isClosed())
+            return;
         
         try
         {
             serverSocket.close();
-            return true;
+            isStopped = true;
         }
         
         catch(IOException e)
         {
             System.out.println("[MessageServer@stopServer]: " + e.getMessage());
-            return false;
         }
     }
     
@@ -68,11 +67,8 @@ public final class MessageServer extends SyncedServer
     {
         try
         {
-            if(!isStopped() && isServing())
-            {
-                Socket clientSocket =   serverSocket.accept();
-                handleClientSocket(clientSocket);
-            }
+            Socket clientSocket =   serverSocket.accept();
+            handleClientSocket(clientSocket);
         }
             
         catch(IOException e)
