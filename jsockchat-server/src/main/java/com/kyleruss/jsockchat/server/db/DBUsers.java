@@ -1,7 +1,9 @@
 
 package com.kyleruss.jsockchat.server.db;
 
-public class DBUsers extends DBModel
+import com.kyleruss.jsockchat.commons.user.User;
+
+public class DBUsers extends DBModel<User>
 {
     private static DBUsers instance;
     
@@ -9,6 +11,11 @@ public class DBUsers extends DBModel
     {
         tableName   =   "Users";
         primaryKey  =   "username";
+    }
+    
+    public boolean verifyUser(String username, String password)
+    {
+        String query    =   "SELECT * WHERE username = ? AND password = ?";
     }
     
     public static DBUsers getInstance()

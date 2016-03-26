@@ -1,7 +1,9 @@
 
 package com.kyleruss.jsockchat.server.db;
 
-public abstract class DBModel 
+import java.io.Serializable;
+
+public abstract class DBModel<T extends Serializable> 
 {
     protected String primaryKey;
     

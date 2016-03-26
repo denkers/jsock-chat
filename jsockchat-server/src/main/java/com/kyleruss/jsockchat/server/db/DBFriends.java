@@ -7,6 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.commons.user.User;
+import com.kyleruss.jsockchat.server.core.UserManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 public class DBFriends extends DBModel
 {
@@ -32,16 +36,21 @@ public class DBFriends extends DBModel
         "WHERE Friends.friend_a = friend.username\n" +
         "AND Friends.friend_b = ?";
         
-        try
+        try(Connection conn     =   DBManager.getConnection())
         {
-            DBManager dbManager =   DBManager.getInstance();
-            ResultSet results   =   dbManager.sendQuery(query, username, username);
+            PreparedStatement statement =   conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, username);
+            
+            ResultSet results           =   statement.executeQuery();
             
             while(results.next())
             {
                 String rsUsername       =   results.getString("username");
                 String rsDisplayname    =   results.getString("display_name");
-                ServerUser user         =   new ServerUser(rsUsername)
+                
+                User user               =   new User(rsUsername, rsDisplayname);
+                friends.add(user);
             }
         }
         
@@ -51,6 +60,21 @@ public class DBFriends extends DBModel
         }
         
         return friends;
+    }
+    
+    public List<IUser> getUsersOnlineFriends(String username)
+    {
+        List<IUser> friends         =   getUsersFriends(username);
+        List<IUser> onlineFriends   =   new ArrayList<>();
+        UserManager userMgr         =   UserManager.getInstance();
+        
+        for(IUser friend : friends)
+        {
+            if(userMgr.find(friend.getUsername()))
+                onlineFriends.add(friend);
+        }
+        
+        return onlineFriends;
     }
     
     public static DBFriends getInstance()

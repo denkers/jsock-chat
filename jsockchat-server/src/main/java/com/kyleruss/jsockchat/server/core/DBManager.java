@@ -25,39 +25,21 @@ public class DBManager
         }
     }
     
+    public static Connection getConnection() throws SQLException
+    {
+        return DriverManager.getConnection(ServerConfig.CONN_URL);
+    }
+    
     public void sendUpdates(String... updateStrs) throws SQLException
     {
-        try(Connection connection   =   DriverManager.getConnection(ServerConfig.CONN_URL))
+        try(Connection conn = getConnection())
         {
-            Statement statement =   connection.createStatement();
+            Statement statement =   conn.createStatement();
             for(String updateStr : updateStrs)
                 statement.addBatch(updateStr);
 
             statement.executeBatch();
         }   
-    }
-    
-    public ResultSet sendQuery(String query) throws SQLException
-    {
-        try(Connection connection   =   DriverManager.getConnection(ServerConfig.CONN_URL))
-        {
-            Statement statement     =   connection.createStatement();
-            return statement.executeQuery(query);
-        }
-    }
-    
-    public ResultSet sendQuery(String query, Object... params) throws SQLException
-    {
-        try(Connection connection   =   DriverManager.getConnection(ServerConfig.CONN_URL))
-        {
-            PreparedStatement statement =  connection.prepareStatement(query);
-
-            int i   =   1;
-            for(Object param : params)
-                statement.setObject(i++, param);
-            
-            return statement.executeQuery();
-        }
     }
     
     public static DBManager getInstance()
