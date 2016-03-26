@@ -20,7 +20,7 @@ public class DBUsers extends DBModel<User>
     
     public boolean verifyUser(String username, String password)
     {
-        String query    =   "SELECT * WHERE username = ? AND password = ?";
+        String query    =   "SELECT * FROM " + tableName + " WHERE " + primaryKey + " = ? AND password = ?;";
         
         try(Connection conn =   DBManager.getConnection())
         {
@@ -30,6 +30,30 @@ public class DBUsers extends DBModel<User>
             
             ResultSet rs    =   statement.executeQuery();
             return rs.next();
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBUsers@verifyUser]: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean createUser(User user, String password)
+    {
+        String username     =   user.getUsername();
+        String displayname  =   user.getDisplayName();
+        String update       =   "INSERT INTO " + tableName + " VALUES(?, ?, ?);";
+        
+        try(Connection conn =   DBManager.getConnection())
+        {   
+            PreparedStatement statement  =   conn.prepareStatement(update);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            statement.setString(2, displayname);
+            
+            int rowCount    =   statement.executeUpdate();
+            return rowCount > 0;
         }
         
         catch(SQLException e)

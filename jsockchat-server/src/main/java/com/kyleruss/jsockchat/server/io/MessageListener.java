@@ -35,7 +35,6 @@ public class MessageListener extends Thread
         
         catch(IOException | ClassNotFoundException | ClassCastException e)
         {
-            e.printStackTrace();
             System.out.println("[MessageSocketHandler@getSvMessage: " + e.getMessage());
             return null;
         }
@@ -50,9 +49,7 @@ public class MessageListener extends Thread
             {
                 ServerMessage message;
                 while((message = getServerMessage(inputStream)) != null)
-                {
                     message.action();
-                }
             }
             
             catch(IOException e)
