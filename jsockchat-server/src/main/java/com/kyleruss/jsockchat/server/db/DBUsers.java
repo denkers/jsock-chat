@@ -2,6 +2,11 @@
 package com.kyleruss.jsockchat.server.db;
 
 import com.kyleruss.jsockchat.commons.user.User;
+import com.kyleruss.jsockchat.server.core.DBManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBUsers extends DBModel<User>
 {
@@ -16,6 +21,22 @@ public class DBUsers extends DBModel<User>
     public boolean verifyUser(String username, String password)
     {
         String query    =   "SELECT * WHERE username = ? AND password = ?";
+        
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement =   conn.prepareStatement(query);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            ResultSet rs    =   statement.executeQuery();
+            return rs.next();
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBUsers@verifyUser]: " + e.getMessage());
+            return false;
+        }
     }
     
     public static DBUsers getInstance()
