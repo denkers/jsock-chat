@@ -16,8 +16,7 @@ public abstract class ServerMessage<T extends RequestMessage> extends AbstractMe
         this.request    =   message;
     }
     
-    @Override
-    public abstract void action();
+    public abstract void serverAction();
 
     @Override
     public T getRequestMessage() 

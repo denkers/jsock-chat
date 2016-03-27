@@ -1,6 +1,9 @@
 package com.kyleruss.jsockchat.client.message;
 
-public class ClientMessage
+import com.kyleruss.jsockchat.commons.message.AbstractMessage;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
+
+public class ClientMessage extends AbstractMessage implements RequestMessage
 {
     
 }
