@@ -10,12 +10,10 @@ import java.util.Queue;
 
 public abstract class MessageSender extends Thread
 {
-    private final Socket socket;
     private final Queue<Message> messageQueue;
     
-    public MessageSender(Socket socket)
+    public MessageSender()
     {
-        this.socket     =   socket;
         messageQueue    =   new LinkedList<>();   
     }
     

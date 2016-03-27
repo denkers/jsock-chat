@@ -2,32 +2,27 @@
 package com.kyleruss.jsockchat.server.message;
 
 import com.kyleruss.jsockchat.commons.message.Message;
-import java.io.ObjectOutputStream;
+import com.kyleruss.jsockchat.server.user.ServerUser;
 
 public class MessageQueueItem
 {
-    private ObjectOutputStream outputStream;
+    private final ServerUser destination;
     private Message message;
     
-    public MessageQueueItem(ObjectOutputStream outputStream, Message message)
+    public MessageQueueItem(ServerUser destination, Message message)
     {
-        this.outputStream     =   outputStream;
-        this.message          =   message;    
+        this.destination        =   destination;
+        this.message            =   message;    
     }
     
-    public ObjectOutputStream getOutputStream()
+    public ServerUser getDestination()
     {
-        return outputStream;
+        return destination;
     }
     
     public Message getMessage()
     {
         return message;
-    }
-    
-    public void setOutputStream(ObjectOutputStream outputStream)
-    {
-        this.outputStream =   outputStream;
     }
     
     public void setMessage(Message message)
