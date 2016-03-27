@@ -2,20 +2,22 @@
 package com.kyleruss.jsockchat.commons.io;
 
 import com.kyleruss.jsockchat.commons.message.Message;
+import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.LinkedList;
 import java.util.Queue;
 
 public abstract class MessageSender extends Thread
 {
-    private final Queue<Message> messageQueue;
+    private final Queue<MessageQueueItem> messageQueue;
     
     public MessageSender()
     {
         messageQueue    =   new LinkedList<>();   
     }
+    
+    protected abstract boolean isStopped();
     
     protected synchronized void getLock()
     {
@@ -31,7 +33,7 @@ public abstract class MessageSender extends Thread
         }
     }
     
-    public synchronized void addMessage(Message message)
+    public synchronized void addMessage(MessageQueueItem message)
     {
         messageQueue.add(message);
         notify();
@@ -46,22 +48,17 @@ public abstract class MessageSender extends Thread
         }
     }
     
+    
     @Override
     public void run()
     {
-        try
+        while(!isStopped())
         {
-            while(!socket.isClosed())
-            {
-                getLock();
-                Message message  =   messageQueue.poll();
-                sendMessage(message, inputStream);
-            }
-        }
-        
-        catch(IOException e)
-        {
-            System.out.println("[MessageSender@run]: " + e.getMessage());
+            getLock();
+            MessageQueueItem item   =   messageQueue.poll();
+            Message message         =   item.getMessage();
+            ObjectOutputStream oos  =   item.getDestinationOutputStream();
+            sendMessage(message, oos);
         }
     }
 }
