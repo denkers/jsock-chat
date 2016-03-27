@@ -6,15 +6,15 @@ import com.kyleruss.jsockchat.commons.user.IUser;
 
 public class FriendListBean extends AbstractListBean<IUser>
 {
-    private List<Integer> onlineFriendIndexes;
+    private List<IUser> onlineFriends;
     
-    public List<Integer> getOnlineFriendIndexes()
+    public List<IUser> getOnlineFriends()
     {
-        return onlineFriendIndexes;
+        return onlineFriends;
     }
     
-    public void setOnlineFriendIndexes(List<Integer> onlineFriendIndexes)
+    public void setOnlineFriends(List<IUser> onlineFriends)
     {
-        this.onlineFriendIndexes    =   onlineFriendIndexes;
+        this.onlineFriends    =   onlineFriends;
     }
 }
