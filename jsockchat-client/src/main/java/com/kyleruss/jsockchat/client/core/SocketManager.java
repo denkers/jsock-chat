@@ -3,6 +3,8 @@ package com.kyleruss.jsockchat.client.core;
 
 import com.kyleruss.jsockchat.client.config.ClientConfig;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.DatagramSocket;
 import java.net.Socket;
 
