@@ -1,6 +1,13 @@
 
 package com.kyleruss.jsockchat.client.io;
 
+import com.kyleruss.jsockchat.client.listbean.ClientFriendListBean;
+import com.kyleruss.jsockchat.client.listbean.ClientListBean;
+import com.kyleruss.jsockchat.client.listbean.ClientRoomListBean;
+import com.kyleruss.jsockchat.client.listbean.ClientUserRoomListBean;
+import com.kyleruss.jsockchat.commons.listbean.FriendListBean;
+import com.kyleruss.jsockchat.commons.listbean.RoomListBean;
+import com.kyleruss.jsockchat.commons.listbean.UserRoomListBean;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -17,6 +24,20 @@ public class ListUpdateListener extends Thread
         this.socket =   socket;
     }
     
+    private ClientListBean getClientBean(Object beanObj)
+    {
+        if(beanObj instanceof FriendListBean)
+            return new ClientFriendListBean((FriendListBean) beanObj);
+        
+        else if(beanObj instanceof RoomListBean)
+            return new ClientRoomListBean((RoomListBean) beanObj);
+        
+        else if(beanObj instanceof UserRoomListBean)
+            return new ClientUserRoomListBean((UserRoomListBean) beanObj);
+        
+        else return null;
+    }
+    
     @Override
     public void run()
     {
@@ -30,7 +51,10 @@ public class ListUpdateListener extends Thread
 
                 ByteArrayInputStream bais   =   new ByteArrayInputStream(buffer);   
                 ObjectInputStream ois       =   new ObjectInputStream(bais);
-                Object obj                  =   ois.readObject();
+                Object beanObj              =   ois.readObject();
+                ClientListBean bean         =   getClientBean(beanObj);
+                
+                if(bean != null) bean.beanAction();
             }
             
             catch(IOException | ClassNotFoundException e)
