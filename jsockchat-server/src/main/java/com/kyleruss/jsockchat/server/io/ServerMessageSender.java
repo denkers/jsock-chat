@@ -1,67 +1,21 @@
 
 package com.kyleruss.jsockchat.server.io;
 
-import com.kyleruss.jsockchat.commons.message.Message;
-import com.kyleruss.jsockchat.server.message.MessageQueueItem;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.LinkedList;
-import java.util.Queue;
+import com.kyleruss.jsockchat.commons.io.MessageSender;
+import java.net.Socket;
 
-public class MessageSendServer extends SyncedServer
+public class ServerMessageSender extends MessageSender
 {
-    private final Queue<MessageQueueItem> messageQueue;
+    private static ServerMessageSender instance;
     
-    public MessageSendServer()
+    public ServerMessageSender(Socket socket) 
     {
-        messageQueue    =   new LinkedList<>();
+        super(socket);
     }
     
-    public synchronized void addToQueue(MessageQueueItem item)
+    public ServerMessageSender getInstance(Socket socket)
     {
-        messageQueue.add(item);
-        notify();
-    }
-    
-    public synchronized boolean hasMessages()
-    {
-        return !messageQueue.isEmpty();
-    }
-    
-    private synchronized void sendMessage(MessageQueueItem message)
-    {
-        ObjectOutputStream outputStream =   message.getOutputStream();
-            
-        if(outputStream != null)
-        {
-            try
-            {
-                Message nextMessage =   message.getMessage();
-                outputStream.writeObject(nextMessage);
-            }
-
-            catch(IOException e)
-            {
-                System.out.println("[MessageSendServer@sendMessage]: " + e.getMessage());
-            }
-        }
-    }
-    
-    @Override
-    protected synchronized void runServerOperations() 
-    {
-        try
-        {
-            if(!hasMessages())
-                wait();
-            
-            MessageQueueItem next  =   messageQueue.poll();
-            sendMessage(next);
-        }
-        
-        catch(InterruptedException e)
-        {
-            System.out.println("[MessageSendServer@runServerOperations]: " + e.getMessage());
-        }
+        if(instance == null) instance   =   new ServerMessageSender(socket);
+        return instance;
     }
 }

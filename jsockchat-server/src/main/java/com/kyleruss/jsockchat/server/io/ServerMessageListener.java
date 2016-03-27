@@ -1,61 +1,28 @@
 
 package com.kyleruss.jsockchat.server.io;
 
-import com.kyleruss.jsockchat.commons.message.DisconnectMessage;
-import com.kyleruss.jsockchat.server.message.ServerDisconnectMessage;
-import com.kyleruss.jsockchat.server.message.ServerMessage;
-import java.io.IOException;
+import com.kyleruss.jsockchat.commons.io.MessageListener;
+import com.kyleruss.jsockchat.commons.message.Message;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public class MessageListener extends Thread
+public class ServerMessageListener extends MessageListener
 {
-    private final Socket socket;
+    private static ServerMessageListener instance;
     
-    public MessageListener(Socket socket)
-    {
-        this.socket =   socket;
+    public ServerMessageListener(Socket socket) {
+        super(socket);
     }
-    
-    public ServerMessage getServerMessage(ObjectInputStream inputStream)
-    {
-        try
-        {
-            Object clientMessage  =   inputStream.readObject();
-            
-            if(clientMessage instanceof DisconnectMessage)
-                return new ServerDisconnectMessage((DisconnectMessage) clientMessage);
-            
-            else 
-            {
-                System.out.println("Message isnt found");
-                return null;
-            }
-        }
-        
-        catch(IOException | ClassNotFoundException | ClassCastException e)
-        {
-            System.out.println("[MessageSocketHandler@getSvMessage: " + e.getMessage());
-            return null;
-        }
-    }
-    
+
     @Override
-    public void run()
+    protected void handleReceivedMessage(Message message) {}
+
+    @Override
+    protected Message getMessage(ObjectInputStream inputStream) {}
+    
+    public static ServerMessageListener getInstance(Socket socket)
     {
-        if(socket != null && !socket.isClosed())
-        {
-            try(ObjectInputStream inputStream   =   new ObjectInputStream(socket.getInputStream()))
-            {
-                ServerMessage message;
-                while((message = getServerMessage(inputStream)) != null)
-                    message.action();
-            }
-            
-            catch(IOException e)
-            {
-                System.out.println("[MessageSocketHandler@run: " + e.getMessage());
-            }
-        }
+        if(instance == null) instance   =   new ServerMessageListener(socket);
+        return instance;
     }
 }
