@@ -2,24 +2,38 @@
 package com.kyleruss.jsockchat.server.message;
 
 import com.kyleruss.jsockchat.commons.message.AbstractMessage;
-import com.kyleruss.jsockchat.commons.message.Message;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
+import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
-public abstract class ServerMessage<T extends Message> extends AbstractMessage 
+public abstract class ServerMessage<T extends RequestMessage> extends AbstractMessage implements ResponseMessage
 {
-    private T message;
+    private final T request;
+    private String description;
+    private Object data;
     
     public ServerMessage(T message)
     {
-        this.message    =   message;
+        this.request    =   message;
     }
     
-    public T getWrappedMessage()
+    @Override
+    public abstract void action();
+
+    @Override
+    public T getRequestMessage() 
     {
-        return message;
+        return request;
     }
-    
-    public void setWrappedMessage(T message)
+
+    @Override
+    public String getResponseDescription() 
     {
-        this.message    =   message;
+        return description;
+    }
+
+    @Override
+    public Object getResponseData() 
+    {
+        return data;
     }
 }
