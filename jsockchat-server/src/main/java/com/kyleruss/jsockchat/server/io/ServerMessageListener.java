@@ -2,12 +2,12 @@
 package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.commons.io.MessageListener;
-import com.kyleruss.jsockchat.commons.message.Message;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public class ServerMessageListener extends MessageListener
+public class ServerMessageListener extends MessageListener<RequestMessage>
 {
     private static ServerMessageListener instance;
     
@@ -16,15 +16,18 @@ public class ServerMessageListener extends MessageListener
     }
 
     @Override
-    protected void handleReceivedMessage(Message message) {}
+    protected void handleReceivedMessage(RequestMessage message) 
+    {
+        
+    }
 
     @Override
-    protected Message getMessage(ObjectInputStream inputStream)
+    protected RequestMessage getMessage(ObjectInputStream inputStream)
     {
         try
         {
-            Object msgObj   =   inputStream.readObject();
-            
+            RequestMessage msgObj   =   (RequestMessage) inputStream.readObject();
+            return msgObj;
         }
         
         catch(IOException | ClassNotFoundException e)

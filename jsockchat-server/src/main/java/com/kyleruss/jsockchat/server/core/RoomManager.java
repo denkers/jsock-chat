@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.server.core;
 
 import com.kyleruss.jsockchat.commons.room.Room;
+import com.kyleruss.jsockchat.commons.user.IUser;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +12,7 @@ public final class RoomManager extends AbstractManager<String, Room>
     
     private RoomManager() {}
     
-    public List<String> getUsersInRoom(String roomName)
+    public List<IUser> getUsersInRoom(String roomName)
     {
         Room room           =   get(roomName);
         
