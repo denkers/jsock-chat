@@ -31,11 +31,6 @@ public abstract class MessageSender extends Thread
         }
     }
     
-    public Socket getSocket()
-    {
-        return socket;
-    }
-    
     public synchronized void addMessage(Message message)
     {
         messageQueue.add(message);
@@ -54,9 +49,7 @@ public abstract class MessageSender extends Thread
     @Override
     public void run()
     {
-        if(socket == null) return;
-        
-        try(ObjectOutputStream inputStream   =   new ObjectOutputStream(socket.getOutputStream()))
+        try
         {
             while(!socket.isClosed())
             {
