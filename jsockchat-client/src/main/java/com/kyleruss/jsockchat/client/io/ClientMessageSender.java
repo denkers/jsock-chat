@@ -2,21 +2,20 @@
 package com.kyleruss.jsockchat.client.io;
 
 import com.kyleruss.jsockchat.commons.io.MessageSender;
-import java.net.Socket;
 
 public class ClientMessageSender extends MessageSender
 {
     private static ClientMessageSender instance;
     
-    public ClientMessageSender(Socket socket) 
+    @Override
+    protected boolean isStopped() 
     {
-        super(socket);
+        return false;
     }
     
-    
-    public static ClientMessageSender getInstance(Socket socket)
+    public static ClientMessageSender getInstance()
     {
-        if(instance == null) instance   =   new ClientMessageSender(socket);
+        if(instance == null) instance   =   new ClientMessageSender();
         return instance;
     }
 }
