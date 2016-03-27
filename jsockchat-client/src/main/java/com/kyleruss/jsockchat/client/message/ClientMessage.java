@@ -27,6 +27,6 @@ public abstract class ClientMessage extends AbstractMessage implements RequestMe
     @Override
     public boolean isWitness(String username)
     {
-        return source == null || source.equals(username);
+        return source == null || !source.equals(username);
     }
 }

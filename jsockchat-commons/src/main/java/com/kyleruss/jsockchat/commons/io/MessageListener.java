@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-public abstract class MessageListener extends Thread
+public abstract class MessageListener<T extends Message> extends Thread
 {
     protected final Socket socket;
     
@@ -14,9 +14,9 @@ public abstract class MessageListener extends Thread
         this.socket =   socket;
     }
     
-    protected abstract void handleReceivedMessage(Message message);
+    protected abstract void handleReceivedMessage(T message);
     
-    protected abstract Message getMessage(ObjectInputStream inputStream);
+    protected abstract T getMessage(ObjectInputStream inputStream);
     
     public Socket getSocket()
     {
@@ -32,7 +32,7 @@ public abstract class MessageListener extends Thread
         {
             while(!socket.isClosed())
             {
-                Message message =   getMessage(inputStream);
+                T message =   getMessage(inputStream);
                 handleReceivedMessage(message);
             }
         }
