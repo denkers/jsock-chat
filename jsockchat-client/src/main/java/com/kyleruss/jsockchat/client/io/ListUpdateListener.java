@@ -24,7 +24,7 @@ public class ListUpdateListener extends Thread
         {
             try
             {
-                byte[] buffer               =   new byte[2048];
+                byte[] buffer               =   new byte[4096];
                 DatagramPacket packet       =   new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
 
