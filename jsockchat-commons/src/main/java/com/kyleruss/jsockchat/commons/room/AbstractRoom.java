@@ -1,11 +1,12 @@
 package com.kyleruss.jsockchat.commons.room;
 
+import com.kyleruss.jsockchat.commons.user.IUser;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractRoom implements Room
 {
-    private List<String> userList;
+    private List<IUser> userList;
     private final String name;
     private final String password;
     private final String owner;
@@ -21,7 +22,7 @@ public class AbstractRoom implements Room
     }
     
     @Override
-    public List<String> getUserList()
+    public List<IUser> getUserList()
     {
         return userList;
     }
@@ -33,19 +34,19 @@ public class AbstractRoom implements Room
     }
 
     @Override
-    public void setUserList(List<String> userList) 
+    public void setUserList(List<IUser> userList) 
     {
         this.userList   =   userList;
     }
 
     @Override
-    public void leaveRoom(String username) 
+    public void leaveRoom(IUser username) 
     {
         userList.remove(username);
     }
 
     @Override
-    public boolean joinRoom(String username)
+    public boolean joinRoom(IUser username)
     {
         if(userList.contains(username)) return false;
         else return userList.add(username);
