@@ -79,10 +79,8 @@ public abstract class AbstractBroadcaster extends SyncedServer
     {
         try
         {
-            System.out.println(updateTime);
             wait(updateTime);
             broadcastServer.getMutex().acquire();
-            System.out.println("got mutex");
             runBroadcastOperations();
             broadcastServer.getMutex().release();
         }

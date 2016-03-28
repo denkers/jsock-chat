@@ -5,6 +5,7 @@ public class ResponseMessage extends AbstractMessage
 {
     private final RequestMessage request;
     private Object responseData;
+    private boolean status;
     
     public ResponseMessage(RequestMessage request)
     {
@@ -24,5 +25,15 @@ public class ResponseMessage extends AbstractMessage
     public void setResponseData(Object responseData)
     {
         this.responseData   =   responseData;
+    }
+    
+    public boolean getStatus()
+    {
+        return status;
+    }
+    
+    public void setStatus(boolean status)
+    {
+        this.status =   status;
     }
 }
