@@ -1,14 +1,14 @@
 
 package com.kyleruss.jsockchat.client.core;
 
-import com.kyleruss.jsockchat.client.user.ClientUser;
+import com.kyleruss.jsockchat.commons.user.User;
 
 public class UserManager 
 {
     private static UserManager instance;
-    private ClientUser activeUser;
+    private User activeUser;
     
-    public ClientUser getActiveUser()
+    public User getActiveUser()
     {
         return activeUser;
     }

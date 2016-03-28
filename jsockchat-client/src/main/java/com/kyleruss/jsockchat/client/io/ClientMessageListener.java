@@ -2,10 +2,10 @@
 package com.kyleruss.jsockchat.client.io;
 
 import com.kyleruss.jsockchat.client.core.UserManager;
-import com.kyleruss.jsockchat.client.user.ClientUser;
 import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
+import com.kyleruss.jsockchat.commons.user.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -23,7 +23,7 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
     protected void handleReceivedMessage(ResponseMessage response)
     {
         MessageBean bean            =   response.getRequestMessage().getMessageBean();
-        ClientUser user             =   UserManager.getInstance().getActiveUser();
+        User user                   =   UserManager.getInstance().getActiveUser();
 
         /*if(user == null || !msg.isWitness(user.getUsername()))
             msg.clientAction(response);
