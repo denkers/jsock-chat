@@ -4,10 +4,8 @@ package com.kyleruss.jsockchat.client.io;
 import com.kyleruss.jsockchat.client.listbean.ClientFriendListBean;
 import com.kyleruss.jsockchat.client.listbean.ClientListBean;
 import com.kyleruss.jsockchat.client.listbean.ClientRoomListBean;
-import com.kyleruss.jsockchat.client.listbean.ClientUserRoomListBean;
 import com.kyleruss.jsockchat.commons.listbean.FriendListBean;
 import com.kyleruss.jsockchat.commons.listbean.RoomListBean;
-import com.kyleruss.jsockchat.commons.listbean.UserRoomListBean;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -31,9 +29,6 @@ public class ListUpdateListener extends Thread
         
         else if(beanObj instanceof RoomListBean)
             return new ClientRoomListBean((RoomListBean) beanObj);
-        
-        else if(beanObj instanceof UserRoomListBean)
-            return new ClientUserRoomListBean((UserRoomListBean) beanObj);
         
         else return null;
     }

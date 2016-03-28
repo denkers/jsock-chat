@@ -8,18 +8,16 @@ public class ListBeanDump implements Serializable
     
     private RoomListBean roomList;
     
-    private UserRoomListBean userRoomList;
     
     public ListBeanDump()
     {
-        this(new FriendListBean(), new RoomListBean(), new UserRoomListBean());
+        this(new FriendListBean(), new RoomListBean());
     }
     
-    public ListBeanDump(FriendListBean friendList, RoomListBean roomList, UserRoomListBean userRoomList)
+    public ListBeanDump(FriendListBean friendList, RoomListBean roomList)
     {
         this.friendList     =   friendList;
         this.roomList       =   roomList;
-        this.userRoomList   =   userRoomList;
     }
     
     public FriendListBean getFriendList() 
@@ -40,15 +38,5 @@ public class ListBeanDump implements Serializable
     public void setRoomList(RoomListBean roomList)
     {
         this.roomList = roomList;
-    }
-
-    public UserRoomListBean getUserRoomList()
-    {
-        return userRoomList;
-    }
-
-    public void setUserRoomList(UserRoomListBean userRoomList) 
-    {
-        this.userRoomList = userRoomList;
     }
 }
