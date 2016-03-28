@@ -1,12 +1,12 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class DisconnectMessage extends AbstractMessage
+public class DisconnectMsgBean implements MessageBean
 {
     private String room;
     private boolean isClientDisconnect;
 
-    public DisconnectMessage(String source, String room, boolean isClientDisconnect)
+    public DisconnectMsgBean(String source, String room, boolean isClientDisconnect)
     {
         this.room               =   room;
         this.isClientDisconnect =   isClientDisconnect;

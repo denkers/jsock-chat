@@ -2,12 +2,8 @@ package com.kyleruss.jsockchat.client.message;
 
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
-public class ClientJoinRoomMessage extends ClientMessage
+public class BroadcastMessageHandler implements ClientMessageHandler 
 {
-
-    public ClientJoinRoomMessage(String source) {
-        super(source);
-    }
 
     @Override
     public void clientAction(ResponseMessage response) {
@@ -16,5 +12,6 @@ public class ClientJoinRoomMessage extends ClientMessage
     @Override
     public void witnessAction(ResponseMessage response) {
     }
+
     
 }

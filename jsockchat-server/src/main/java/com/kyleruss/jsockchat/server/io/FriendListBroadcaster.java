@@ -8,9 +8,9 @@ import com.kyleruss.jsockchat.server.user.ServerUser;
 
 public class FriendListBroadcaster extends AbstractBroadcaster
 {
-    public FriendListBroadcaster(ListBroadcastServer broadcaster) 
+    public FriendListBroadcaster(ListBroadcastServer broadcaster, int updateTime) 
     {
-        super(broadcaster);
+        super(broadcaster, updateTime);
     }
 
     @Override

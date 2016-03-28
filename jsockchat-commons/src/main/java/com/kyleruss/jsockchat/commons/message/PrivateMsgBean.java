@@ -1,11 +1,11 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class PrivateMessage extends BroadcastMessage 
+public class PrivateMsgBean extends BroadcastMsgBean 
 {
     private String destinationUser;
     
-    public PrivateMessage(String source, String destinationUser, String content, String room)
+    public PrivateMsgBean(String source, String destinationUser, String content, String room)
     {
         super(room, content);
         this.destinationUser    =   destinationUser;

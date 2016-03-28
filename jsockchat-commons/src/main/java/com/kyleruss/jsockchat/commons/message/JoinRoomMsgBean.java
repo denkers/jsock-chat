@@ -1,12 +1,12 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class JoinRoomMessage extends AbstractMessage
+public class JoinRoomMsgBean implements MessageBean
 {
     private String room;
     private String attemptedPassword;
 
-    public JoinRoomMessage(String source, String room, String password)
+    public JoinRoomMsgBean(String source, String room, String password)
     {
         this.room                   =   room;
         this.attemptedPassword      =   password;

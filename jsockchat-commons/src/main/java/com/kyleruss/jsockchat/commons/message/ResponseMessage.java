@@ -1,11 +1,28 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface ResponseMessage extends Message
+public class ResponseMessage extends AbstractMessage
 {
-    public RequestMessage getRequestMessage();
+    private final RequestMessage request;
+    private Object responseData;
     
-    public String getResponseDescription();
+    public ResponseMessage(RequestMessage request)
+    {
+        this.request    =   request;
+    }
     
-    public Object getResponseData();
+    public RequestMessage getRequestMessage()
+    {
+        return request;
+    }
+    
+    public Object getResponseData()
+    {
+        return responseData;
+    }
+    
+    public void setResponseData(Object responseData)
+    {
+        this.responseData   =   responseData;
+    }
 }

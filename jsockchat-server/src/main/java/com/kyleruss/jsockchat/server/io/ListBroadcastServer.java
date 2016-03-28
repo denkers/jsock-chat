@@ -1,5 +1,6 @@
 package com.kyleruss.jsockchat.server.io;
 
+import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.util.concurrent.Semaphore;
@@ -18,10 +19,9 @@ public class ListBroadcastServer
         mutex   =   new Semaphore(1);
         initSocket();
         
-        friendBroadcaster   =   new FriendListBroadcaster(this);
-        roomBroadcaster     =   new RoomListBroadcaster(this);
-        roomUserBroadcaster =   new RoomUserListBroadcaster(this);
-        startBroadcasters();
+        friendBroadcaster   =   new FriendListBroadcaster(this, ServerConfig.FRIEND_LIST_UPDATE_MS);
+        roomBroadcaster     =   new RoomListBroadcaster(this, ServerConfig.ROOM_LIST_UPDATE_MS);
+        roomUserBroadcaster =   new RoomUserListBroadcaster(this, ServerConfig.ROOM_USER_LIST_UPDATE_MS);
     }
     
     private void initSocket()
@@ -37,7 +37,7 @@ public class ListBroadcastServer
         }
     }
     
-    private void startBroadcasters()
+    public void startBroadcasters()
     {
         friendBroadcaster.start();
         roomBroadcaster.start();

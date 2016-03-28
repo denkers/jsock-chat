@@ -18,10 +18,11 @@ public abstract class AbstractBroadcaster extends SyncedServer
     private final DatagramSocket socket;
     private int updateTime;
     
-    public AbstractBroadcaster(ListBroadcastServer broadcaster)
+    public AbstractBroadcaster(ListBroadcastServer broadcaster, int updateTime)
     {
         this.broadcastServer    =   broadcaster;
         this.socket             =   broadcaster.getSocket();
+        this.updateTime         =   updateTime;
     }
     
     @Override
@@ -78,8 +79,10 @@ public abstract class AbstractBroadcaster extends SyncedServer
     {
         try
         {
+            System.out.println(updateTime);
             wait(updateTime);
             broadcastServer.getMutex().acquire();
+            System.out.println("got mutex");
             runBroadcastOperations();
             broadcastServer.getMutex().release();
         }

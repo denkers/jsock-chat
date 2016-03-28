@@ -18,6 +18,8 @@ public abstract class MessageListener<T extends Message> extends Thread
     
     protected abstract T getMessage(ObjectInputStream inputStream);
     
+    protected abstract void handleCleanup(ObjectInputStream inputStream);
+    
     public Socket getSocket()
     {
         return socket;
@@ -31,11 +33,9 @@ public abstract class MessageListener<T extends Message> extends Thread
             
         try(ObjectInputStream inputStream   =   new ObjectInputStream(socket.getInputStream()))
         {
-            while(!socket.isClosed())
-            {
-                T message =   getMessage(inputStream);
+            T message;
+            while((message = getMessage(inputStream)) != null)
                 handleReceivedMessage(message);
-            }
             
             System.out.println("[MessageListener]: SOCKET IS CLOSED");
         }

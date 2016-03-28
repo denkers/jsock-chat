@@ -1,13 +1,13 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class RegisterMessage extends AbstractMessage
+public class RegisterMsgBean implements MessageBean
 {
     private String username;
     private String password;
     private String displayName;
     
-    public RegisterMessage(String username, String password, String displayName)
+    public RegisterMsgBean(String username, String password, String displayName)
     {
         this.username       =   username;
         this.password       =   password;

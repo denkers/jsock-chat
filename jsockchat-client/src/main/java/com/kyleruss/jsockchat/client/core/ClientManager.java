@@ -3,7 +3,8 @@ package com.kyleruss.jsockchat.client.core;
 
 import com.kyleruss.jsockchat.client.io.ClientMessageListener;
 import com.kyleruss.jsockchat.client.io.ClientMessageSender;
-import com.kyleruss.jsockchat.client.message.ClientAuthMessage;
+import com.kyleruss.jsockchat.client.io.ListUpdateListener;
+import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class ClientManager
         sender  =   ClientMessageSender.getInstance();
         sender.start();
         
+        ListUpdateListener listUpdateListener = new ListUpdateListener(sockMgr.getUdpSocket());
+        listUpdateListener.start();
     }
     
     public static ClientManager getInstance()
@@ -40,9 +43,11 @@ public class ClientManager
 
         try
         {
-            RequestMessage authMessage   =   (RequestMessage) new ClientAuthMessage();
+            AuthMsgBean bean        =   new AuthMsgBean("kyleruss", "qweqwe", false);
+            RequestMessage request  =   new RequestMessage(null, bean);
+            request.setDescription("HELLO FROM CLIENT");
             ObjectOutputStream oos  =   SocketManager.getInstance().getTCPOutputStream();
-            MessageQueueItem item   =   new MessageQueueItem(oos, authMessage);
+            MessageQueueItem item   =   new MessageQueueItem(oos, request);
             sender.addMessage(item);
         }
         

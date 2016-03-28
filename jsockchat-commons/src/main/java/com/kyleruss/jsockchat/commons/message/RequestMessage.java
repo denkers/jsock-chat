@@ -1,11 +1,34 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface RequestMessage extends Message
+public class RequestMessage<T extends MessageBean> extends AbstractMessage
 {
-    public String getUserSource();
+    private final String source;
+    private final T messageBean;
     
-    public boolean hasSource();
+    public RequestMessage(String source, T messageBean)
+    {
+        this.source         =   source;
+        this.messageBean    =   messageBean;   
+    }
     
-    public boolean isWitness(String username);
+    public T getMessageBean()
+    {
+        return messageBean;
+    }
+    
+    public String getUserSource()
+    {
+        return source;
+    }
+    
+    public boolean hasSource()
+    {
+        return source != null;
+    }
+    
+    public boolean isWitness(String username)
+    {
+        return source != null && !source.equals(username);
+    }
 }

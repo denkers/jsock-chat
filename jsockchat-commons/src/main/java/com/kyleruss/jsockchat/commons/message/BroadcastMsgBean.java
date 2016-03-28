@@ -1,12 +1,12 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class BroadcastMessage extends AbstractMessage
+public class BroadcastMsgBean implements MessageBean
 {
     private String room;
     private String content;
     
-    public BroadcastMessage(String room, String content)
+    public BroadcastMsgBean(String room, String content)
     {
         this.room       =   room;
         this.content    =   content;

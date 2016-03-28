@@ -41,9 +41,9 @@ public class ListUpdateListener extends Thread
     @Override
     public void run()
     {
-        while(socket != null && !socket.isClosed())
+        try
         {
-            try
+            while(socket != null && !socket.isClosed())
             {
                 byte[] buffer               =   new byte[4096];
                 DatagramPacket packet       =   new DatagramPacket(buffer, buffer.length);
@@ -53,15 +53,16 @@ public class ListUpdateListener extends Thread
                 ObjectInputStream ois       =   new ObjectInputStream(bais);
                 Object beanObj              =   ois.readObject();
                 ClientListBean bean         =   getClientBean(beanObj);
-                
+
                 if(bean != null) bean.beanAction();
-            }
-            
-            catch(IOException | ClassNotFoundException e)
-            {
-                System.out.println("[ListUpdateListener@run]: " + e.getMessage());
-            }
-        }   
+
+            } 
+        }
+        
+        catch(IOException | ClassNotFoundException e)
+        {
+            System.out.println("[ListUpdateListener@run STOP]: " + e.getMessage());
+        }
     }
     
     public static ListUpdateListener getInstance(DatagramSocket socket)

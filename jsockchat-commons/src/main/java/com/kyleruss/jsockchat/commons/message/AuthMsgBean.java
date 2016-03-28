@@ -1,13 +1,13 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class AuthMessage extends AbstractMessage
+public class AuthMsgBean implements MessageBean
 {
     private String username;
     private String password;
     private boolean rememberPassword;
    
-    public AuthMessage(String username, String password, boolean rememberPassword)
+    public AuthMsgBean(String username, String password, boolean rememberPassword)
     {
         this.username           =   username;
         this.password           =   password;

@@ -2,13 +2,8 @@ package com.kyleruss.jsockchat.client.message;
 
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
-
-public class ClientDisconnectMessage extends ClientMessage 
+public class PrivateMessageHandler implements ClientMessageHandler
 {
-
-    public ClientDisconnectMessage(String source) {
-        super(source);
-    }
 
     @Override
     public void clientAction(ResponseMessage response) {
@@ -17,4 +12,5 @@ public class ClientDisconnectMessage extends ClientMessage
     @Override
     public void witnessAction(ResponseMessage response) {
     }
+    
 }
