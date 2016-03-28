@@ -1,8 +1,9 @@
 package com.kyleruss.jsockchat.client.message;
 
+import com.kyleruss.jsockchat.commons.message.PrivateMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
-public class ClientPrivateMessage extends ClientMessage
+public class ClientPrivateMessage extends ClientMessage implements PrivateMessage
 {
 
     public ClientPrivateMessage(String source) {
@@ -15,6 +16,18 @@ public class ClientPrivateMessage extends ClientMessage
 
     @Override
     public void witnessAction(ResponseMessage response) {
+    }
+
+    @Override
+    public String getDestinationUser() {
+    }
+
+    @Override
+    public String getRoom() {
+    }
+
+    @Override
+    public String getContent() {
     }
     
 }
