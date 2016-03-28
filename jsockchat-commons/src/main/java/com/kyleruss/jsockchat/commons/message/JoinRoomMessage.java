@@ -1,9 +1,34 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface JoinRoomMessage extends RequestMessage
+public class JoinRoomMessage extends AbstractMessage
 {
-    public String getRoom();
+    private String room;
+    private String attemptedPassword;
+
+    public JoinRoomMessage(String source, String room, String password)
+    {
+        this.room                   =   room;
+        this.attemptedPassword      =   password;
+    }
+
+    public String getRoom() 
+    {
+        return room;
+    }
+
+    public String getAttemptedPassword() 
+    {
+        return attemptedPassword;
+    }
     
-    public String getAttemptedPassword();
+    public void setRoom(String room)
+    {
+        this.room = room;
+    }
+
+    public void setAttemptedPassword(String attemptedPassword) 
+    {
+        this.attemptedPassword = attemptedPassword;
+    }
 }

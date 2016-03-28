@@ -52,6 +52,7 @@ public final class MessageServer extends SyncedServer
     
     private void handleClientSocket(Socket socket)
     {
+        System.out.println("[MessageServer] New connection: " + socket);
         ServerMessageListener messageHandler =   new ServerMessageListener(socket);
         messageHandler.start();
     }

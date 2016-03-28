@@ -8,9 +8,5 @@ public interface Message extends Serializable
 {
     public Date getTimeSent();
     
-    public void setTimeSent(Date timeSent);
-    
     public String getDescription();
-    
-    public void setDescription(String description);
 }

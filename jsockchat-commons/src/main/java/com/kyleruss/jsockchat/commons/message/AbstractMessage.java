@@ -20,7 +20,6 @@ public abstract class AbstractMessage implements Message
         return timeSent;
     }
     
-    @Override
     public void setTimeSent(Date timeSent)
     {
         this.timeSent   =   timeSent;
@@ -32,7 +31,6 @@ public abstract class AbstractMessage implements Message
         return description;
     }
     
-    @Override
     public void setDescription(String description)
     {
         this.description    =   description;

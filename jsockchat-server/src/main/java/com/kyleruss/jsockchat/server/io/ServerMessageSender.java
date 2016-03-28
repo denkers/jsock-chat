@@ -13,7 +13,7 @@ public class ServerMessageSender extends MessageSender
         return false;
     }
     
-    public ServerMessageSender getInstance()
+    public static ServerMessageSender getInstance()
     {
         if(instance == null) instance   =   new ServerMessageSender();
         return instance;

@@ -14,6 +14,7 @@ public class SocketManager
     private static SocketManager instance;
     private Socket tcpSocket;
     private DatagramSocket udpSocket;
+    private ObjectOutputStream tcpOutputStream;
 
     private SocketManager()
     {
@@ -25,13 +26,22 @@ public class SocketManager
         try
         {
             tcpSocket   =   new Socket(ClientConfig.MSG_SERVER_HOST, ClientConfig.MSG_SERVER_PORT);
-            udpSocket   =   new DatagramSocket(ClientConfig.UPDATE_LIST_PORT);
+            //udpSocket   =   new DatagramSocket(ClientConfig.UPDATE_LIST_PORT);
+            System.out.println("CONNECTED: " + tcpSocket);
         }
         
         catch(IOException e)
         {
             System.out.println("[SocketManager@initSocket]: " + e.getMessage());
         }
+    }
+    
+    public ObjectOutputStream getTCPOutputStream() throws IOException
+    {
+        if(tcpSocket == null) return null;
+        
+        if(tcpOutputStream == null) tcpOutputStream = new ObjectOutputStream(tcpSocket.getOutputStream());
+        return tcpOutputStream;
     }
     
     public Socket getTcpSocket()
@@ -48,5 +58,10 @@ public class SocketManager
     {
         if(instance == null) instance = new SocketManager();
         return instance;
+    }
+    
+    public static void main(String[] args)
+    {
+        SocketManager socketMgr =   getInstance();
     }
 }

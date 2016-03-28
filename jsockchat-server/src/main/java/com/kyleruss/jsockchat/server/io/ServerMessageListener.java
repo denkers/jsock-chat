@@ -22,7 +22,8 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         if(request != null)
         {
             ServerMessage response;
-            
+            System.out.println("[ServerMessageListener] handleReceivedMessage");
+            System.out.println("Request description: " + request.getDescription());
         }
     }
 
@@ -31,12 +32,14 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     {
         try
         {
+            System.out.println("[ServerMessageListener] GetMessage");
             RequestMessage msgObj   =   (RequestMessage) inputStream.readObject();
             return msgObj;
         }
         
         catch(IOException | ClassNotFoundException e)
         {
+            e.printStackTrace();
             System.out.println("[ServerMessageListener@getMessage]: " + e.getMessage());
             return null;
         }

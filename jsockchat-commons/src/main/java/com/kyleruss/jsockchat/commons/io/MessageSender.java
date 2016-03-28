@@ -60,5 +60,7 @@ public abstract class MessageSender extends Thread
             ObjectOutputStream oos  =   item.getDestinationOutputStream();
             sendMessage(message, oos);
         }
+        
+        System.out.println("Done sending..");
     }
 }
