@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class PrivateMessage 
+public interface PrivateMessage extends BroadcastMessage
 {
-    
+    public String getDestinationUser();
 }

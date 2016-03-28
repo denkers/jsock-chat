@@ -1,24 +1,11 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class AuthMessage 
+public interface AuthMessage extends Message
 {
-    private String username;
-    private String password;
-    private boolean rememberPass;
+    public String getUsername();
     
-    public String getUsername()
-    {
-        return username; 
-    }
+    public String getPassword();
     
-    public boolean getRememberPass()
-    {
-        return rememberPass;
-    }
-    
-    public String getPassword()
-    {
-        return password;
-    }
+    public boolean rememberPassword();
 }
