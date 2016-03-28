@@ -35,12 +35,18 @@ public class ClientDisconnectMessage extends ClientMessage implements Disconnect
     }
 
     @Override
-    public void setRoom(String room) {
-    }
-
-    @Override
     public boolean isClientDisconnect() 
     {
         return isClientDisconnect;
+    }
+    
+    public void setRoom(String room) 
+    {    
+        this.room   =   room;
+    }
+    
+    public void setIsClientDisconnect(boolean isClientDisconnect)
+    {
+        this.isClientDisconnect =   isClientDisconnect;
     }
 }

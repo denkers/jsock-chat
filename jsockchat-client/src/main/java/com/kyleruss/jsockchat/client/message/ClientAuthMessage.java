@@ -9,10 +9,18 @@ public class ClientAuthMessage extends ClientMessage implements AuthMessage
     private String username;
     private String password;
     private boolean rememberPassword;
-    
-    public ClientAuthMessage(String source)
+   
+    public ClientAuthMessage()
     {
-        super(source);
+        super(null);
+    }
+    
+    public ClientAuthMessage(String username, String password, boolean rememberPassword)
+    {
+        super(null);
+        this.username           =   username;
+        this.password           =   password;
+        this.rememberPassword   =   rememberPassword;
     }
     
     @Override

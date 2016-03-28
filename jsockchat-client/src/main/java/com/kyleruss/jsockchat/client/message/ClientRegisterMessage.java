@@ -9,6 +9,11 @@ public class ClientRegisterMessage extends ClientMessage implements RegisterMess
     private String password;
     private String displayName;
     
+    public ClientRegisterMessage()
+    {
+        super(null);
+    }
+    
     public ClientRegisterMessage(String username, String password, String displayName)
     {
         super(null);
