@@ -3,6 +3,7 @@ package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
+import com.kyleruss.jsockchat.server.message.ServerMessage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -16,8 +17,13 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     }
 
     @Override
-    protected void handleReceivedMessage(RequestMessage message) 
+    protected void handleReceivedMessage(RequestMessage request) 
     {
+        if(request != null)
+        {
+            ServerMessage response;
+            
+        }
     }
 
     @Override

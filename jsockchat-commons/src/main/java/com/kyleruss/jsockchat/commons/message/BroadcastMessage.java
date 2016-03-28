@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface BroadcastMessage 
+public interface BroadcastMessage extends RequestMessage
 {
     public String getRoom();
     

@@ -1,7 +1,7 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface RegisterMessage 
+public interface RegisterMessage extends RequestMessage
 {
     public String getUsername();
     
