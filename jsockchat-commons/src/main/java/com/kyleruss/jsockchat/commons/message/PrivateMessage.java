@@ -1,7 +1,23 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-public interface PrivateMessage extends BroadcastMessage
+public class PrivateMessage extends BroadcastMessage 
 {
-    public String getDestinationUser();
+    private String destinationUser;
+    
+    public PrivateMessage(String source, String destinationUser, String content, String room)
+    {
+        super(room, content);
+        this.destinationUser    =   destinationUser;
+    }
+
+    public String getDestinationUser() 
+    {
+        return destinationUser;
+    }
+
+    public void setDestinationUser(String destinationUser)
+    {
+        this.destinationUser    =   destinationUser;
+    }
 }

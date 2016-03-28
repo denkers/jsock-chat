@@ -6,7 +6,7 @@ public class BroadcastMessage extends AbstractMessage
     private String room;
     private String content;
     
-    public BroadcastMessage(String source, String room, String content)
+    public BroadcastMessage(String room, String content)
     {
         this.room       =   room;
         this.content    =   content;
