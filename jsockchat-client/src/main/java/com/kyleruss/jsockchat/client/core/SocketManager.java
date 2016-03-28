@@ -17,10 +17,10 @@ public class SocketManager
 
     private SocketManager()
     {
-        initSocket();
+        initSockets();
     }
     
-    private void initSocket()
+    private void initSockets()
     {
         try
         {

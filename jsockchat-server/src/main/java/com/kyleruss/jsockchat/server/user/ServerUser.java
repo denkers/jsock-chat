@@ -9,8 +9,8 @@ import java.io.ObjectOutputStream;
 
 public class ServerUser extends User
 {
-    private transient Socket socket;
-    private transient ObjectOutputStream outputStream;
+    private Socket socket;
+    private ObjectOutputStream outputStream;
     
     public ServerUser(IUser user, Socket socket)
     {

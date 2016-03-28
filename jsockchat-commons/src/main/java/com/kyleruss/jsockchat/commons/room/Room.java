@@ -1,31 +1,102 @@
-
 package com.kyleruss.jsockchat.commons.room;
 
 import com.kyleruss.jsockchat.commons.user.IUser;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Room extends Serializable
+public class Room implements IRoom
 {
-    public List<IUser> getUserList();
+    private List<IUser> userList;
+    private final String name;
+    private final String password;
+    private final String owner;
+    private boolean isPrivate;
     
-    public int getNumUsersInRoom();
+    public Room(String roomName, String roomOwner, boolean isPrivate, String roomPassword)
+    {
+        userList            =   new ArrayList<>();
+        this.isPrivate      =   isPrivate;
+        this.owner          =   roomOwner;
+        this.password       =   roomPassword;
+        this.name           =   roomName;
+    }
     
-    public String getOwner();
+    @Override
+    public List<IUser> getUserList()
+    {
+        return userList;
+    }
+
+    @Override
+    public String getRoomPassword() 
+    {
+        return password;
+    }
+
+    @Override
+    public void setUserList(List<IUser> userList) 
+    {
+        this.userList   =   userList;
+    }
+
+    @Override
+    public void leaveRoom(IUser username) 
+    {
+        userList.remove(username);
+    }
+
+    @Override
+    public boolean joinRoom(IUser username)
+    {
+        if(userList.contains(username)) return false;
+        else return userList.add(username);
+    }
+
+    @Override
+    public String getRoomName()
+    {
+        return name;
+    }
+
+    @Override
+    public int getNumUsersInRoom() 
+    {
+        return userList != null? userList.size() : 0;
+    }
+
+    @Override
+    public boolean isPrivate()
+    {
+        return isPrivate;
+    }
     
-    public boolean isPrivate();
+    @Override
+    public void setPrivate(boolean isPrivate)
+    {
+        this.isPrivate  =   isPrivate;
+    }
+
+    @Override
+    public boolean isPassProtected() 
+    {
+        return password != null;
+    }
+
+    @Override
+    public String getOwner() 
+    {
+        return owner;
+    }
     
-    public void setPrivate(boolean isPrivate);
+    @Override
+    public int hashCode()
+    {
+        return name.hashCode();
+    }
     
-    public boolean isPassProtected();
-    
-    public String getRoomPassword();
-    
-    public String getRoomName();
-    
-    public void setUserList(List<IUser> userList);
-    
-    public void leaveRoom(IUser username);
-    
-    public boolean joinRoom(IUser username);
+    @Override
+    public boolean equals(Object other)
+    {
+        return other instanceof Room && ((Room) other).getRoomName().equals(name);
+    }
 }
