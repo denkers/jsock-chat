@@ -5,9 +5,16 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
 public class ClientRegisterMessage extends ClientMessage implements RegisterMessage
 {
-
-    public ClientRegisterMessage(String source) {
-        super(source);
+    private String username;
+    private String password;
+    private String displayName;
+    
+    public ClientRegisterMessage(String username, String password, String displayName)
+    {
+        super(null);
+        this.username       =   username;
+        this.password       =   password;
+        this.displayName    =   displayName;
     }
 
     @Override
@@ -19,15 +26,35 @@ public class ClientRegisterMessage extends ClientMessage implements RegisterMess
     }
 
     @Override
-    public String getUsername() {
+    public String getUsername() 
+    {
+        return username;
     }
 
     @Override
-    public String getPassword() {
+    public String getPassword() 
+    {
+        return password;
     }
 
     @Override
-    public String getDisplayName() {
+    public String getDisplayName()
+    {
+        return displayName;
     }
     
+    public void setUsername(String username)
+    {
+        this.username   =   username;
+    }
+    
+    public void setPassword(String password)
+    {
+        this.password   =   password;
+    }
+    
+    public void setDisplayName(String displayName)
+    {
+        this.displayName    =   displayName;
+    }
 }

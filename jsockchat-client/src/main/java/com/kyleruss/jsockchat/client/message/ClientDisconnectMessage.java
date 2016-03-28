@@ -5,9 +5,19 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
 public class ClientDisconnectMessage extends ClientMessage implements DisconnectMessage
 {
+    private String room;
+    private boolean isClientDisconnect;
 
-    public ClientDisconnectMessage(String source) {
+    public ClientDisconnectMessage(String source) 
+    {
         super(source);
+    }
+    
+    public ClientDisconnectMessage(String source, String room, boolean isClientDisconnect)
+    {
+        super(source);
+        this.room               =   room;
+        this.isClientDisconnect =   isClientDisconnect;
     }
 
     @Override
@@ -19,7 +29,9 @@ public class ClientDisconnectMessage extends ClientMessage implements Disconnect
     }
 
     @Override
-    public String getRoom() {
+    public String getRoom() 
+    {
+        return room;
     }
 
     @Override
@@ -27,7 +39,8 @@ public class ClientDisconnectMessage extends ClientMessage implements Disconnect
     }
 
     @Override
-    public boolean isClientDisconnect() {
+    public boolean isClientDisconnect() 
+    {
+        return isClientDisconnect;
     }
-    
 }

@@ -6,7 +6,10 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
 public class ClientAuthMessage extends ClientMessage implements AuthMessage
 {
-
+    private String username;
+    private String password;
+    private boolean rememberPassword;
+    
     public ClientAuthMessage(String source)
     {
         super(source);
@@ -21,15 +24,35 @@ public class ClientAuthMessage extends ClientMessage implements AuthMessage
     }
 
     @Override
-    public String getUsername() {
+    public String getUsername() 
+    {
+        return username;
     }
 
     @Override
-    public String getPassword() {
+    public String getPassword()
+    {
+        return password;
     }
 
     @Override
-    public boolean rememberPassword() {
+    public boolean rememberPassword() 
+    {
+        return rememberPassword;
     }
     
+    public void setUsername(String username) 
+    {
+        this.username = username;
+    }
+
+    public void setPassword(String password) 
+    {
+        this.password = password;
+    }
+
+    public void setRememberPassword(boolean rememberPassword) 
+    {
+        this.rememberPassword = rememberPassword;
+    }
 }

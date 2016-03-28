@@ -6,8 +6,19 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 public class ClientBroadcastMessage extends ClientMessage implements BroadcastMessage
 {
 
-    public ClientBroadcastMessage(String source) {
+    private String room;
+    private String content;
+    
+    public ClientBroadcastMessage(String source)
+    {
         super(source);
+    }
+    
+    public ClientBroadcastMessage(String source, String room, String content)
+    {
+        super(source);
+        this.room       =   room;
+        this.content    =   content;
     }
 
     @Override
@@ -19,11 +30,24 @@ public class ClientBroadcastMessage extends ClientMessage implements BroadcastMe
     }
 
     @Override
-    public String getRoom() {
+    public String getRoom() 
+    {
+        return room;
     }
 
     @Override
-    public String getContent() {
+    public String getContent() 
+    {
+        return content;
     }
     
+    public void setRoom(String room)
+    {
+        this.room = room;
+    }
+
+    public void setContent(String content) 
+    {
+        this.content = content;
+    }
 }
