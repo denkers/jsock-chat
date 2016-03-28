@@ -24,11 +24,14 @@ public class ClientAuthMessage extends ClientMessage implements AuthMessage
     }
     
     @Override
-    public void clientAction(ResponseMessage response) {
+    public void clientAction(ResponseMessage response) 
+    {
+        System.out.println("Received message: " + response.getResponseDescription());
     }
 
     @Override
-    public void witnessAction(ResponseMessage response) {
+    public void witnessAction(ResponseMessage response) 
+    {
     }
 
     @Override
