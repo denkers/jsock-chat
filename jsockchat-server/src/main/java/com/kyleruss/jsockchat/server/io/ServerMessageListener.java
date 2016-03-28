@@ -18,7 +18,6 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     @Override
     protected void handleReceivedMessage(RequestMessage message) 
     {
-        
     }
 
     @Override

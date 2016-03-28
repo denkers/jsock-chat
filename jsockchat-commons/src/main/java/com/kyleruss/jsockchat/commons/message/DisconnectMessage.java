@@ -1,27 +1,11 @@
 
 package com.kyleruss.jsockchat.commons.message;
 
-enum DisconnectContext
+public interface DisconnectMessage extends Message
 {
-    ROOM,
-    APPLICATION
-}
-
-public abstract class DisconnectMessage extends AbstractMessage
-{
-    private DisconnectContext context;
-    private String room;
+    public String getRoom();
     
-    public DisconnectContext getContext()
-    {
-        return context;
-    }
+    public void setRoom(String room);
     
-    public String getRoom()
-    {
-        if(context == DisconnectContext.APPLICATION)
-            return null;
-        
-        else return room;
-    }
+    public boolean isClientDisconnect();
 }
