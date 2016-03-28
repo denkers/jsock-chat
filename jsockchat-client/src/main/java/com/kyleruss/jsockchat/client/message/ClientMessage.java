@@ -6,7 +6,12 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 
 public abstract class ClientMessage extends AbstractMessage implements RequestMessage
 {
-    private String source;
+    private final String source;
+    
+    public ClientMessage(String source)
+    {
+        this.source =   source;
+    }
     
     public abstract void clientAction(ResponseMessage response);
     
