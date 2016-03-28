@@ -12,7 +12,6 @@ public class ListBroadcastServer
     private final Semaphore mutex;
     private final FriendListBroadcaster friendBroadcaster;
     private final RoomListBroadcaster roomBroadcaster;
-    private final RoomUserListBroadcaster roomUserBroadcaster;
     
     private ListBroadcastServer()
     {
@@ -21,7 +20,6 @@ public class ListBroadcastServer
         
         friendBroadcaster   =   new FriendListBroadcaster(this, ServerConfig.FRIEND_LIST_UPDATE_MS);
         roomBroadcaster     =   new RoomListBroadcaster(this, ServerConfig.ROOM_LIST_UPDATE_MS);
-        roomUserBroadcaster =   new RoomUserListBroadcaster(this, ServerConfig.ROOM_USER_LIST_UPDATE_MS);
     }
     
     private void initSocket()
@@ -41,7 +39,6 @@ public class ListBroadcastServer
     {
         friendBroadcaster.start();
         roomBroadcaster.start();
-        roomUserBroadcaster.start();
     }
     
     protected Semaphore getMutex()
@@ -64,11 +61,6 @@ public class ListBroadcastServer
         return roomBroadcaster;
     }
 
-    public RoomUserListBroadcaster getRoomUserBroadcastServer() 
-    {
-        return roomUserBroadcaster;
-    }
-    
     public static ListBroadcastServer getInstance()
     {
         if(instance == null) instance   =   new ListBroadcastServer();

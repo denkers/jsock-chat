@@ -65,6 +65,11 @@ public class DBFriends extends DBModel
     public List<IUser> getUsersOnlineFriends(String username)
     {
         List<IUser> friends         =   getUsersFriends(username);
+        return getUsersOnlineFriends(username, friends);
+    }
+    
+    public List<IUser> getUsersOnlineFriends(String username, List<IUser> friends)
+    {
         List<IUser> onlineFriends   =   new ArrayList<>();
         UserManager userMgr         =   UserManager.getInstance();
         
