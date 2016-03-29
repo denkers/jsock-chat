@@ -9,15 +9,13 @@ public class Room implements IRoom
     private List<IUser> userList;
     private final String name;
     private final String password;
-    private final String owner;
     private final boolean isRooted;
     private boolean isPrivate;
     
-    public Room(String roomName, String roomOwner, boolean isPrivate, String roomPassword, boolean isRooted)
+    public Room(String roomName, boolean isPrivate, String roomPassword, boolean isRooted)
     {
         userList            =   new ArrayList<>();
         this.isPrivate      =   isPrivate;
-        this.owner          =   roomOwner;
         this.password       =   roomPassword;
         this.name           =   roomName;
         this.isRooted       =   isRooted;
@@ -96,12 +94,6 @@ public class Room implements IRoom
         return password != null;
     }
 
-    @Override
-    public String getOwner() 
-    {
-        return owner;
-    }
-    
     @Override
     public int hashCode()
     {

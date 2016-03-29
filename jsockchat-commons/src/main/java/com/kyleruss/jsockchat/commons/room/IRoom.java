@@ -13,8 +13,6 @@ public interface IRoom extends Serializable
     
     public int getNumUsersInRoom();
     
-    public String getOwner();
-    
     public boolean isPrivate();
     
     public void setPrivate(boolean isPrivate);

@@ -1,22 +1,28 @@
 
 package com.kyleruss.jsockchat.server.io;
 
+import com.kyleruss.jsockchat.server.message.AcceptFriendMessageHandler;
 import com.kyleruss.jsockchat.commons.io.MessageListener;
+import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.BroadcastMsgBean;
+import com.kyleruss.jsockchat.commons.message.CreateRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
 import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
 import com.kyleruss.jsockchat.commons.message.PrivateMsgBean;
 import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
+import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.server.message.BroadcastMessageHandler;
+import com.kyleruss.jsockchat.server.message.CreateRoomMessageHandler;
 import com.kyleruss.jsockchat.server.message.DisconnectMessageHandler;
 import com.kyleruss.jsockchat.server.message.JoinRoomMessageHandler;
 import com.kyleruss.jsockchat.server.message.PrivateMessageHandler;
 import com.kyleruss.jsockchat.server.message.RegisterMessageHandler;
+import com.kyleruss.jsockchat.server.message.RequestFriendMessageHandler;
 import com.kyleruss.jsockchat.server.message.ServerMessageHandler;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -72,6 +78,15 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         
         else if(bean instanceof BroadcastMsgBean)
             handler     =   new BroadcastMessageHandler();
+        
+        else if(bean instanceof RequestFriendMsgBean)
+            handler     =   new RequestFriendMessageHandler();
+        
+        else if(bean instanceof AcceptFriendMsgBean)
+            handler     =   new AcceptFriendMessageHandler();
+        
+        else if(bean instanceof CreateRoomMsgBean)
+            handler     =   new CreateRoomMessageHandler();
         
         return handler;
     }
