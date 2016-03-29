@@ -38,12 +38,15 @@ public final class RoomManager extends AbstractManager<String, Room>
         else return new ArrayList<>();
     }
     
-    public void sendMessageToRoom(String roomName, Message message)
+    public void sendMessageToRoom(String roomName, Message message, List<IUser> exclusions)
     {
         List<IUser> roomUsers   =   getUsersInRoom(roomName);
         
         for(IUser user : roomUsers)
         {
+            if(exclusions != null && exclusions.contains(user))
+                continue;
+            
             try
             {
                 String username                 =   user.getUsername();
@@ -57,6 +60,15 @@ public final class RoomManager extends AbstractManager<String, Room>
                 System.out.println("[RoomManager@sendMessageToRoom]: " + e.getMessage());
             }
         }
+    }
+    
+    public static List<IUser> createExclusions(IUser... excludedUsers)
+    {
+        List<IUser> exclusions  =   new ArrayList<>();
+        for(IUser user : excludedUsers)
+            exclusions.add(user);
+        
+        return exclusions;
     }
     
     public void leaveAllRooms(IUser user)

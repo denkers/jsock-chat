@@ -28,7 +28,7 @@ public class DisconnectMessageHandler implements ServerMessageHandler
             String roomName   =   bean.getRoom();
             user.getCurrentRooms().remove(roomName);
             roomManager.get(roomName).leaveRoom(user);
-            roomManager.sendMessageToRoom(roomName, response);
+            roomManager.sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
         }
         
         else
@@ -37,7 +37,7 @@ public class DisconnectMessageHandler implements ServerMessageHandler
             
             List<String> rooms  =   user.getCurrentRooms();
             for(String roomName : rooms)
-                roomManager.sendMessageToRoom(roomName, response);
+                roomManager.sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
 
             UserManager.getInstance().clientExit(user);
         }

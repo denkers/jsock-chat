@@ -48,7 +48,7 @@ public class JoinRoomMessageHandler implements ServerMessageHandler
                      
                      response.setStatus(true);
                      response.setDescription(source + " (" + user.getDisplayName() + ") has joined the room");
-                     RoomManager.getInstance().sendMessageToRoom(roomName, response);
+                     RoomManager.getInstance().sendMessageToRoom(roomName, response, null);
                  }
             }
         }
