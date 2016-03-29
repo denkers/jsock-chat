@@ -2,8 +2,12 @@
 package com.kyleruss.jsockchat.client.io;
 
 import com.kyleruss.jsockchat.client.core.UserManager;
+import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
+import com.kyleruss.jsockchat.client.message.ClientMessageHandler;
 import com.kyleruss.jsockchat.commons.io.MessageListener;
+import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.User;
 import java.io.IOException;
@@ -19,17 +23,32 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         super(socket);
     }
 
+    private ClientMessageHandler getHandler(MessageBean bean)
+    {
+        ClientMessageHandler handler    =   null;   
+        
+        if(bean instanceof AuthMsgBean)
+            handler =   new AuthMessageHandler();
+        
+        return handler;
+    }
+    
     @Override
     protected void handleReceivedMessage(ResponseMessage response)
     {
-        MessageBean bean            =   response.getRequestMessage().getMessageBean();
-        User user                   =   UserManager.getInstance().getActiveUser();
+        RequestMessage request          =   response.getRequestMessage();
+        MessageBean bean                =   request.getMessageBean();
+        User user                       =   UserManager.getInstance().getActiveUser();
+        ClientMessageHandler handler    =   getHandler(bean);
+        
+        if(handler != null)
+        {
+            if(user == null || !request.isWitness(user.getUsername()))
+                handler.clientAction(response);
 
-        /*if(user == null || !msg.isWitness(user.getUsername()))
-            msg.clientAction(response);
-
-        else
-            msg.witnessAction(response); */
+            else
+                handler.witnessAction(response); 
+        }
     }
     
     @Override

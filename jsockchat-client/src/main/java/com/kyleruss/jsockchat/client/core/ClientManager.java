@@ -43,7 +43,7 @@ public class ClientManager
 
         try
         {
-            AuthMsgBean bean        =   new AuthMsgBean("kyleruss", "qweqwe", false);
+            AuthMsgBean bean        =   new AuthMsgBean("kyleruss2", "fgsmg2", false);
             RequestMessage request  =   new RequestMessage(null, bean);
             request.setDescription("HELLO FROM CLIENT");
             ObjectOutputStream oos  =   SocketManager.getInstance().getTCPOutputStream();
