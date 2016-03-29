@@ -9,6 +9,7 @@ public class AuthMessageHandler implements ClientMessageHandler
     public void clientAction(ResponseMessage response) 
     {
         System.out.println("Received message: " + response.getDescription());
+        
     }
 
     @Override
