@@ -2,6 +2,9 @@
 package com.kyleruss.jsockchat.server.core;
 
 import com.kyleruss.jsockchat.commons.listbean.FriendListBean;
+import com.kyleruss.jsockchat.commons.listbean.ListBeanDump;
+import com.kyleruss.jsockchat.commons.listbean.RoomListBean;
+import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
@@ -23,6 +26,15 @@ public final class UserManager extends AbstractManager<String, User>
         bean.setListData(friends);
         bean.setOnlineFriends(onlineFriends);
         return bean;
+    }
+    
+    public AuthPackage prepareAuthPackage(User user)
+    {
+        FriendListBean friendListBean   =   createFriendListBean(user.getUsername());
+        RoomListBean roomListBean       =   RoomManager.getInstance().createRoomListBean();
+        ListBeanDump beanDump           =   new ListBeanDump(friendListBean, roomListBean);
+        
+        return new AuthPackage(user, beanDump);
     }
     
     public static UserManager getInstance()

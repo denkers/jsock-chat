@@ -4,6 +4,7 @@ import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
+import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
@@ -43,7 +44,9 @@ public class AuthMessageHandler implements ServerMessageHandler
             
             response.setStatus(true);
             response.setDescription("Client successfully authenticated");
-            response.setResponseData(response);
+            
+            AuthPackage authPackage =   userManager.prepareAuthPackage(authUser);
+            response.setResponseData(authPackage);
         }
         
         else

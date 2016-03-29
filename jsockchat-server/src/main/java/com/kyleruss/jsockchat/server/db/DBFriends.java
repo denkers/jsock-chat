@@ -27,12 +27,12 @@ public class DBFriends extends DBModel
         List<IUser> friends  =   new ArrayList<>();
         String query        =   
         "SELECT friend.* \n" +
-        "FROM Friends, User friend\n" +
+        "FROM Friends, Users friend\n" +
         "WHERE Friends.friend_b = friend.username\n" +
         "AND Friends.friend_a = ?\n" +
         "UNION\n" +
         "SELECT friend.*\n" +
-        "FROM Friends, User friend\n" +
+        "FROM Friends, Users friend\n" +
         "WHERE Friends.friend_a = friend.username\n" +
         "AND Friends.friend_b = ?";
         
