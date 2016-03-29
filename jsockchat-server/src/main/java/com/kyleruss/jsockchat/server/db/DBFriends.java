@@ -11,6 +11,8 @@ import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DBFriends extends DBModel
 {
@@ -22,9 +24,9 @@ public class DBFriends extends DBModel
         primaryKey  =   "id";
     }
     
-    public List<IUser> getUsersFriends(String username)
+    public Map<String, IUser> getUsersFriends(String username)
     {
-        List<IUser> friends  =   new ArrayList<>();
+        Map<String, IUser> friends  =   new HashMap<>();
         String query        =   
         "SELECT friend.* \n" +
         "FROM Friends, Users friend\n" +
@@ -50,7 +52,7 @@ public class DBFriends extends DBModel
                 String rsDisplayname    =   results.getString("display_name");
                 
                 User user               =   new User(rsUsername, rsDisplayname);
-                friends.add(user);
+                friends.put(user.getUsername(), user);
             }
         }
         
@@ -62,21 +64,21 @@ public class DBFriends extends DBModel
         return friends;
     }
     
-    public List<IUser> getUsersOnlineFriends(String username)
+    public Map<String, IUser> getUsersOnlineFriends(String username)
     {
-        List<IUser> friends         =   getUsersFriends(username);
+        Map<String, IUser> friends         =   getUsersFriends(username);
         return getUsersOnlineFriends(username, friends);
     }
     
-    public List<IUser> getUsersOnlineFriends(String username, List<IUser> friends)
+    public Map<String, IUser> getUsersOnlineFriends(String username, Map<String, IUser>  friends)
     {
-        List<IUser> onlineFriends   =   new ArrayList<>();
-        UserManager userMgr         =   UserManager.getInstance();
+        Map<String, IUser> onlineFriends    =   new HashMap<>();
+        UserManager userMgr                 =   UserManager.getInstance();
         
-        for(IUser friend : friends)
+        for(String friendUsername : friends.keySet())
         {
-            if(userMgr.find(friend.getUsername()))
-                onlineFriends.add(friend);
+            if(userMgr.find(friendUsername))
+                onlineFriends.put(friendUsername, friends.get(friendUsername));
         }
         
         return onlineFriends;

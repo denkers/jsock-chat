@@ -1,14 +1,14 @@
 
 package com.kyleruss.jsockchat.server.core;
 
-import com.kyleruss.jsockchat.commons.listbean.FriendListBean;
-import com.kyleruss.jsockchat.commons.listbean.ListBeanDump;
-import com.kyleruss.jsockchat.commons.listbean.RoomListBean;
+import com.kyleruss.jsockchat.commons.updatebean.FriendsUpdateBean;
+import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
+import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
-import java.util.List;
+import java.util.Map;
 
 public final class UserManager extends AbstractManager<String, User>
 {
@@ -16,24 +16,30 @@ public final class UserManager extends AbstractManager<String, User>
     
     private UserManager() {}
     
-    public FriendListBean createFriendListBean(String username)
+    public FriendsUpdateBean createFriendListBean(String username)
     {
-        FriendListBean bean         =   new FriendListBean();
-        DBFriends friendModel       =   DBFriends.getInstance();
-        List<IUser> friends         =   friendModel.getUsersFriends(username);
-        List<IUser> onlineFriends   =   friendModel.getUsersOnlineFriends(username, friends);
+        FriendsUpdateBean bean              =   new FriendsUpdateBean();
+        DBFriends friendModel               =   DBFriends.getInstance();
+        Map<String, IUser> friends          =   friendModel.getUsersFriends(username);
+        Map<String, IUser> onlineFriends    =   friendModel.getUsersOnlineFriends(username, friends);
         
-        bean.setListData(friends);
+        bean.setData(friends);
         bean.setOnlineFriends(onlineFriends);
         return bean;
     }
     
+    public UpdateBeanDump prepareUpdates(User user)
+    {
+        RoomsUpdateBean roomsBean       =   RoomManager.getInstance().createRoomListBean();
+        FriendsUpdateBean freindsBean   =   UserManager.getInstance().createFriendListBean(user.getUsername());
+        UpdateBeanDump beanDump         =   new UpdateBeanDump(freindsBean, roomsBean);
+        
+        return beanDump;
+    }
+    
     public AuthPackage prepareAuthPackage(User user)
     {
-        FriendListBean friendListBean   =   createFriendListBean(user.getUsername());
-        RoomListBean roomListBean       =   RoomManager.getInstance().createRoomListBean();
-        ListBeanDump beanDump           =   new ListBeanDump(friendListBean, roomListBean);
-        
+        UpdateBeanDump beanDump =   prepareUpdates(user);
         return new AuthPackage(user, beanDump);
     }
     

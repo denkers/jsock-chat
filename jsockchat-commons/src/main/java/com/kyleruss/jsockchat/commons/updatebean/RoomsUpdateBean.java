@@ -1,8 +1,8 @@
-package com.kyleruss.jsockchat.commons.listbean;
+package com.kyleruss.jsockchat.commons.updatebean;
 
 import com.kyleruss.jsockchat.commons.room.Room;
 
-public class RoomListBean extends AbstractListBean<Room>
+public class RoomsUpdateBean extends AbstractUpdateBean<Room>
 {
     private String channelNotice;
     

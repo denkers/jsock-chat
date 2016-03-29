@@ -7,6 +7,7 @@ import com.kyleruss.jsockchat.client.io.ListUpdateListener;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
+import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -34,6 +35,11 @@ public class ClientManager
     {
         if(instance == null) instance = new ClientManager();
         return instance;
+    }
+    
+    public void handleUpdates(UpdateBeanDump update)
+    {
+        
     }
     
     public static void main(String[] args)

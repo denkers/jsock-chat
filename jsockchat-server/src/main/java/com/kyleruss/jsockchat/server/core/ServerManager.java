@@ -1,9 +1,9 @@
 
 package com.kyleruss.jsockchat.server.core;
 
-import com.kyleruss.jsockchat.server.io.ListBroadcastServer;
 import com.kyleruss.jsockchat.server.io.MessageServer;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
+import com.kyleruss.jsockchat.server.io.UpdateBroadcastServer;
 
 public class ServerManager 
 {
@@ -19,8 +19,8 @@ public class ServerManager
         ServerMessageSender sendServer  =   ServerMessageSender.getInstance();
         sendServer.start();
         
-        ListBroadcastServer broadcastServer =   ListBroadcastServer.getInstance();
-        broadcastServer.startBroadcasters();
+        UpdateBroadcastServer broadcastServer =   UpdateBroadcastServer.getInstance();
+        broadcastServer.start();
     }
     
     public static ServerManager getInstance()

@@ -1,10 +1,11 @@
 
 package com.kyleruss.jsockchat.server.io;
 
-import com.kyleruss.jsockchat.commons.listbean.ListBean;
+import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.core.SocketManager;
+import com.kyleruss.jsockchat.server.core.UserManager;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -12,18 +13,30 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.SocketException;
+import java.util.Collection;
 
-public abstract class AbstractBroadcaster extends SyncedServer
+public class UpdateBroadcastServer extends SyncedServer
 {
-    private final ListBroadcastServer broadcastServer;
-    private final DatagramSocket socket;
-    private int updateTime;
+    private static UpdateBroadcastServer instance;
+    private DatagramSocket socket;
     
-    public AbstractBroadcaster(ListBroadcastServer broadcaster, int updateTime)
+    private UpdateBroadcastServer()
     {
-        this.broadcastServer    =   broadcaster;
-        this.socket             =   broadcaster.getSocket();
-        this.updateTime         =   updateTime;
+        initSocket();
+    }
+    
+    private void initSocket()
+    {
+        try
+        {
+            socket  =   new DatagramSocket();
+        }
+        
+        catch(SocketException e)
+        {
+            System.out.println("[ListBroadcastServer@initSocket]: " + e.getMessage());
+        }
     }
     
     @Override
@@ -32,27 +45,12 @@ public abstract class AbstractBroadcaster extends SyncedServer
         return isStopped || socket == null || socket.isClosed();
     }
 
-    protected ListBroadcastServer getBroadcastServer()
-    {
-        return broadcastServer;
-    }
-    
     protected DatagramSocket getSocket()
     {
         return socket;
     }
     
-    public int getUpdateTime()
-    {
-        return updateTime;
-    }
-    
-    public void setUpdateTime(int updateTime)
-    {
-        this.updateTime =   updateTime;
-    }
-    
-    protected synchronized void sendListBean(ListBean bean, User user) throws IOException
+    protected synchronized void sendUpdates(UpdateBeanDump updates, User user) throws IOException
     {
         UserSocket sockContainer    =       SocketManager.getInstance().get(user.getUsername());
         Socket userSocket           =       sockContainer.getSocket();
@@ -65,7 +63,7 @@ public abstract class AbstractBroadcaster extends SyncedServer
             ByteArrayOutputStream baos      =   new ByteArrayOutputStream();
             try(ObjectOutputStream oos      =   new ObjectOutputStream(baos))
             {
-                oos.writeObject(bean);
+                oos.writeObject(updates);
 
                 byte[] bData                =   baos.toByteArray();
                 DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
@@ -74,17 +72,30 @@ public abstract class AbstractBroadcaster extends SyncedServer
         }
     }
     
-    protected abstract void runBroadcastOperations();
+    protected synchronized void updateUsers()
+    {
+        UserManager userManager =   UserManager.getInstance();
+        Collection<User> users  =   userManager.getDataValues();
+        
+        for(User user : users)
+        {
+            UpdateBeanDump updates   =   userManager.prepareUpdates(user);
+            
+            try { sendUpdates(updates, user); } 
+            catch(IOException e)
+            {
+                System.out.println("[AbstractBroadcaster@updateUsers]: " + e.getMessage());
+            }
+        }
+    }
 
     @Override
     protected synchronized void runServerOperations()
     {
         try
         {
-            wait(updateTime);
-            broadcastServer.getMutex().acquire();
-            runBroadcastOperations();
-            broadcastServer.getMutex().release();
+            wait(ServerConfig.BROADCAST_DELAY);
+            updateUsers();
         }
         
         catch(InterruptedException e)
@@ -93,4 +104,9 @@ public abstract class AbstractBroadcaster extends SyncedServer
         }
     }
     
+    public static UpdateBroadcastServer getInstance()
+    {
+        if(instance == null) instance = new UpdateBroadcastServer();
+        return instance;
+    }
 }

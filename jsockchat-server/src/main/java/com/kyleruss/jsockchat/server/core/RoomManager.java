@@ -1,8 +1,8 @@
 
 package com.kyleruss.jsockchat.server.core;
 
-import com.kyleruss.jsockchat.commons.listbean.RoomListBean;
 import com.kyleruss.jsockchat.commons.room.Room;
+import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +27,11 @@ public final class RoomManager extends AbstractManager<String, Room>
         this.channelNotice  =   channelNotice;
     }
     
-    public RoomListBean createRoomListBean()
+    public RoomsUpdateBean createRoomListBean()
     {
-        List<Room> rooms    =   new ArrayList<>(this.getDataValues());
-        RoomListBean bean   =   new RoomListBean();
+        RoomsUpdateBean bean    =   new RoomsUpdateBean();
         bean.setChannelNotice(channelNotice);
-        bean.setListData(rooms);
+        bean.setData(data);
         
         return bean;
     }

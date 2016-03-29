@@ -1,14 +1,14 @@
 package com.kyleruss.jsockchat.commons.user;
 
-import com.kyleruss.jsockchat.commons.listbean.ListBeanDump;
+import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import java.io.Serializable;
 
 public class AuthPackage implements Serializable
 {
     private final User authenticatedUser;
-    private final ListBeanDump listDump;
+    private final UpdateBeanDump listDump;
     
-    public AuthPackage(User authenticatedUser, ListBeanDump listDump)
+    public AuthPackage(User authenticatedUser, UpdateBeanDump listDump)
     {
         this.authenticatedUser  =   authenticatedUser;
         this.listDump           =   listDump;
@@ -19,7 +19,7 @@ public class AuthPackage implements Serializable
         return authenticatedUser;
     }
    
-    public ListBeanDump getListDump() 
+    public UpdateBeanDump getListDump() 
     {
         return listDump;
     }
