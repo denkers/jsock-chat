@@ -3,11 +3,11 @@ package com.kyleruss.jsockchat.server.core;
 
 import com.kyleruss.jsockchat.commons.listbean.FriendListBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
-import com.kyleruss.jsockchat.server.user.ServerUser;
 import java.util.List;
 
-public final class UserManager extends AbstractManager<String, ServerUser>
+public final class UserManager extends AbstractManager<String, User>
 {
     private static UserManager instance;
     

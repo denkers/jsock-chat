@@ -6,11 +6,18 @@ import com.kyleruss.jsockchat.commons.io.MessageSender;
 public class ServerMessageSender extends MessageSender
 {
     private static ServerMessageSender instance;
+    private boolean isStopped;
+    
+    public synchronized void setStopped(boolean isStopped)
+    {
+        this.isStopped   =  isStopped;
+        notify();
+    }
     
     @Override
     protected boolean isStopped() 
     {
-        return false;
+        return isStopped;
     }
     
     public static ServerMessageSender getInstance()

@@ -18,7 +18,7 @@ public class DBUsers extends DBModel<User>
         primaryKey  =   "username";
     }
     
-    public boolean verifyUser(String username, String password)
+    public User fetchVerifiedUser(String username, String password)
     {
         String query    =   "SELECT * FROM " + tableName + " WHERE " + primaryKey + " = ? AND password = ?;";
         
@@ -29,13 +29,21 @@ public class DBUsers extends DBModel<User>
             statement.setString(2, password);
             
             ResultSet rs    =   statement.executeQuery();
-            return rs.next();
+            
+            if(rs.next())
+            {
+                String displayName  =   rs.getString("display_name");
+                User user           =   new User(username, displayName);
+                return user;
+            }
+            
+            else return null;
         }
         
         catch(SQLException e)
         {
             System.out.println("[DBUsers@verifyUser]: " + e.getMessage());
-            return false;
+            return null;
         }
     }
     
