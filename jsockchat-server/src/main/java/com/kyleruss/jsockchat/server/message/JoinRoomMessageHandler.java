@@ -25,13 +25,20 @@ public class JoinRoomMessageHandler implements ServerMessageHandler
 
         try 
         { 
-            if(user.getCurrentRooms().contains(roomName) || room.hasUser(user))
+            if(room == null)
+            {
+                response.setStatus(false);
+                response.setDescription("Room does not exist");
+                UserManager.getInstance().sendMessageToUser(source, response);
+            }
+            
+            else if(user.getCurrentRooms().contains(roomName) || room.hasUser(user))
             {
                 response.setStatus(false);
                 response.setDescription("You are already connected to this room");
                 UserManager.getInstance().sendMessageToUser(source, response); 
             }
-
+            
             else
             {
                  if(room.isPassProtected() && !room.getRoomName().equals(bean.getAttemptedPassword()))

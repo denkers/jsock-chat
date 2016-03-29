@@ -6,7 +6,7 @@ public class JoinRoomMsgBean implements MessageBean
     private String room;
     private String attemptedPassword;
 
-    public JoinRoomMsgBean(String source, String room, String password)
+    public JoinRoomMsgBean(String room, String password)
     {
         this.room                   =   room;
         this.attemptedPassword      =   password;

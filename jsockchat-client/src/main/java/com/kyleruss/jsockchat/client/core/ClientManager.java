@@ -7,11 +7,13 @@ import com.kyleruss.jsockchat.client.io.ListUpdateListener;
 import com.kyleruss.jsockchat.client.updatebean.FriendsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.RoomsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.UsersUpdateBeanHandler;
+import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
+import com.kyleruss.jsockchat.commons.message.CreateRoomMsgBean;
+import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
-import com.kyleruss.jsockchat.commons.user.IUser;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
@@ -52,6 +54,13 @@ public class ClientManager
         friendsHandler.beanAction();
     }
     
+    public void sendRequest(RequestMessage request) throws IOException
+    {
+        ObjectOutputStream oos  =   SocketManager.getInstance().getTCPOutputStream();
+        MessageQueueItem item   =   new MessageQueueItem(oos, request);
+        sender.addMessage(item);
+    }
+    
     public static void main(String[] args)
     {
         ClientManager manager   =   getInstance();
@@ -59,12 +68,15 @@ public class ClientManager
 
         try
         {
-            RegisterMsgBean bean        =   new RegisterMsgBean("testaccount1", "mypass", "Kyle");
+            AuthMsgBean bean        =   new AuthMsgBean("testaccount1", "mypass");
             RequestMessage request  =   new RequestMessage(null, bean);
             request.setDescription("HELLO FROM CLIENT");
-            ObjectOutputStream oos  =   SocketManager.getInstance().getTCPOutputStream();
-            MessageQueueItem item   =   new MessageQueueItem(oos, request);
-            sender.addMessage(item);
+            manager.sendRequest(request);
+            
+            
+            CreateRoomMsgBean bean2   =   new CreateRoomMsgBean("noroom", "qweqwe", false);
+            RequestMessage request2 =   new RequestMessage("testaccount1", bean2);
+            manager.sendRequest(request2);
         }
         
         catch(IOException e)

@@ -58,8 +58,4 @@ public class SocketManager
         return instance;
     }
     
-    public static void main(String[] args)
-    {
-        SocketManager socketMgr =   getInstance();
-    }
 }

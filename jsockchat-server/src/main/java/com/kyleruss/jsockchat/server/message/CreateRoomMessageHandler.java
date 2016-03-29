@@ -26,6 +26,7 @@ public class CreateRoomMessageHandler implements ServerMessageHandler
         {
             if(roomManager.find(roomName))
             {
+                System.out.println("room: " + roomName);
                 response.setStatus(false);
                 response.setDescription("Room with that name already exists");
             }

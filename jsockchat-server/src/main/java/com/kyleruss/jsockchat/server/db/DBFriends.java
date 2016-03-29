@@ -92,13 +92,14 @@ public class DBFriends extends DBModel
         String query    =   
         "SELECT * FROM Friends "
         + "WHERE friend_b = ? "
-        + "AND confirmed = false";
+        + "AND confirmed = ?";
         
         List<RequestFriendMsgBean> pendingRequests  =   new ArrayList<>();
         try(Connection conn =   DBManager.getConnection())
         {
             PreparedStatement statement =   conn.prepareStatement(query);
             statement.setString(1, username);
+            statement.setBoolean(2, true);
             
             ResultSet rs    =   statement.executeQuery();
             while(rs.next())

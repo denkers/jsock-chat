@@ -6,7 +6,9 @@ public class JoinRoomMessageHandler implements ClientMessageHandler
 {
 
     @Override
-    public void clientAction(ResponseMessage response) {
+    public void clientAction(ResponseMessage response) 
+    {
+        System.out.println(response.getDescription());
     }
 
     @Override

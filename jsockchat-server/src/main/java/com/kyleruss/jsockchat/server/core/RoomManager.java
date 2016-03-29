@@ -40,6 +40,9 @@ public final class RoomManager extends AbstractManager<String, Room>
     
     public void sendMessageToRoom(String roomName, Message message, List<IUser> exclusions)
     {
+        if(!find(roomName))
+            return;
+        
         List<IUser> roomUsers   =   getUsersInRoom(roomName);
         
         for(IUser user : roomUsers)
@@ -71,17 +74,29 @@ public final class RoomManager extends AbstractManager<String, Room>
         return exclusions;
     }
     
-    public void leaveAllRooms(IUser user)
+    public void leaveRoom(IUser user, String roomName)
     {
-        List<String> currentRooms   =   user.getCurrentRooms();
-        for(String roomName : currentRooms)
+        if(find(roomName))
         {
-            Room room   =   data.get(roomName);
+            user.getCurrentRooms().remove(roomName);
+            Room room   =   get(roomName);
             room.leaveRoom(user);
             
             if(room.isEmpty() && !room.isFixed())
                 data.remove(roomName);
+            else
+            {
+                //create request & response to deliver to witnesses
+             //   sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
+            }
         }
+    }
+    
+    public void leaveAllRooms(IUser user)
+    {
+        List<String> currentRooms   =   user.getCurrentRooms();
+        for(String roomName : currentRooms)
+            leaveRoom(user, roomName);
     }
     
     public void setChannelNotice(String channelNotice)

@@ -6,6 +6,7 @@ import com.kyleruss.jsockchat.client.message.AcceptFriendMessageHandler;
 import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.client.message.BroadcastMessageHandler;
 import com.kyleruss.jsockchat.client.message.ClientMessageHandler;
+import com.kyleruss.jsockchat.client.message.CreateRoomMessageHandler;
 import com.kyleruss.jsockchat.client.message.DisconnectMessageHandler;
 import com.kyleruss.jsockchat.client.message.JoinRoomMessageHandler;
 import com.kyleruss.jsockchat.client.message.PrivateMessageHandler;
@@ -15,6 +16,7 @@ import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.BroadcastMsgBean;
+import com.kyleruss.jsockchat.commons.message.CreateRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
 import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
@@ -64,6 +66,9 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         
         else if(bean instanceof RequestFriendMsgBean)
             handler     =   new RequestFriendMessageHandler();
+        
+        else if(bean instanceof CreateRoomMsgBean)
+            handler     =   new CreateRoomMessageHandler();
         
         return handler;
     }

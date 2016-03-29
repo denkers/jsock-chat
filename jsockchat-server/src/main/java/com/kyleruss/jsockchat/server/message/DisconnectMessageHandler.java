@@ -26,8 +26,7 @@ public class DisconnectMessageHandler implements ServerMessageHandler
         if(!bean.isClientDisconnect())
         {
             String roomName   =   bean.getRoom();
-            user.getCurrentRooms().remove(roomName);
-            roomManager.get(roomName).leaveRoom(user);
+            roomManager.leaveRoom(user, roomName);
             roomManager.sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
         }
         
