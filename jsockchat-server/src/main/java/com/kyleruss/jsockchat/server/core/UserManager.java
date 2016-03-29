@@ -1,14 +1,18 @@
 
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.commons.message.Message;
+import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.updatebean.FriendsUpdateBean;
-import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.updatebean.UsersUpdateBean;
 import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
+import com.kyleruss.jsockchat.server.io.ServerMessageSender;
+import com.kyleruss.jsockchat.server.io.UserSocket;
+import java.io.IOException;
 import java.util.Map;
 
 public final class UserManager extends AbstractManager<String, IUser>
@@ -34,6 +38,23 @@ public final class UserManager extends AbstractManager<String, IUser>
         UsersUpdateBean bean    =   new UsersUpdateBean();
         bean.setData(data);
         return bean;
+    }
+    
+    public void clientExit(IUser client)
+    {
+        data.remove(client.getUsername());
+        SocketManager.getInstance().cleanUp(client.getUsername());
+    }
+    
+    public void sendMessageToUser(String username, Message message) throws IOException
+    {
+        UserSocket userSocket     =   SocketManager.getInstance().get(username);
+
+        if(userSocket != null)
+        {
+            MessageQueueItem messageItem    =   new MessageQueueItem(userSocket.getSocketOutputStream(), message);
+            ServerMessageSender.getInstance().addMessage(messageItem);
+        }
     }
     
     public AuthPackage prepareAuthPackage(User user)

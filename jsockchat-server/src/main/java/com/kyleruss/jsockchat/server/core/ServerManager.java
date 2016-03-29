@@ -6,7 +6,6 @@ import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.updatebean.UsersUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
-import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.io.MessageServer;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UpdateBroadcastServer;

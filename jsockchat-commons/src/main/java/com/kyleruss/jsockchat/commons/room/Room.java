@@ -10,15 +10,17 @@ public class Room implements IRoom
     private final String name;
     private final String password;
     private final String owner;
+    private final boolean isRooted;
     private boolean isPrivate;
     
-    public Room(String roomName, String roomOwner, boolean isPrivate, String roomPassword)
+    public Room(String roomName, String roomOwner, boolean isPrivate, String roomPassword, boolean isRooted)
     {
         userList            =   new ArrayList<>();
         this.isPrivate      =   isPrivate;
         this.owner          =   roomOwner;
         this.password       =   roomPassword;
         this.name           =   roomName;
+        this.isRooted       =   isRooted;
     }
     
     @Override
@@ -31,6 +33,18 @@ public class Room implements IRoom
     public String getRoomPassword() 
     {
         return password;
+    }
+    
+    @Override
+    public boolean isEmpty()
+    {
+        return userList.isEmpty();
+    }
+    
+    @Override
+    public boolean hasUser(IUser user)
+    {
+        return userList.contains(user);
     }
 
     @Override
@@ -46,10 +60,10 @@ public class Room implements IRoom
     }
 
     @Override
-    public boolean joinRoom(IUser username)
+    public boolean joinRoom(IUser user)
     {
-        if(userList.contains(username)) return false;
-        else return userList.add(username);
+        if(hasUser(user)) return false;
+        else return userList.add(user);
     }
 
     @Override
@@ -98,5 +112,11 @@ public class Room implements IRoom
     public boolean equals(Object other)
     {
         return other instanceof Room && ((Room) other).getRoomName().equals(name);
+    }
+
+    @Override
+    public boolean isRooted() 
+    {
+        return isRooted;
     }
 }

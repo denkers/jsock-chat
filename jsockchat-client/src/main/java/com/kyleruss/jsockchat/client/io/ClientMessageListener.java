@@ -3,10 +3,20 @@ package com.kyleruss.jsockchat.client.io;
 
 import com.kyleruss.jsockchat.client.core.UserManager;
 import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
+import com.kyleruss.jsockchat.client.message.BroadcastMessageHandler;
 import com.kyleruss.jsockchat.client.message.ClientMessageHandler;
+import com.kyleruss.jsockchat.client.message.DisconnectMessageHandler;
+import com.kyleruss.jsockchat.client.message.JoinRoomMessageHandler;
+import com.kyleruss.jsockchat.client.message.PrivateMessageHandler;
+import com.kyleruss.jsockchat.client.message.RegisterMessageHandler;
 import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
+import com.kyleruss.jsockchat.commons.message.BroadcastMsgBean;
+import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
+import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
+import com.kyleruss.jsockchat.commons.message.PrivateMsgBean;
+import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.User;
@@ -28,7 +38,22 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         ClientMessageHandler handler    =   null;   
         
         if(bean instanceof AuthMsgBean)
-            handler =   new AuthMessageHandler();
+            handler     =   new AuthMessageHandler();
+        
+        else if(bean instanceof RegisterMsgBean)
+            handler     =   new RegisterMessageHandler();
+        
+        else if(bean instanceof DisconnectMsgBean)
+            handler     =   new DisconnectMessageHandler();
+        
+        else if(bean instanceof JoinRoomMsgBean)
+            handler     =   new JoinRoomMessageHandler();
+        
+        else if(bean instanceof PrivateMsgBean)
+            handler     =   new PrivateMessageHandler();
+        
+        else if(bean instanceof BroadcastMsgBean)
+            handler     =   new BroadcastMessageHandler();
         
         return handler;
     }

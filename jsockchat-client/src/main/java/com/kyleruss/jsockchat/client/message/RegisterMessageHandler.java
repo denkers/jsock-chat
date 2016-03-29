@@ -6,7 +6,9 @@ public class RegisterMessageHandler implements ClientMessageHandler
 {
 
     @Override
-    public void clientAction(ResponseMessage response) {
+    public void clientAction(ResponseMessage response) 
+    {
+        System.out.println("REGISTER REPSONSE: " + response.getDescription());
     }
 
     @Override

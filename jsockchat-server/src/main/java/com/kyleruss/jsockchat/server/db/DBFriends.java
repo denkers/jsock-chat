@@ -4,8 +4,6 @@ package com.kyleruss.jsockchat.server.db;
 import com.kyleruss.jsockchat.server.core.DBManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.UserManager;

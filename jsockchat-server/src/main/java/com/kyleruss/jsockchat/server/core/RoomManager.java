@@ -1,9 +1,14 @@
 
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.commons.message.Message;
+import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.server.io.ServerMessageSender;
+import com.kyleruss.jsockchat.server.io.UserSocket;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +25,40 @@ public final class RoomManager extends AbstractManager<String, Room>
         
         if(room != null) return room.getUserList();
         else return new ArrayList<>();
+    }
+    
+    public void sendMessageToRoom(String roomName, Message message)
+    {
+        List<IUser> roomUsers   =   getUsersInRoom(roomName);
+        
+        for(IUser user : roomUsers)
+        {
+            try
+            {
+                String username                 =   user.getUsername();
+                UserSocket userSocket           =   SocketManager.getInstance().get(username);
+                MessageQueueItem messageItem    =   new MessageQueueItem(userSocket.getSocketOutputStream(), message);
+                ServerMessageSender.getInstance().addMessage(messageItem);
+            }
+            
+            catch(IOException e)
+            {
+                System.out.println("[RoomManager@sendMessageToRoom]: " + e.getMessage());
+            }
+        }
+    }
+    
+    public void leaveAllRooms(IUser user)
+    {
+        List<String> currentRooms   =   user.getCurrentRooms();
+        for(String roomName : currentRooms)
+        {
+            Room room   =   data.get(roomName);
+            room.leaveRoom(user);
+            
+            if(room.isEmpty() && !room.isRooted())
+                data.remove(roomName);
+        }
     }
     
     public void setChannelNotice(String channelNotice)

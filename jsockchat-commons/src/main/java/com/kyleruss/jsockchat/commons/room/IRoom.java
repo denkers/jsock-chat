@@ -9,6 +9,8 @@ public interface IRoom extends Serializable
 {
     public List<IUser> getUserList();
     
+    public boolean isEmpty();
+    
     public int getNumUsersInRoom();
     
     public String getOwner();
@@ -25,7 +27,11 @@ public interface IRoom extends Serializable
     
     public void setUserList(List<IUser> userList);
     
-    public void leaveRoom(IUser username);
+    public boolean isRooted();
     
-    public boolean joinRoom(IUser username);
+    public void leaveRoom(IUser user);
+    
+    public boolean joinRoom(IUser user);
+    
+    public boolean hasUser(IUser user);
 }

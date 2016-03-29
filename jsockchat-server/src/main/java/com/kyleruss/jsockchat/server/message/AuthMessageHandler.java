@@ -16,11 +16,11 @@ import java.net.Socket;
 
 public class AuthMessageHandler implements ServerMessageHandler
 {
-    private final Socket activeSocket;
+    private final String servingUser;
     
-    public AuthMessageHandler(Socket activeSocket)
+    public AuthMessageHandler(String servingUser)
     {
-        this.activeSocket   =   activeSocket;
+        this.servingUser   =   servingUser;
     }
     
     @Override
@@ -29,15 +29,15 @@ public class AuthMessageHandler implements ServerMessageHandler
         AuthMsgBean bean            =   (AuthMsgBean) request.getMessageBean();
         User authUser               =   DBUsers.getInstance().fetchVerifiedUser(bean.getUsername(), bean.getPassword());
         ResponseMessage response    =   new ResponseMessage(request);
-        String clientIP             =   activeSocket.getRemoteSocketAddress().toString();
+        
         SocketManager socketManager =   SocketManager.getInstance();
-        UserSocket userSocket       =   socketManager.get(clientIP);
+        UserSocket userSocket       =   socketManager.get(servingUser);
         
         
         if(authUser != null)
         {
             System.out.println("User is auth");
-            socketManager.remove(clientIP);
+            socketManager.remove(servingUser);
             socketManager.add(authUser.getUsername(), userSocket);
             UserManager userManager     =   UserManager.getInstance();
             userManager.add(authUser.getUsername(), authUser);

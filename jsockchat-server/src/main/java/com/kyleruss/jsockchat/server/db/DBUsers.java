@@ -77,7 +77,7 @@ public class DBUsers extends DBModel<User>
             PreparedStatement statement  =   conn.prepareStatement(update);
             statement.setString(1, username);
             statement.setString(2, password);
-            statement.setString(2, displayname);
+            statement.setString(3, displayname);
             
             int rowCount    =   statement.executeUpdate();
             return rowCount > 0;

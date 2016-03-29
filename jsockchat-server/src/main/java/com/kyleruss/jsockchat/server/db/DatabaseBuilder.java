@@ -44,6 +44,7 @@ public class DatabaseBuilder
                 + "id INTEGER PRIMARY KEY, "
                 + "friend_a VARCHAR(18) NOT NULL, "
                 + "friend_b VARCHAR(18) NOT NULL, "
+                + "confirmed BOOLEAN DEFAULT FALSE, "
                 + "befriend_date DATE DEFAULT CURRENT_TIMESTAMP, "
                 + "FOREIGN KEY(friend_a) REFERENCES User(username) ON DELETE CASCADE"
         + ");";

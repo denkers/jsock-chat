@@ -3,10 +3,20 @@ package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
+import com.kyleruss.jsockchat.commons.message.BroadcastMsgBean;
+import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
+import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
+import com.kyleruss.jsockchat.commons.message.PrivateMsgBean;
+import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.message.AuthMessageHandler;
+import com.kyleruss.jsockchat.server.message.BroadcastMessageHandler;
+import com.kyleruss.jsockchat.server.message.DisconnectMessageHandler;
+import com.kyleruss.jsockchat.server.message.JoinRoomMessageHandler;
+import com.kyleruss.jsockchat.server.message.PrivateMessageHandler;
+import com.kyleruss.jsockchat.server.message.RegisterMessageHandler;
 import com.kyleruss.jsockchat.server.message.ServerMessageHandler;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -46,10 +56,22 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         ServerMessageHandler handler    =   null;
             
         if(bean instanceof AuthMsgBean)
-        {
-            System.out.println("is auth bean");
-            handler     =   new AuthMessageHandler(socket);
-        }
+            handler     =   new AuthMessageHandler(servingUser);
+        
+        else if(bean instanceof RegisterMsgBean)
+            handler     =   new RegisterMessageHandler(servingUser);
+        
+        else if(bean instanceof DisconnectMsgBean)
+            handler     =   new DisconnectMessageHandler();
+        
+        else if(bean instanceof JoinRoomMsgBean)
+            handler     =   new JoinRoomMessageHandler();
+        
+        else if(bean instanceof PrivateMsgBean)
+            handler     =   new PrivateMessageHandler();
+        
+        else if(bean instanceof BroadcastMsgBean)
+            handler     =   new BroadcastMessageHandler();
         
         return handler;
     }
@@ -98,10 +120,7 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
             inputStream.close();
             
             if(servingUser != null)
-            {
-                SocketManager sockManager   =   SocketManager.getInstance();
-                sockManager.cleanUp(servingUser);
-            }
+                SocketManager.getInstance().cleanUp(servingUser);
             
             else socket.close();
         }
