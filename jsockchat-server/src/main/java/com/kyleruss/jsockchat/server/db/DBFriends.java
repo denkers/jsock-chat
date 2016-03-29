@@ -1,6 +1,8 @@
 
 package com.kyleruss.jsockchat.server.db;
 
+import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
+import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.server.core.DBManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +11,10 @@ import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DBFriends extends DBModel
@@ -80,6 +85,129 @@ public class DBFriends extends DBModel
         }
         
         return onlineFriends;
+    }
+    
+    public List<RequestFriendMsgBean> getPendingFriendRequests(String username)
+    {
+        String query    =   
+        "SELECT * FROM Friends "
+        + "WHERE friend_b = ? "
+        + "AND confirmed = false";
+        
+        List<RequestFriendMsgBean> pendingRequests  =   new ArrayList<>();
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement =   conn.prepareStatement(query);
+            statement.setString(1, username);
+            
+            ResultSet rs    =   statement.executeQuery();
+            while(rs.next())
+            {
+                int friendshipID                =   rs.getInt("id");
+                String friendA                  =   rs.getString("friend_a");
+                String friendB                  =   rs.getString("friend_b");
+                Date reqDate                    =   rs.getDate("befriend_date");
+                
+                RequestFriendMsgBean reqBean    =   new RequestFriendMsgBean(friendA, friendB, reqDate);
+                reqBean.setFriendshipID(friendshipID);
+                pendingRequests.add(reqBean);
+            }
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBFriends@getPendingFriendRequests]: " + e.getMessage());
+        }
+        
+        return pendingRequests;
+    }
+    
+    public boolean addFriendRequest(RequestFriendMsgBean request)
+    {
+        String query    =  "INSERT INTO Friends (friend_a, friend_b) VALUES (?, ?)";
+        
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement      =   conn.prepareStatement(query);
+            statement.setString(1, request.getFriendA());
+            statement.setString(2, request.getFriendB());
+            
+            return statement.executeUpdate() > 0;
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBFriends@addAFriendRequest]: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean respondToFriendRequest(AcceptFriendMsgBean requestBean)
+    {
+        boolean isAccepting =   requestBean.isAcceptRequest();
+        int friendshipID    =   requestBean.getFriendshipID();
+        String query;
+        
+        if(isAccepting)
+        {
+            query   =   
+            "UPDATE Friends "
+            + "SET confirmed = ? "
+            + "WHERE id = ?";
+        }
+        
+        else
+        {
+            query   =   
+            "DELETE FROM Friends WHERE id = ?";
+        }
+        
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement  =       conn.prepareStatement(query);
+            
+            if(isAccepting)
+            {
+                statement.setBoolean(1, true);
+                statement.setInt(2, friendshipID);
+            }
+            
+            else statement.setInt(1, friendshipID);
+            
+            return statement.executeUpdate() > 0;
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBFriends@respondToFriendRequest]: " + e.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean friendRequestExists(String friendA, String friendB)
+    {
+        String query    =   
+        "SELECT  * FROM Friends "
+        + "(WHERE friend_a = ? AND friend_b = ?) "
+        + "OR (friend_a = ? AND friend_b = ?)";
+        
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement  =   conn.prepareStatement(query);
+            statement.setString(1, friendA);
+            statement.setString(2, friendB);
+            statement.setString(3, friendB);
+            statement.setString(4, friendA);
+            
+            ResultSet rs    =   statement.executeQuery();
+            return rs.next();
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBFriends@friendRequestExists]: " + e.getMessage());
+            return false;
+        }
     }
     
     public static DBFriends getInstance()
