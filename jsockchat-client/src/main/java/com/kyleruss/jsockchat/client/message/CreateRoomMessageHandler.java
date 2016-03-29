@@ -14,5 +14,4 @@ public class CreateRoomMessageHandler implements ClientMessageHandler
     public void witnessAction(ResponseMessage response) 
     {
     }
-    
 }

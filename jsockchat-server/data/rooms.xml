@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<rooms>
+	<room>
+		<name>General discussion</name>
+		<password />
+	</room>
+
+	<room>
+		<name>Admin chat</name>
+		<password>adminsonly</password>
+	</room>
+
+	<room>
+		<name>Pleb chat</name>
+		<password />
+	</room>
+</rooms>

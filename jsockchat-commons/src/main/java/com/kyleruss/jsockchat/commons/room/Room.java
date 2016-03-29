@@ -9,16 +9,16 @@ public class Room implements IRoom
     private List<IUser> userList;
     private final String name;
     private final String password;
-    private final boolean isRooted;
+    private final boolean isFixed;
     private boolean isPrivate;
     
-    public Room(String roomName, boolean isPrivate, String roomPassword, boolean isRooted)
+    public Room(String roomName, boolean isPrivate, String roomPassword, boolean isFixed)
     {
         userList            =   new ArrayList<>();
         this.isPrivate      =   isPrivate;
         this.password       =   roomPassword;
         this.name           =   roomName;
-        this.isRooted       =   isRooted;
+        this.isFixed        =   isFixed;
     }
     
     @Override
@@ -91,7 +91,7 @@ public class Room implements IRoom
     @Override
     public boolean isPassProtected() 
     {
-        return password != null;
+        return password != null && !password.equals("");
     }
 
     @Override
@@ -107,8 +107,8 @@ public class Room implements IRoom
     }
 
     @Override
-    public boolean isRooted() 
+    public boolean isFixed() 
     {
-        return isRooted;
+        return isFixed;
     }
 }

@@ -25,7 +25,7 @@ public interface IRoom extends Serializable
     
     public void setUserList(List<IUser> userList);
     
-    public boolean isRooted();
+    public boolean isFixed();
     
     public void leaveRoom(IUser user);
     

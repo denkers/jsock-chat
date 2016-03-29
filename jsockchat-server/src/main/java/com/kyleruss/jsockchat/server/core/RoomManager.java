@@ -8,16 +8,27 @@ import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public final class RoomManager extends AbstractManager<String, Room>
 {
     private static RoomManager instance;
     private String channelNotice;
     
-    private RoomManager() {}
+    private RoomManager() 
+    {
+        initFixedRooms();
+    }
     
     public List<IUser> getUsersInRoom(String roomName)
     {
@@ -56,7 +67,7 @@ public final class RoomManager extends AbstractManager<String, Room>
             Room room   =   data.get(roomName);
             room.leaveRoom(user);
             
-            if(room.isEmpty() && !room.isRooted())
+            if(room.isEmpty() && !room.isFixed())
                 data.remove(roomName);
         }
     }
@@ -73,6 +84,31 @@ public final class RoomManager extends AbstractManager<String, Room>
         bean.setData(data);
         
         return bean;
+    }
+    
+    private void initFixedRooms()
+    {
+        try
+        {
+            DocumentBuilderFactory builderFactory   =   DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder                 =   builderFactory.newDocumentBuilder();
+            Document doc                            =   builder.parse(new File(ServerConfig.FIXED_ROOMS_PATH));
+            NodeList roomTags                       =   doc.getElementsByTagName("room");
+            
+            for(int i = 0; i < roomTags.getLength(); i++)
+            {
+                Element roomTag     =   (Element) roomTags.item(i);
+                String roomName     =   roomTag.getElementsByTagName("name").item(0).getTextContent();
+                String password     =   roomTag.getElementsByTagName("password").item(0).getTextContent();
+                Room room           =   new Room(roomName, false, password, true);
+                add(roomName, room);
+            }
+        }
+        
+        catch(IOException | ParserConfigurationException | SAXException e)
+        {
+            System.out.println("[RoomManager@initFixedRooms]: " + e.getMessage());
+        }
     }
     
     public static RoomManager getInstance()
