@@ -27,7 +27,7 @@ public final class RoomManager extends AbstractManager<String, Room>
         this.channelNotice  =   channelNotice;
     }
     
-    public RoomsUpdateBean createRoomListBean()
+    public RoomsUpdateBean createRoomsBean()
     {
         RoomsUpdateBean bean    =   new RoomsUpdateBean();
         bean.setChannelNotice(channelNotice);

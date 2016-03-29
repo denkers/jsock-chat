@@ -5,43 +5,56 @@ import java.util.Date;
 
 public class UpdateBeanDump implements Serializable
 {
-    private FriendsUpdateBean friendList;
+    private FriendsUpdateBean friendsBean;
     
-    private RoomsUpdateBean roomList;
+    private RoomsUpdateBean roomsBean;
+    
+    private UsersUpdateBean usersBean;
     
     private Date updateTime;
     
     
     public UpdateBeanDump()
     {
-        this(new FriendsUpdateBean(), new RoomsUpdateBean());
+        this(new FriendsUpdateBean(), new RoomsUpdateBean(), new UsersUpdateBean());
     }
     
-    public UpdateBeanDump(FriendsUpdateBean friendList, RoomsUpdateBean roomList)
+    public UpdateBeanDump(FriendsUpdateBean friendsBean, RoomsUpdateBean roomsBean, UsersUpdateBean usersBean)
     {
         updateTime          =   new Date();
-        this.friendList     =   friendList;
-        this.roomList       =   roomList;
+        this.friendsBean    =   friendsBean;
+        this.roomsBean      =   roomsBean;
+        this.usersBean      =   usersBean;
     }
     
-    public FriendsUpdateBean getFriendList() 
+    public FriendsUpdateBean getFriendsBean() 
     {
-        return friendList;
+        return friendsBean;
     }
 
-    public void setFriendList(FriendsUpdateBean friendList)
+    public void setFriendsBean(FriendsUpdateBean friendsBean)
     {
-        this.friendList = friendList;
+        this.friendsBean = friendsBean;
     }
 
-    public RoomsUpdateBean getRoomList()
+    public RoomsUpdateBean getRoomsBean()
     {
-        return roomList;
+        return roomsBean;
     }
 
-    public void setRoomList(RoomsUpdateBean roomList)
+    public void setRoomsBean(RoomsUpdateBean roomsBean)
     {
-        this.roomList = roomList;
+        this.roomsBean = roomsBean;
+    }
+    
+    public UsersUpdateBean getUsersBean()
+    {
+        return usersBean;
+    }
+    
+    public void setUsersBean(UsersUpdateBean usersBean)
+    {
+        this.usersBean  =   usersBean;
     }
     
     public Date getUpdateTime()

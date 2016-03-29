@@ -2,8 +2,10 @@
 package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
+import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
+import com.kyleruss.jsockchat.server.core.ServerManager;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +52,7 @@ public class UpdateBroadcastServer extends SyncedServer
         return socket;
     }
     
-    protected synchronized void sendUpdates(UpdateBeanDump updates, User user) throws IOException
+    protected synchronized void sendUpdates(UpdateBeanDump updates, IUser user) throws IOException
     {
         UserSocket sockContainer    =       SocketManager.getInstance().get(user.getUsername());
         Socket userSocket           =       sockContainer.getSocket();
@@ -74,12 +76,12 @@ public class UpdateBroadcastServer extends SyncedServer
     
     protected synchronized void updateUsers()
     {
-        UserManager userManager =   UserManager.getInstance();
-        Collection<User> users  =   userManager.getDataValues();
+        UserManager userManager     =   UserManager.getInstance();
+        Collection<IUser> users     =   userManager.getDataValues();
         
-        for(User user : users)
+        for(IUser user : users)
         {
-            UpdateBeanDump updates   =   userManager.prepareUpdates(user);
+            UpdateBeanDump updates   =   ServerManager.getInstance().prepareUpdates(user);
             
             try { sendUpdates(updates, user); } 
             catch(IOException e)

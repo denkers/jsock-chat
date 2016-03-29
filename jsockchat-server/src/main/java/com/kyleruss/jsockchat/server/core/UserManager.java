@@ -4,19 +4,20 @@ package com.kyleruss.jsockchat.server.core;
 import com.kyleruss.jsockchat.commons.updatebean.FriendsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
+import com.kyleruss.jsockchat.commons.updatebean.UsersUpdateBean;
 import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
 import java.util.Map;
 
-public final class UserManager extends AbstractManager<String, User>
+public final class UserManager extends AbstractManager<String, IUser>
 {
     private static UserManager instance;
     
     private UserManager() {}
     
-    public FriendsUpdateBean createFriendListBean(String username)
+    public FriendsUpdateBean createFriendsBean(String username)
     {
         FriendsUpdateBean bean              =   new FriendsUpdateBean();
         DBFriends friendModel               =   DBFriends.getInstance();
@@ -28,18 +29,16 @@ public final class UserManager extends AbstractManager<String, User>
         return bean;
     }
     
-    public UpdateBeanDump prepareUpdates(User user)
+    public UsersUpdateBean createUsersBean()
     {
-        RoomsUpdateBean roomsBean       =   RoomManager.getInstance().createRoomListBean();
-        FriendsUpdateBean freindsBean   =   UserManager.getInstance().createFriendListBean(user.getUsername());
-        UpdateBeanDump beanDump         =   new UpdateBeanDump(freindsBean, roomsBean);
-        
-        return beanDump;
+        UsersUpdateBean bean    =   new UsersUpdateBean();
+        bean.setData(data);
+        return bean;
     }
     
     public AuthPackage prepareAuthPackage(User user)
     {
-        UpdateBeanDump beanDump =   prepareUpdates(user);
+        UpdateBeanDump beanDump     =   ServerManager.getInstance().prepareUpdates(user);
         return new AuthPackage(user, beanDump);
     }
     
