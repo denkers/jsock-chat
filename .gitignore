@@ -8,3 +8,4 @@ nbactions.xml
 /TestLib/nbproject/private/
 /TestLib/build/
 jsockchat-server/data/db/*.db
+jsockchat-server/data/rooms.xml
