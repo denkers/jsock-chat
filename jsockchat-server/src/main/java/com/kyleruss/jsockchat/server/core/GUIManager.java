@@ -1,5 +1,6 @@
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.server.gui.ServerMenuBar;
 import com.kyleruss.jsockchat.server.gui.ServerPanel;
 import javax.swing.JFrame;
 
@@ -12,6 +13,7 @@ public class GUIManager
     private GUIManager()
     {
         initFrame();
+        attachMenubar();
     }
     
     private void initFrame()
@@ -28,6 +30,11 @@ public class GUIManager
     public void display()
     {
         frame.setVisible(true);
+    }
+    
+    private void attachMenubar()
+    {
+        frame.setJMenuBar(ServerMenuBar.getInstance());
     }
     
     public JFrame getFrame()
