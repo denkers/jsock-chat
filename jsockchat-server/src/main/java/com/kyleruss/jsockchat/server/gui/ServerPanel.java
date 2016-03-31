@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 public class ServerPanel extends JPanel
 {
     private final LoggingList loggingList;
+    private final ServerStatusPanel statusPanel;
     
     public ServerPanel()
     {
@@ -15,6 +16,9 @@ public class ServerPanel extends JPanel
         setLayout(new BorderLayout());
         
         loggingList =   LoggingList.getInstance();
-        add(loggingList);
+        statusPanel =   ServerStatusPanel.getInstance();
+        
+        add(statusPanel, BorderLayout.NORTH);
+        add(loggingList, BorderLayout.CENTER);
     }
 }

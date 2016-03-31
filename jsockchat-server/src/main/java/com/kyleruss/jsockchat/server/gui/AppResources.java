@@ -12,6 +12,7 @@ public class AppResources
     private static AppResources instance;
     private BufferedImage addImage, addFriendImage, authSuccessMessage, dcImage;
     private BufferedImage broadcastImage, pmImage, updateImage, serverOkImage, serverBadImage;
+    private BufferedImage msgServerImage, updateServerImage;
 
     private AppResources()
     {
@@ -31,10 +32,13 @@ public class AppResources
             updateImage         =   getImageResource("update.png");
             serverOkImage       =   getImageResource("server_good.png");
             serverBadImage      =   getImageResource("server_bad.png");
+            msgServerImage      =   getImageResource("msg_server.png");
+            updateServerImage   =   getImageResource("update_server.png");
         }
         
         catch(IOException e)
         {
+            e.printStackTrace();
             JOptionPane.showMessageDialog(null, "[Error] Failed to load resources");
         }
     }
@@ -87,6 +91,16 @@ public class AppResources
     public BufferedImage getServerBadImage()
     {
         return serverBadImage;
+    }
+    
+    public BufferedImage getMsgServerImage() 
+    {
+        return msgServerImage;
+    }
+
+    public BufferedImage getUpdateServerImage()
+    {
+        return updateServerImage;
     }
     
     public static AppResources getInstance()

@@ -65,11 +65,6 @@ public class GUIManager
         return panel;
     }
     
-    private void initResources()
-    {
-        
-    }
-    
     public static GUIManager getInstance()
     {
         if(instance == null) instance = new GUIManager();

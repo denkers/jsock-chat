@@ -32,6 +32,7 @@ public class ServerMenuBar extends JMenuBar
         addItem("updateSvStopItem", new JMenuItem("Stop"), updateServerMenu);
         addItem("authorItem", new JMenuItem("Author"), aboutMenu);
         addItem("logClearItem", new JMenuItem("Clear"), logsMenu);
+        addItem("reloadRoomsItem", new JMenuItem("Reload rooms.xml"), serverMenu);
         
         serverMenu.add(msgServerMenu);
         serverMenu.add(updateServerMenu);
