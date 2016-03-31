@@ -3,6 +3,9 @@ package com.kyleruss.jsockchat.server.core;
 import com.kyleruss.jsockchat.server.gui.ServerMenuBar;
 import com.kyleruss.jsockchat.server.gui.ServerPanel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class GUIManager 
 {
@@ -12,6 +15,7 @@ public class GUIManager
     
     private GUIManager()
     {
+        initLookAndFeel();
         initFrame();
         attachMenubar();
     }
@@ -25,6 +29,20 @@ public class GUIManager
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+    }
+    
+    private void initLookAndFeel()
+    {
+        try
+        {
+            UIManager.setLookAndFeel(ServerConfig.LOOKNFEEL_PACKAGE);
+        } 
+        
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e)
+        {
+            JOptionPane.showMessageDialog(null, "[Error] Failed to initialize application look and feel ");
+        }
     }
 
     public void display()
@@ -51,5 +69,11 @@ public class GUIManager
     {
         if(instance == null) instance = new GUIManager();
         return instance;
+    }
+    
+    public static void main(String[] args)
+    {
+        GUIManager gui  =   getInstance();
+        gui.display();
     }
 }

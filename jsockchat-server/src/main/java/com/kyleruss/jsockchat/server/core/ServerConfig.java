@@ -18,9 +18,10 @@ public class ServerConfig
     //---------------------------------------------------------
     //  GUI CONSTS
     //---------------------------------------------------------
-    public static final String WINDOW_TITLE =   "JSockChat Server";
-    public static final int WINDOW_WIDTH    =   500;
-    public static final int WINDOW_HEIGHT   =   500;
+    public static final String WINDOW_TITLE         =   "JSockChat Server";
+    public static final int WINDOW_WIDTH            =   500;
+    public static final int WINDOW_HEIGHT           =   500;
+    public static final String LOOKNFEEL_PACKAGE    =   "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel";
     //---------------------------------------------------------
     
     

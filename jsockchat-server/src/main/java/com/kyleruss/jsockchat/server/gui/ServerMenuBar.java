@@ -1,6 +1,7 @@
 package com.kyleruss.jsockchat.server.gui;
 
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,7 +14,7 @@ public class ServerMenuBar extends JMenuBar
     private final JMenu serverMenu;
     private final JMenu msgServerMenu;
     private final JMenu updateServerMenu;
-    private Map<String, JMenuItem> items;
+    private final Map<String, JMenuItem> items;
     private static ServerMenuBar instance;
     
     public ServerMenuBar()
@@ -23,6 +24,7 @@ public class ServerMenuBar extends JMenuBar
         serverMenu          =   new JMenu("Server");
         msgServerMenu       =   new JMenu("Message server");
         updateServerMenu    =   new JMenu("Update broadcast server");
+        items               =   new HashMap<>();
         
         addItem("msgSvStopItem", new JMenuItem("Stop"), msgServerMenu);
         addItem("msgSvStartItem", new JMenuItem("Start"), msgServerMenu);
@@ -30,11 +32,17 @@ public class ServerMenuBar extends JMenuBar
         addItem("updateSvStopItem", new JMenuItem("Stop"), updateServerMenu);
         addItem("authorItem", new JMenuItem("Author"), aboutMenu);
         addItem("logClearItem", new JMenuItem("Clear"), logsMenu);
+        
+        serverMenu.add(msgServerMenu);
+        serverMenu.add(updateServerMenu);
+        add(serverMenu);
+        add(logsMenu);
+        add(aboutMenu);
     }
     
     public void addItem(String name, JMenuItem item, JMenu menu)
     {
-        if(items.containsKey(name))
+        if(!items.containsKey(name))
         {
             items.put(name, item);
             menu.add(item);
