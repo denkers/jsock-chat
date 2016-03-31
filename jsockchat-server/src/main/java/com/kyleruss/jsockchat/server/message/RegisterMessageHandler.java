@@ -10,7 +10,6 @@ import com.kyleruss.jsockchat.server.db.DBUsers;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.IOException;
-import java.net.Socket;
 
 public class RegisterMessageHandler implements ServerMessageHandler
 {

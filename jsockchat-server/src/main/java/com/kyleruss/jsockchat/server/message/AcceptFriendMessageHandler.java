@@ -5,7 +5,6 @@ import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import com.kyleruss.jsockchat.server.db.DBFriends;
-import com.kyleruss.jsockchat.server.message.ServerMessageHandler;
 import java.io.IOException;
 
 public class AcceptFriendMessageHandler implements ServerMessageHandler

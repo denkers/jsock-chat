@@ -1,6 +1,7 @@
 
 package com.kyleruss.jsockchat.client.io;
 
+import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.ClientManager;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import java.io.ByteArrayInputStream;
@@ -27,7 +28,7 @@ public class ListUpdateListener extends Thread
         {
             while(socket != null && !socket.isClosed())
             {
-                byte[] buffer               =   new byte[4096];
+                byte[] buffer               =   new byte[ClientConfig.UPDATE_BUFFER_SIZE];
                 DatagramPacket packet       =   new DatagramPacket(buffer, buffer.length);
                 socket.receive(packet);
 

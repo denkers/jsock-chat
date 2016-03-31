@@ -1,6 +1,7 @@
 
 package com.kyleruss.jsockchat.client.io;
 
+import com.kyleruss.jsockchat.client.core.SocketManager;
 import com.kyleruss.jsockchat.client.core.UserManager;
 import com.kyleruss.jsockchat.client.message.AcceptFriendMessageHandler;
 import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
@@ -97,7 +98,7 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         try
         {
             inputStream.close();
-            socket.close();
+            SocketManager.getInstance().cleanUp();
         }
         
         catch(IOException e)

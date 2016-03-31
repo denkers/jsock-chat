@@ -28,8 +28,7 @@ public abstract class MessageListener<T extends Message> extends Thread
     @Override
     public void run()
     {
-        if(socket == null) 
-            return;
+        if(socket == null) return;
             
         try(ObjectInputStream inputStream   =   new ObjectInputStream(socket.getInputStream()))
         {

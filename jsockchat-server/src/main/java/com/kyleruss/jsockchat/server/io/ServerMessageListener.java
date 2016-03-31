@@ -121,7 +121,6 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         
         catch(IOException | ClassNotFoundException e)
         {
-            e.printStackTrace();
             System.out.println("[ServerMessageListener@getMessage]: " + e.getMessage());
             return null;
         }
