@@ -1,9 +1,12 @@
 package com.kyleruss.jsockchat.server.gui;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
@@ -15,6 +18,7 @@ public class LoggingList extends JList
     
     private LoggingList()
     {
+        setBackground(Color.BLACK);
         model   =   new DefaultListModel();
         setModel(model);
         setSelectionModel(new NonSelectionModel());
@@ -40,7 +44,9 @@ public class LoggingList extends JList
         {
             JLabel label        =   (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             LogMessage message  =   (LogMessage) value;   
-            label.setIcon(message.getMessageIcon());
+            label.setIcon(new ImageIcon(message.getMessageImage()));
+            label.setForeground(Color.WHITE);
+            label.setFont(new Font("Arial", Font.BOLD, 12));
             
             return label;
         }

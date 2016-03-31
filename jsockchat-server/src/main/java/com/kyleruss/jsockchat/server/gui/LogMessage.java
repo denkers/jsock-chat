@@ -1,21 +1,21 @@
 package com.kyleruss.jsockchat.server.gui;
 
-import javax.swing.Icon;
+import java.awt.image.BufferedImage;
 
 public class LogMessage
 {
-    private final Icon messageIcon;
+    private final BufferedImage messageImage;
     private final String message;
     
-    public LogMessage(String message, Icon messageIcon)
+    public LogMessage(String message, BufferedImage messageImage)
     {
         this.message        =   message;
-        this.messageIcon    =   messageIcon;
+        this.messageImage   =   messageImage;
     }
     
-    public Icon getMessageIcon()
+    public BufferedImage getMessageImage()
     {
-        return messageIcon;
+        return messageImage;
     }
     
     public String getMessage()
