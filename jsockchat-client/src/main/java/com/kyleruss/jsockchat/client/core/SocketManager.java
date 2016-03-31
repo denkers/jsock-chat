@@ -42,6 +42,26 @@ public class SocketManager
         return tcpOutputStream;
     }
     
+    public void cleanUp()
+    {
+        try
+        {
+            if(tcpOutputStream != null)
+            {
+                tcpOutputStream.flush();
+                tcpOutputStream.close();
+            }
+
+            if(tcpSocket != null) tcpSocket.close();
+            if(udpSocket != null) udpSocket.close();
+        }
+        
+        catch(IOException e)
+        {
+            System.out.println("[SocketManager@cleanUp]: " + e.getMessage());
+        }
+    }
+    
     public Socket getTcpSocket()
     {
         return tcpSocket;

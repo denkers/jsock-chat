@@ -68,6 +68,7 @@ public class UpdateBroadcastServer extends SyncedServer
                 oos.writeObject(updates);
 
                 byte[] bData                =   baos.toByteArray();
+                System.out.println("update size: " + bData.length);
                 DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
                 socket.send(packet);
             }
