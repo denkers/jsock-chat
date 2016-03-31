@@ -1,5 +1,6 @@
 package com.kyleruss.jsockchat.server.gui;
 
+import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -13,59 +14,90 @@ import net.miginfocom.swing.MigLayout;
 public class ServerStatusPanel extends JPanel
 {
     private static ServerStatusPanel instance;
-    private final JPanel msgServerPanel, updateServerPanel;
-    private final JLabel msgServerLabel, updateServerLabel;
+    private final JPanel msgServerPanel, msgSendServerPanel, updateServerPanel;
+    private final JLabel msgServerLabel, updateServerLabel, msgSendServerLabel;
     
     private ServerStatusPanel()
     {
-        setLayout(new GridLayout(1, 2));
+        setLayout(new GridLayout(1, 3));
         setPreferredSize(new Dimension(200, 65));
         
         msgServerPanel      =   new JPanel(new MigLayout("fillx"));
         updateServerPanel   =   new JPanel(new MigLayout("fillx"));
+        msgSendServerPanel  =   new JPanel(new MigLayout("fillx"));
         msgServerLabel      =   new JLabel();
         updateServerLabel   =   new JLabel();
+        msgSendServerLabel  =   new JLabel();
         
-        JLabel msgServerTitleLabel      =   new JLabel("MESSAGE SERVER");
+        JLabel msgServerTitleLabel      =   new JLabel("MESSAGE LISTEN SERVER");
         JLabel updateServerTitleLabel   =   new JLabel("UPDATE SERVER");
+        JLabel msgSendServerTitleLabel  =   new JLabel("MESSAGE SEND SERVER");
         Font titleFont                  =   new Font("SansSerif", Font.BOLD, 14);
         Font statusFont                 =   new Font("SansSerif", Font.PLAIN, 12);
         msgServerTitleLabel.setFont(titleFont);
         updateServerTitleLabel.setFont(titleFont);
+        msgSendServerTitleLabel.setFont(titleFont);
         msgServerLabel.setFont(statusFont);
         updateServerLabel.setFont(statusFont);
+        msgSendServerLabel.setFont(statusFont);
         updateServerLabel.setForeground(Color.WHITE);
         msgServerLabel.setForeground(Color.WHITE);
+        msgSendServerLabel.setForeground(Color.WHITE);
         msgServerTitleLabel.setForeground(Color.WHITE);
         updateServerTitleLabel.setForeground(Color.WHITE);
+        msgSendServerTitleLabel.setForeground(Color.WHITE);
         msgServerTitleLabel.setIcon(new ImageIcon(AppResources.getInstance().getMsgServerImage()));
         updateServerTitleLabel.setIcon(new ImageIcon(AppResources.getInstance().getUpdateServerImage()));
+        msgSendServerTitleLabel.setIcon(new ImageIcon(AppResources.getInstance().getMsgSendServerImage()));
         
         msgServerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.LIGHT_GRAY));
+        msgSendServerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.LIGHT_GRAY));
         updateServerPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         
         msgServerPanel.add(msgServerTitleLabel, "al center, wrap");
         msgServerPanel.add(msgServerLabel, "al center");
+        msgSendServerPanel.add(msgSendServerTitleLabel, "al center, wrap");
+        msgSendServerPanel.add(msgSendServerLabel, "al center");
         updateServerPanel.add(updateServerTitleLabel, "al center, wrap");
         updateServerPanel.add(updateServerLabel, "al center");
         
         add(msgServerPanel);
+        add(msgSendServerPanel);
         add(updateServerPanel);
         
-        setMessageServerStatus(false);
-        setUpdateServerStatus(false);
+        setServerStatus(true, ServerConfig.MESSAGE_LISTEN_SERVER_CODE);
+        setServerStatus(true, ServerConfig.MESSAGE_SEND_SERVER_CODE);
+        setServerStatus(true, ServerConfig.UPDATE_BROADCAST_SERVER_CODE);
     }
     
-    public void setMessageServerStatus(boolean status)
-    {
-        msgServerPanel.setBackground(status? Color.GREEN : Color.RED);
-        msgServerLabel.setText(status? "ONLINE" : "OFFLINE");
-    }
     
-    public void setUpdateServerStatus(boolean status)
+    public void setServerStatus(boolean status, int serverCode)
     {
-        updateServerPanel.setBackground(status? Color.GREEN : Color.RED);
-        updateServerLabel.setText(status? "ONLINE" : "OFFLINE");
+        JPanel serverStatusPanel;
+        JLabel serverStatusLabel;
+        
+        switch(serverCode)
+        {
+            case ServerConfig.MESSAGE_LISTEN_SERVER_CODE:
+                serverStatusPanel   =   msgServerPanel;
+                serverStatusLabel   =   msgServerLabel;
+                break;
+                
+            case ServerConfig.MESSAGE_SEND_SERVER_CODE:
+                serverStatusPanel   =   msgSendServerPanel;
+                serverStatusLabel   =   msgSendServerLabel;
+                break;
+                
+            case ServerConfig.UPDATE_BROADCAST_SERVER_CODE:
+                serverStatusPanel       =   updateServerPanel;
+                serverStatusLabel       =   updateServerLabel;
+                break;
+                
+            default: return;
+        }
+        
+        serverStatusPanel.setBackground(status? new Color(52, 201, 57) : new Color(212, 42, 42));
+        serverStatusLabel.setText(status? "ONLINE" : "OFFLINE");
     }
     
     public static ServerStatusPanel getInstance()

@@ -26,6 +26,9 @@ public class ServerMenuBar extends JMenuBar
         updateServerMenu    =   new JMenu("Update broadcast server");
         items               =   new HashMap<>();
         
+        serverMenu.add(msgServerMenu);
+        serverMenu.add(updateServerMenu);
+        
         addItem("msgSvStopItem", new JMenuItem("Stop"), msgServerMenu);
         addItem("msgSvStartItem", new JMenuItem("Start"), msgServerMenu);
         addItem("updateSvStartItem", new JMenuItem("Start"), updateServerMenu);
@@ -34,8 +37,6 @@ public class ServerMenuBar extends JMenuBar
         addItem("logClearItem", new JMenuItem("Clear"), logsMenu);
         addItem("reloadRoomsItem", new JMenuItem("Reload rooms.xml"), serverMenu);
         
-        serverMenu.add(msgServerMenu);
-        serverMenu.add(updateServerMenu);
         add(serverMenu);
         add(logsMenu);
         add(aboutMenu);

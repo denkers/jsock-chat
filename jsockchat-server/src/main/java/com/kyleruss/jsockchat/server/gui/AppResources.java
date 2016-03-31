@@ -12,7 +12,7 @@ public class AppResources
     private static AppResources instance;
     private BufferedImage addImage, addFriendImage, authSuccessMessage, dcImage;
     private BufferedImage broadcastImage, pmImage, updateImage, serverOkImage, serverBadImage;
-    private BufferedImage msgServerImage, updateServerImage;
+    private BufferedImage msgServerImage, updateServerImage, msgSendServerImage;
 
     private AppResources()
     {
@@ -34,6 +34,7 @@ public class AppResources
             serverBadImage      =   getImageResource("server_bad.png");
             msgServerImage      =   getImageResource("msg_server.png");
             updateServerImage   =   getImageResource("update_server.png");
+            msgSendServerImage  =   getImageResource("message_send_server.png");
         }
         
         catch(IOException e)
@@ -101,6 +102,11 @@ public class AppResources
     public BufferedImage getUpdateServerImage()
     {
         return updateServerImage;
+    }
+    
+    public BufferedImage getMsgSendServerImage()
+    {
+        return msgSendServerImage;
     }
     
     public static AppResources getInstance()
