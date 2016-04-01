@@ -30,14 +30,12 @@ public class RoomTree extends JTree
     
     public void initRooms(List<Room> rooms)
     {
-        SwingUtilities.invokeLater(()->
-        {
-            rootNode.removeAllChildren();
-            for(Room room : rooms)
-                addRoom(room);
+        rootNode.removeAllChildren();
+        for(Room room : rooms)
+            addRoom(room);
 
-            expandRooms();
-        });
+        treeModel.reload(rootNode);
+        expandRooms();
     }
     
     public void expandRooms()
@@ -56,15 +54,12 @@ public class RoomTree extends JTree
         DefaultMutableTreeNode roomNode =   new DefaultMutableTreeNode(room);
         List<IUser> roomUsers           =   room.getUserList();
         for(IUser user : roomUsers)
+        {
+            System.out.println("room user: " + user);
             roomNode.add(new DefaultMutableTreeNode(user));
+        }
         
         rootNode.add(roomNode);
-    }
-    
-    private void sortRooms(List<Room> rooms)
-    {
-        if(rooms != null && rooms.size() > 1)
-            rooms.sort((Room a, Room b) -> a.getRoomName().compareToIgnoreCase(b.getRoomName()));
     }
     
     public void setRootNode(DefaultMutableTreeNode rootNode) 

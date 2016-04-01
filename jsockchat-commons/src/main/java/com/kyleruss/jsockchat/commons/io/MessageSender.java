@@ -3,6 +3,7 @@ package com.kyleruss.jsockchat.commons.io;
 
 import com.kyleruss.jsockchat.commons.message.Message;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
+import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.LinkedList;
@@ -18,6 +19,8 @@ public abstract class MessageSender extends Thread
     }
     
     protected abstract boolean isStopped();
+    
+    protected abstract void cleanUp(String source);
     
     protected synchronized void getLock()
     {
@@ -45,6 +48,10 @@ public abstract class MessageSender extends Thread
         catch(IOException e)
         {
             System.out.println("[MessageSender@sendMessage]: " + e.getMessage());
+            
+            ResponseMessage response    =   (ResponseMessage) message;
+            String source               =   response.getRequestMessage().getUserSource();
+            cleanUp(source);
         }
     }
     

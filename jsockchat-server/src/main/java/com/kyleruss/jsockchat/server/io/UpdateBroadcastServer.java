@@ -1,21 +1,25 @@
 
 package com.kyleruss.jsockchat.server.io;
 
+import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.core.ServerManager;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.ServerPanel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UpdateBroadcastServer extends SyncedServer
 {
@@ -87,6 +91,14 @@ public class UpdateBroadcastServer extends SyncedServer
             }
         }
     }
+    
+    protected synchronized void updateServer()
+    {
+        List<IUser> userList    =   new ArrayList<>(UserManager.getInstance().getDataValues());
+        List<Room> roomList     =   new ArrayList<>(RoomManager.getInstance().getDataValues());
+        ServerPanel.getInstance().getUserList().initUsers(userList);
+        ServerPanel.getInstance().getRoomTree().initRooms(roomList);
+    }
 
     @Override
     protected synchronized void runServerOperations()
@@ -94,6 +106,7 @@ public class UpdateBroadcastServer extends SyncedServer
         try
         {
             wait(ServerConfig.BROADCAST_DELAY);
+            updateServer();
             updateUsers();
         }
         

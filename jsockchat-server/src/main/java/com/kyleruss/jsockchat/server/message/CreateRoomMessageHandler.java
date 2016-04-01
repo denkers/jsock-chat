@@ -42,6 +42,7 @@ public class CreateRoomMessageHandler implements ServerMessageHandler
                 
                 response.setStatus(true);
                 response.setDescription("Room has been created");
+                System.out.println(roomManager.getDataValues().size());
             }
             
             UserManager.getInstance().sendMessageToUser(source, response);

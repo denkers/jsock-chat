@@ -97,7 +97,7 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
     {
         try
         {
-            inputStream.close();
+            if(inputStream != null) inputStream.close();
             SocketManager.getInstance().cleanUp();
         }
         

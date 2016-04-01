@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 
 public class UserList extends JList
 {
@@ -26,10 +25,7 @@ public class UserList extends JList
     
     public void initUsers(List<IUser> users)
     {
-        SwingUtilities.invokeLater(()->
-        {
-            setListData(users.toArray());
-        });
+        setListData(users.toArray());
     }
     
     protected class UserCellRenderer extends DefaultListCellRenderer

@@ -15,6 +15,7 @@ import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.server.core.SocketManager;
+import com.kyleruss.jsockchat.server.core.UserManager;
 import com.kyleruss.jsockchat.server.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.server.message.BroadcastMessageHandler;
 import com.kyleruss.jsockchat.server.message.CreateRoomMessageHandler;
@@ -114,14 +115,12 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     {
         try
         {
-            System.out.println("[ServerMessageListener] GetMessage");
             RequestMessage request   =   (RequestMessage) inputStream.readObject();
             return request;
         }
         
         catch(IOException | ClassNotFoundException e)
         {
-            System.out.println("[ServerMessageListener@getMessage]: " + e.getMessage());
             return null;
         }
     }
@@ -131,9 +130,12 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     {
         try
         {
-            inputStream.close();
+            if(inputStream != null) inputStream.close();
             
-            if(servingUser != null)
+            if(UserManager.getInstance().find(servingUser))
+                UserManager.getInstance().clientExit(UserManager.getInstance().get(servingUser));
+            
+            else if(SocketManager.getInstance().find(servingUser))
                 SocketManager.getInstance().cleanUp(servingUser);
             
             else socket.close();

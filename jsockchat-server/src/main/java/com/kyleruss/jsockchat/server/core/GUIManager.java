@@ -23,7 +23,7 @@ public class GUIManager
     private void initFrame()
     {
         frame   =   new JFrame(ServerConfig.WINDOW_TITLE);
-        panel   =   new ServerPanel();
+        panel   =   ServerPanel.getInstance();
         
         frame.getContentPane().add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

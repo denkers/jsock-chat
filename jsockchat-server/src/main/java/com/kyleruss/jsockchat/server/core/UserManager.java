@@ -47,7 +47,10 @@ public final class UserManager extends AbstractManager<String, IUser>
     
     public synchronized void clientExit(IUser client)
     {
+        if(client == null) return;
+        
         data.remove(client.getUsername());
+        RoomManager.getInstance().leaveAllRooms(client);
         SocketManager.getInstance().cleanUp(client.getUsername());
     }
     

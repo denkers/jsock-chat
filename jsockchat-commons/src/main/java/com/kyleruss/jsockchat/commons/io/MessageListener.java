@@ -37,11 +37,13 @@ public abstract class MessageListener<T extends Message> extends Thread
                 handleReceivedMessage(message);
             
             System.out.println("[MessageListener]: SOCKET IS CLOSED");
+            handleCleanup(inputStream);
         }
         
         catch(IOException e)
         {
             System.out.println("[MessageListener@run]: " + e.getMessage());
+            handleCleanup(null);
         }
     }
 }

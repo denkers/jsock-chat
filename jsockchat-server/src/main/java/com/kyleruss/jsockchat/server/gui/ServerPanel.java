@@ -40,7 +40,7 @@ public class ServerPanel extends JPanel
     private final RoomTree roomTree;
     private final UserList userList;
     
-    public ServerPanel()
+    private ServerPanel()
     {
         setPreferredSize(new Dimension(ServerConfig.WINDOW_WIDTH, ServerConfig.WINDOW_HEIGHT));
         setLayout(new BorderLayout());
@@ -109,11 +109,6 @@ public class ServerPanel extends JPanel
         
         ServerMenuBar menuBar   =   ServerMenuBar.getInstance();
         menuBar.setListener(new MenuActionListener());
-
-        List<IUser> tempList2    =   new ArrayList<>();
-        tempList2.add(new User("usernameA", "displayA"));
-        tempList2.add(new User("usernameB", "displayB"));
-        userList.setListData(tempList2.toArray());
     }
     
     public LoggingList getLoggingList()

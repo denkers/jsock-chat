@@ -46,6 +46,8 @@ public class ServerManager
     
     public static void main(String[] args)
     {
+        GUIManager guiManager   =   GUIManager.getInstance();
+        guiManager.display();
         ServerManager manager   =   getInstance();
         manager.startServers();
     }
