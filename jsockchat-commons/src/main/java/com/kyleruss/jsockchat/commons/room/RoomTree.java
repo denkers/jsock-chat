@@ -32,7 +32,6 @@ public class RoomTree extends JTree
     {
         SwingUtilities.invokeLater(()->
         {
-            sortRooms(rooms);
             rootNode.removeAllChildren();
             for(Room room : rooms)
                 addRoom(room);

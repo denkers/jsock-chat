@@ -45,13 +45,13 @@ public final class UserManager extends AbstractManager<String, IUser>
         return bean;
     }
     
-    public void clientExit(IUser client)
+    public synchronized void clientExit(IUser client)
     {
         data.remove(client.getUsername());
         SocketManager.getInstance().cleanUp(client.getUsername());
     }
     
-    public void sendMessageToUser(String username, Message message) throws IOException
+    public synchronized void sendMessageToUser(String username, Message message) throws IOException
     {
         UserSocket userSocket     =   SocketManager.getInstance().get(username);
 

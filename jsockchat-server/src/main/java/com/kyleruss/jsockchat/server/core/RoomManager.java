@@ -1,8 +1,11 @@
 
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
 import com.kyleruss.jsockchat.commons.message.Message;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
+import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
@@ -30,7 +33,7 @@ public final class RoomManager extends AbstractManager<String, Room>
         initFixedRooms();
     }
     
-    public List<IUser> getUsersInRoom(String roomName)
+    public synchronized List<IUser> getUsersInRoom(String roomName)
     {
         Room room           =   get(roomName);
         
@@ -38,7 +41,7 @@ public final class RoomManager extends AbstractManager<String, Room>
         else return new ArrayList<>();
     }
     
-    public void sendMessageToRoom(String roomName, Message message, List<IUser> exclusions)
+    public synchronized void sendMessageToRoom(String roomName, Message message, List<IUser> exclusions)
     {
         if(!find(roomName))
             return;
@@ -74,7 +77,7 @@ public final class RoomManager extends AbstractManager<String, Room>
         return exclusions;
     }
     
-    public void leaveRoom(IUser user, String roomName)
+    public synchronized void leaveRoom(IUser user, String roomName)
     {
         if(find(roomName))
         {
@@ -86,8 +89,10 @@ public final class RoomManager extends AbstractManager<String, Room>
                 data.remove(roomName);
             else
             {
-                //create request & response to deliver to witnesses
-             //   sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
+                DisconnectMsgBean bean      =   new DisconnectMsgBean(user.getUsername(), room.getRoomName(), false);
+                RequestMessage request      =   new RequestMessage(user.getUsername(), bean);
+                ResponseMessage response    =   new ResponseMessage(request);
+                sendMessageToRoom(room.getRoomName(), response, createExclusions(user));
             }
         }
     }

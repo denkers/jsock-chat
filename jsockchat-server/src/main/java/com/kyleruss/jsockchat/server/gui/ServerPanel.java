@@ -116,6 +116,26 @@ public class ServerPanel extends JPanel
         userList.setListData(tempList2.toArray());
     }
     
+    public LoggingList getLoggingList()
+    {
+        return loggingList;
+    }
+
+    public ServerStatusPanel getStatusPanel() 
+    {
+        return statusPanel;
+    }
+
+    public RoomTree getRoomTree() 
+    {
+        return roomTree;
+    }
+
+    public UserList getUserList() 
+    {
+        return userList;
+    }
+    
     private class MenuActionListener implements ActionListener
     {
         @Override
