@@ -27,6 +27,7 @@ public class ServerConfig
     public static final String LOOKNFEEL_PACKAGE    =   "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel";
     public static final String IMAGES_DIR           =   "data/resources/";
     public static final String AUTHOR_MESSAGE       =   "Kyle Russell\nAUT University\nwww.github.com/denkers";
+    public static final int MAX_LOG_CAPACITY        =   100;
     //---------------------------------------------------------
     
     

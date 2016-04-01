@@ -1,5 +1,6 @@
 package com.kyleruss.jsockchat.server.gui;
 
+import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
@@ -9,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 public class LoggingList extends JList
 {
@@ -26,6 +28,14 @@ public class LoggingList extends JList
     
     public void logMessage(LogMessage message)
     {
+        if(model.size() >= ServerConfig.MAX_LOG_CAPACITY)
+        {
+            SwingUtilities.invokeLater(()->
+            {
+                model.removeRange(0, 40);
+            });
+        }
+        
         model.addElement(message);
     }
     

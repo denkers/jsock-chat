@@ -18,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -37,7 +38,7 @@ public class ServerPanel extends JPanel
     private final JSplitPane treeServerSplit;
     private final JPanel userPanel;
     private final RoomTree roomTree;
-    private UserList userList;
+    private final UserList userList;
     
     public ServerPanel()
     {
@@ -58,6 +59,7 @@ public class ServerPanel extends JPanel
         
         roomTree.setFocusable(false);
         userList.setFocusable(false);
+        loggingList.setFocusable(false);
         loggingList.setSelectionModel(new NonSelectionModel());
         userList.setSelectionModel(new NonSelectionModel());
         
@@ -65,8 +67,10 @@ public class ServerPanel extends JPanel
         final int VERT_POLICY       =     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
         userScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
         roomScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
+        loggingScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
         userScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
         roomScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
+        loggingScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
         
         AppResources resources  =   AppResources.getInstance();
         roomTree.setServerIcon(new ImageIcon(resources.getServerImage()));
@@ -131,6 +135,9 @@ public class ServerPanel extends JPanel
             
             else if(src == menu.getItem("authorItem"))
                 JOptionPane.showMessageDialog(null, ServerConfig.AUTHOR_MESSAGE, "Software Author", JOptionPane.INFORMATION_MESSAGE);
+            
+            else if(src == menu.getItem("logClearItem"))
+                ((DefaultListModel) loggingList.getModel()).clear();
         }
     }
     
