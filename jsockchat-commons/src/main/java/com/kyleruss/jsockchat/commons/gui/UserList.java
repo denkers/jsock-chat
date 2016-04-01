@@ -1,5 +1,6 @@
-package com.kyleruss.jsockchat.commons.user;
+package com.kyleruss.jsockchat.commons.gui;
 
+import com.kyleruss.jsockchat.commons.user.IUser;
 import java.awt.Component;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;

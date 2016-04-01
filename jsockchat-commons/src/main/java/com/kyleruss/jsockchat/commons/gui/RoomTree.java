@@ -1,12 +1,12 @@
-package com.kyleruss.jsockchat.commons.room;
+package com.kyleruss.jsockchat.commons.gui;
 
+import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;

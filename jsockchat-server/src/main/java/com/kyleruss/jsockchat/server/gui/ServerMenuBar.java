@@ -1,13 +1,11 @@
 package com.kyleruss.jsockchat.server.gui;
 
-import java.awt.event.ActionListener;
+import com.kyleruss.jsockchat.commons.gui.MappedMenuBar;
 import java.util.HashMap;
-import java.util.Map;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-public class ServerMenuBar extends JMenuBar
+public class ServerMenuBar extends MappedMenuBar
 {
     private final JMenu aboutMenu;
     private final JMenu logsMenu;
@@ -15,7 +13,6 @@ public class ServerMenuBar extends JMenuBar
     private final JMenu msgServerMenu;
     private final JMenu msgSendServerMenu;
     private final JMenu updateServerMenu;
-    private final Map<String, JMenuItem> items;
     private static ServerMenuBar instance;
     
     public ServerMenuBar()
@@ -44,26 +41,6 @@ public class ServerMenuBar extends JMenuBar
         add(serverMenu);
         add(logsMenu);
         add(aboutMenu);
-    }
-    
-    public void addItem(String name, JMenuItem item, JMenu menu)
-    {
-        if(!items.containsKey(name))
-        {
-            items.put(name, item);
-            menu.add(item);
-        }
-    }
-    
-    public JMenuItem getItem(String itemName)
-    {
-        return items.get(itemName);
-    }
-    
-    public void setListener(ActionListener listener)
-    {
-        for(JMenuItem item : items.values())
-            item.addActionListener(listener);
     }
     
     public JMenu getAboutMenu()

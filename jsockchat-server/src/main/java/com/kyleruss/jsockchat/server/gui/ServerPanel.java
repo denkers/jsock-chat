@@ -1,9 +1,7 @@
 package com.kyleruss.jsockchat.server.gui;
 
-import com.kyleruss.jsockchat.commons.room.RoomTree;
-import com.kyleruss.jsockchat.commons.user.IUser;
-import com.kyleruss.jsockchat.commons.user.User;
-import com.kyleruss.jsockchat.commons.user.UserList;
+import com.kyleruss.jsockchat.commons.gui.RoomTree;
+import com.kyleruss.jsockchat.commons.gui.UserList;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.io.MessageServer;
