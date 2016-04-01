@@ -5,11 +5,13 @@ public class AuthMsgBean implements MessageBean
 {
     private String username;
     private String password;
+    private int udpPort;
    
-    public AuthMsgBean(String username, String password)
+    public AuthMsgBean(String username, String password, int udpPort)
     {
         this.username           =   username;
         this.password           =   password;
+        this.udpPort            =   udpPort;
     }
     
     public String getUsername() 
@@ -21,14 +23,9 @@ public class AuthMsgBean implements MessageBean
     {
         return password;
     }
-
-    public void setUsername(String username) 
+    
+    public int getUdpPort()
     {
-        this.username = username;
-    }
-
-    public void setPassword(String password) 
-    {
-        this.password = password;
+        return udpPort;
     }
 }

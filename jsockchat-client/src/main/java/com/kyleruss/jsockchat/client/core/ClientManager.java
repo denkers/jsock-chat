@@ -66,7 +66,7 @@ public class ClientManager
 
         try
         {
-            AuthMsgBean bean        =   new AuthMsgBean("testaccount1", "mypass");
+            AuthMsgBean bean        =   new AuthMsgBean("testaccount1", "mypass", SocketManager.getInstance().getUdpPort());
             RequestMessage request  =   new RequestMessage(null, bean);
             request.setDescription("HELLO FROM CLIENT");
             manager.sendRequest(request);

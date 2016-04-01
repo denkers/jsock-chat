@@ -43,7 +43,7 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     {
         if(socket != null)
         {
-            String clientIP             =   socket.getRemoteSocketAddress().toString();
+            String clientIP             =   socket.getInetAddress().getHostAddress();
             System.out.println(clientIP);
             SocketManager sockManager   =   SocketManager.getInstance();
             

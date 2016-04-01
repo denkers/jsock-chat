@@ -24,13 +24,19 @@ public class SocketManager
         try
         {
             tcpSocket   =   new Socket(ClientConfig.MSG_SERVER_HOST, ClientConfig.MSG_SERVER_PORT);
-            udpSocket   =   new DatagramSocket(ClientConfig.UPDATE_LIST_PORT);
+            udpSocket   =   new DatagramSocket();
         }
         
         catch(IOException e)
         {
             System.out.println("[SocketManager@initSocket]: " + e.getMessage());
         }
+    }
+    
+    public int getUdpPort()
+    {
+        if(udpSocket == null) return -1;
+        return udpSocket.getLocalPort();
     }
     
     public ObjectOutputStream getTCPOutputStream() throws IOException

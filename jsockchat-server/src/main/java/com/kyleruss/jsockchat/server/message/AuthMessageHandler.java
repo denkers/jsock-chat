@@ -35,8 +35,8 @@ public class AuthMessageHandler implements ServerMessageHandler
         
         if(authUser != null)
         {
-            System.out.println("User is auth");
             socketManager.remove(servingUser);
+            userSocket.setUdpPort(bean.getUdpPort());
             socketManager.add(authUser.getUsername(), userSocket);
             UserManager userManager     =   UserManager.getInstance();
             userManager.add(authUser.getUsername(), authUser);

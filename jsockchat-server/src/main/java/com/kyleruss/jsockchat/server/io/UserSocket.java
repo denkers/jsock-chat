@@ -9,10 +9,13 @@ public class UserSocket
 {
     private Socket socket;
     private ObjectOutputStream sockOutputStream;
+    private int udpPort;
+    private String address;
     
     public UserSocket(Socket socket)
     {
         this.socket =   socket;
+        udpPort     =   -1;
     }
     
     public void cleanUp()
@@ -43,6 +46,24 @@ public class UserSocket
     public void setSocket(Socket socket)
     {
         this.socket  =   socket;
+    }
+    
+    public void setUdpPort(int udpPort)
+    {
+        this.udpPort    =   udpPort;
+    }
+    
+    public int getUdpPort()
+    {
+        return udpPort;
+    }
+    
+    public String getAddress()
+    {
+        if(address == null && socket != null)
+            address = socket.getInetAddress().getHostAddress();
+        
+        return address;
     }
     
     public ObjectOutputStream getSocketOutputStream() throws IOException

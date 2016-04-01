@@ -53,24 +53,21 @@ public class UpdateBroadcastServer extends SyncedServer
     
     protected synchronized void sendUpdates(UpdateBeanDump updates, IUser user) throws IOException
     {
-        UserSocket sockContainer    =       SocketManager.getInstance().get(user.getUsername());
-        Socket userSocket           =       sockContainer.getSocket();
+        UserSocket userSock             =       SocketManager.getInstance().get(user.getUsername());
+        int port                        =       userSock.getUdpPort();
+        if(port == -1) return;
         
-        if(userSocket != null && !userSocket.isClosed())
+        System.out.println("port: " + port);
+        
+        InetAddress host                =       InetAddress.getByName(userSock.getAddress());
+        ByteArrayOutputStream baos      =   new ByteArrayOutputStream();
+        try(ObjectOutputStream oos      =   new ObjectOutputStream(baos))
         {
-            InetAddress host    =   userSocket.getInetAddress();
-            int port            =   ServerConfig.BROADCAST_PORT;
-            
-            ByteArrayOutputStream baos      =   new ByteArrayOutputStream();
-            try(ObjectOutputStream oos      =   new ObjectOutputStream(baos))
-            {
-                oos.writeObject(updates);
+            oos.writeObject(updates);
 
-                byte[] bData                =   baos.toByteArray();
-                System.out.println("update size: " + bData.length);
-                DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
-                socket.send(packet);
-            }
+            byte[] bData                =   baos.toByteArray();
+            DatagramPacket packet       =   new DatagramPacket(bData, bData.length, host, port);
+            socket.send(packet);
         }
     }
     
