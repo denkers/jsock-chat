@@ -2,6 +2,7 @@ package com.kyleruss.jsockchat.commons.room;
 
 import com.kyleruss.jsockchat.commons.user.IUser;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
@@ -130,6 +131,7 @@ public class RoomTree extends JTree
                     setIcon(userIcon);
             }
             
+            setPreferredSize(new Dimension(350, 15));
             return this;
         }
     }

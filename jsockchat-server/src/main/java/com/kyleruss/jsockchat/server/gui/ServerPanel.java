@@ -1,16 +1,12 @@
 package com.kyleruss.jsockchat.server.gui;
 
-import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.room.RoomTree;
-import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
