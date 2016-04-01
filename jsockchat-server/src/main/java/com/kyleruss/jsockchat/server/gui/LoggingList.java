@@ -4,25 +4,37 @@ import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 
-public class LoggingList extends JList
+public class LoggingList extends JScrollPane
 {
     private static LoggingList instance;
     private final DefaultListModel model;
+    private final JList list;
     
     private LoggingList()
     {
-        setBackground(Color.BLACK);
         model   =   new DefaultListModel();
-        setModel(model);
-        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        setCellRenderer(new MessageCellRenderer());
+        list    =   new JList(model);
+        
+        list.setFocusable(false);
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        list.setCellRenderer(new MessageCellRenderer());
+        list.setBackground(Color.BLACK);
+        list.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        
+        setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        setBorder(null);
+        getViewport().add(list);
     }
     
     public void logMessage(LogMessage message)
@@ -31,6 +43,7 @@ public class LoggingList extends JList
             model.removeRange(0, 40);
         
         model.addElement(message);
+        getVerticalScrollBar().setValue(getVerticalScrollBar().getMaximum());
     }
     
     public static void sendLogMessage(LogMessage message)
@@ -42,6 +55,11 @@ public class LoggingList extends JList
     {
         if(instance == null) instance = new LoggingList();
         return instance;
+    }
+    
+    public JList getList()
+    {
+        return list;
     }
     
     private class MessageCellRenderer extends DefaultListCellRenderer

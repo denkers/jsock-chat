@@ -149,13 +149,13 @@ public final class RoomManager extends AbstractManager<String, Room>
                 add(roomName, room);
             }
             
-            LoggingList.sendLogMessage(new LogMessage("[Room manager] Fixed rooms from rooms.xml has been initialized", AppResources.getInstance().getServerOkImage()));
+            LoggingList.sendLogMessage(new LogMessage("[Room manager] rooms.xml has been initialized", AppResources.getInstance().getServerOkImage()));
         }
         
         catch(IOException | ParserConfigurationException | SAXException e)
         {
             System.out.println("[RoomManager@initFixedRooms]: " + e.getMessage());
-            LoggingList.sendLogMessage(new LogMessage("[Room manager] Failed to initialize fixed rooms from rooms.xml", AppResources.getInstance().getServerBadImage()));
+            LoggingList.sendLogMessage(new LogMessage("[Room manager] Failed to initialize rooms.xml", AppResources.getInstance().getServerBadImage()));
         }
     }
     

@@ -21,17 +21,17 @@ public class ServerManager
     
     private void startServers()
     {
-        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Message server...", AppResources.getInstance().getServerOkImage()));
         MessageServer messageServer     =   MessageServer.getInstance();
         messageServer.start();
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Started Message server", AppResources.getInstance().getServerOkImage()));
         
-        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Message broadcast server...", AppResources.getInstance().getServerOkImage()));
         ServerMessageSender sendServer  =   ServerMessageSender.getInstance();
         sendServer.start();
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Started Message broadcast server", AppResources.getInstance().getServerOkImage()));
         
-        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Update broadcast server...", AppResources.getInstance().getServerOkImage()));
         UpdateBroadcastServer broadcastServer =   UpdateBroadcastServer.getInstance();
         broadcastServer.start();
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Started Update broadcast server", AppResources.getInstance().getServerOkImage()));
     }
     
     public UpdateBeanDump prepareUpdates(IUser user)

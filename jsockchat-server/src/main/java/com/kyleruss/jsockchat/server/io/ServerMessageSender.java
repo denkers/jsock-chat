@@ -41,10 +41,12 @@ public class ServerMessageSender extends MessageSender
         if(isSending == sending) return;
         
         isSending  =   sending;
-        ServerStatusPanel.getInstance().setServerStatus(sending, ServerConfig.MESSAGE_SEND_SERVER_CODE);
-        LoggingList.sendLogMessage(new LogMessage("[Message Send Server] Server has " + (sending? "resumed" : "paused"), 
-            AppResources.getInstance().getServerOkImage()));
         notify();
+        
+        ServerStatusPanel.getInstance().setServerStatus(sending, ServerConfig.MESSAGE_SEND_SERVER_CODE);
+        
+        LoggingList.sendLogMessage(new LogMessage("[Message Send Server] Server has " + (sending? "resumed" : "paused"), 
+        AppResources.getInstance().getServerOkImage()));
     }
     
     @Override

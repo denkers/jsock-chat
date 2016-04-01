@@ -13,6 +13,7 @@ import com.kyleruss.jsockchat.server.gui.AppResources;
 import com.kyleruss.jsockchat.server.gui.LogMessage;
 import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.gui.ServerPanel;
+import com.kyleruss.jsockchat.server.gui.ServerStatusPanel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -105,6 +106,18 @@ public class UpdateBroadcastServer extends SyncedServer
         List<Room> roomList     =   new ArrayList<>(RoomManager.getInstance().getDataValues());
         ServerPanel.getInstance().getUserList().initUsers(userList);
         ServerPanel.getInstance().getRoomTree().initRooms(roomList);
+    }
+    
+    @Override
+    public synchronized void setServingSync(boolean serving)
+    {
+        if(isServing == serving) return;
+        
+        super.setServingSync(serving);
+        ServerStatusPanel.getInstance().setServerStatus(serving, ServerConfig.UPDATE_BROADCAST_SERVER_CODE);
+        
+        LoggingList.sendLogMessage(new LogMessage("[Update broadcast Server] Server has " + (serving? "resumed" : "paused"), 
+        AppResources.getInstance().getServerOkImage()));
     }
 
     @Override

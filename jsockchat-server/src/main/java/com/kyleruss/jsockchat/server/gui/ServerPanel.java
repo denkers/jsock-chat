@@ -33,7 +33,7 @@ public class ServerPanel extends JPanel
     private static ServerPanel instance;
     private final LoggingList loggingList;
     private final ServerStatusPanel statusPanel;
-    private final JScrollPane loggingScrollPane, userScrollPane, roomScrollPane;
+    private final JScrollPane userScrollPane, roomScrollPane;
     private final JPanel leftPanel, rightPanel;
     private final JSplitPane treeServerSplit;
     private final JPanel userPanel;
@@ -47,7 +47,6 @@ public class ServerPanel extends JPanel
         
         loggingList         =   LoggingList.getInstance();
         statusPanel         =   ServerStatusPanel.getInstance();
-        loggingScrollPane   =   new JScrollPane(loggingList);
         leftPanel           =   new JPanel(new GridLayout(2, 1));
         rightPanel          =   new JPanel(new BorderLayout());
         treeServerSplit     =   new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
@@ -59,18 +58,15 @@ public class ServerPanel extends JPanel
         
         roomTree.setFocusable(false);
         userList.setFocusable(false);
-        loggingList.setFocusable(false);
-        loggingList.setSelectionModel(new NonSelectionModel());
+        loggingList.getList().setSelectionModel(new NonSelectionModel());
         userList.setSelectionModel(new NonSelectionModel());
         
         final int HOR_POLICY        =     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
         final int VERT_POLICY       =     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
         userScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
         roomScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
-        loggingScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
         userScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
         roomScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
-        loggingScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
         
         AppResources resources  =   AppResources.getInstance();
         roomTree.setServerIcon(new ImageIcon(resources.getServerImage()));
@@ -102,7 +98,7 @@ public class ServerPanel extends JPanel
         leftContentWrapper.add(leftPanel);
         
         rightPanel.add(statusPanel, BorderLayout.NORTH);
-        rightPanel.add(loggingScrollPane, BorderLayout.CENTER);
+        rightPanel.add(loggingList, BorderLayout.CENTER);
         treeServerSplit.setLeftComponent(leftContentWrapper);
         treeServerSplit.setRightComponent(rightPanel);
         add(treeServerSplit);
@@ -152,7 +148,7 @@ public class ServerPanel extends JPanel
                 JOptionPane.showMessageDialog(null, ServerConfig.AUTHOR_MESSAGE, "Software Author", JOptionPane.INFORMATION_MESSAGE);
             
             else if(src == menu.getItem("logClearItem"))
-                ((DefaultListModel) loggingList.getModel()).clear();
+                ((DefaultListModel) loggingList.getList().getModel()).clear();
         }
     }
     
