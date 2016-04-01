@@ -32,13 +32,13 @@ public class ServerMenuBar extends JMenuBar
         serverMenu.add(msgSendServerMenu);
         serverMenu.add(updateServerMenu);
         
-        addItem("msgSvStopItem", new JMenuItem("Stop"), msgServerMenu);
+        addItem("msgSvStopItem", new JMenuItem("Pause"), msgServerMenu);
         addItem("msgSvStartItem", new JMenuItem("Start"), msgServerMenu);
         addItem("updateSvStartItem", new JMenuItem("Start"), updateServerMenu);
-        addItem("updateSvStopItem", new JMenuItem("Stop"), updateServerMenu);
+        addItem("updateSvStopItem", new JMenuItem("Pause"), updateServerMenu);
         addItem("authorItem", new JMenuItem("Author"), aboutMenu);
         addItem("logClearItem", new JMenuItem("Clear"), logsMenu);
-        addItem("msgSendSvStopItem", new JMenuItem("Stop"), msgSendServerMenu);
+        addItem("msgSendSvStopItem", new JMenuItem("Pause"), msgSendServerMenu);
         addItem("msgSendSvStartItem", new JMenuItem("Start"), msgSendServerMenu);
         
         add(serverMenu);

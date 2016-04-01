@@ -6,10 +6,15 @@ import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.commons.user.UserList;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
+import com.kyleruss.jsockchat.server.io.MessageServer;
+import com.kyleruss.jsockchat.server.io.ServerMessageSender;
+import com.kyleruss.jsockchat.server.io.UpdateBroadcastServer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -94,18 +99,34 @@ public class ServerPanel extends JPanel
         rightPanel.add(loggingScrollPane, BorderLayout.CENTER);
         treeServerSplit.setLeftComponent(leftContentWrapper);
         treeServerSplit.setRightComponent(rightPanel);
-        
         add(treeServerSplit);
         
-        /*try {
-            Thread.sleep(2500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ServerPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        ServerMenuBar menuBar   =   ServerMenuBar.getInstance();
+        menuBar.setListener(new MenuActionListener());
+
         List<IUser> tempList2    =   new ArrayList<>();
         tempList2.add(new User("usernameA", "displayA"));
         tempList2.add(new User("usernameB", "displayB"));
         userList.setListData(tempList2.toArray());
+    }
+    
+    private class MenuActionListener implements ActionListener
+    {
+        @Override
+        public void actionPerformed(ActionEvent e) 
+        {
+            Object src              =   e.getSource();
+            ServerMenuBar menu      =   ServerMenuBar.getInstance();
+            
+            if(src == menu.getItem("msgSvStopItem") || src == menu.getItem("msgSvStartItem"))
+                MessageServer.getInstance().setServingSync(src == menu.getItem("msgSvStartItem"));
+            
+            else if(src == menu.getItem("msgSendSvStopItem") || src == menu.getItem("msgSendSvStartItem"))
+                ServerMessageSender.getInstance().setSending(src == menu.getItem("msgSendSvStartItem"));
+            
+            else if(src == menu.getItem("updateSvStartItem") || src == menu.getItem("updateSvStopItem"))
+                UpdateBroadcastServer.getInstance().setServingSync(src == menu.getItem("updateSvStartItem"));
+        }
     }
     
     private class NonSelectionModel extends DefaultListSelectionModel
