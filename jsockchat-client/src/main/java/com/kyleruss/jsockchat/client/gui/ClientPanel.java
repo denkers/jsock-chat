@@ -1,6 +1,8 @@
 
 package com.kyleruss.jsockchat.client.gui;
 
+import com.kyleruss.jsockchat.client.core.ClientConfig;
+import java.awt.Dimension;
 import javax.swing.JPanel;
 
 public class ClientPanel extends JPanel
@@ -9,7 +11,7 @@ public class ClientPanel extends JPanel
     
     private ClientPanel()
     {
-        
+        setPreferredSize(new Dimension(ClientConfig.WINDOW_WIDTH, ClientConfig.WINDOW_HEIGHT));
     }
     
     public static ClientPanel getInstance()
