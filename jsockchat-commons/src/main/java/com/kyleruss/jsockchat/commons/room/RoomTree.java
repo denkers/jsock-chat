@@ -6,37 +6,39 @@ import java.awt.Dimension;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
 public class RoomTree extends JTree
 {
-    protected List<Room> rooms;
     protected DefaultMutableTreeNode rootNode;
     protected DefaultTreeModel treeModel;
     protected ImageIcon serverIcon, userIcon, roomIcon, lockedRoomIcon; 
 
     
-    public RoomTree(List<Room> rooms, String serverTitle)
+    public RoomTree(String serverTitle)
     {
-        this.rooms  =   rooms;
-        sortRooms();
-        
         rootNode    =   new DefaultMutableTreeNode(serverTitle);
         treeModel   =   new DefaultTreeModel(rootNode);
         
         setCellRenderer(new RoomTreeCellRenderer());
         setModel(treeModel);
-        initRooms();
     }
     
-    private void initRooms()
+    
+    public void initRooms(List<Room> rooms)
     {
-        for(Room room : rooms)
-            addRoom(room);
-        
-        expandRooms();
+        SwingUtilities.invokeLater(()->
+        {
+            sortRooms(rooms);
+            rootNode.removeAllChildren();
+            for(Room room : rooms)
+                addRoom(room);
+
+            expandRooms();
+        });
     }
     
     public void expandRooms()
@@ -60,12 +62,7 @@ public class RoomTree extends JTree
         rootNode.add(roomNode);
     }
     
-    public void setRooms(List<Room> rooms)
-    {
-        this.rooms  =   rooms;
-    }
-    
-    private void sortRooms()
+    private void sortRooms(List<Room> rooms)
     {
         if(rooms != null && rooms.size() > 1)
             rooms.sort((Room a, Room b) -> a.getRoomName().compareToIgnoreCase(b.getRoomName()));
