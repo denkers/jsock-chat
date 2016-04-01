@@ -5,7 +5,6 @@ import java.awt.Component;
 import java.awt.Font;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -21,7 +20,6 @@ public class LoggingList extends JList
         setBackground(Color.BLACK);
         model   =   new DefaultListModel();
         setModel(model);
-        setSelectionModel(new NonSelectionModel());
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setCellRenderer(new MessageCellRenderer());
     }
@@ -49,15 +47,6 @@ public class LoggingList extends JList
             label.setFont(new Font("Arial", Font.BOLD, 12));
             
             return label;
-        }
-    }
-    
-    private class NonSelectionModel extends DefaultListSelectionModel
-    {
-        @Override
-        public void setSelectionInterval(int indexA, int indexB)
-        {
-            super.setSelectionInterval(-1, -1);
         }
     }
 }

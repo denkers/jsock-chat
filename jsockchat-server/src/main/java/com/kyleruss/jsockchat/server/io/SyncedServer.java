@@ -34,7 +34,7 @@ public abstract class SyncedServer extends Thread
         this.isServing  =   serving;
     }
     
-    protected synchronized void setServingSync(boolean serving)
+    public synchronized void setServingSync(boolean serving)
     {
         setServing(serving);
         notify();

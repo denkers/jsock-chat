@@ -6,6 +6,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
 public class UserList extends JList
@@ -14,6 +15,7 @@ public class UserList extends JList
     
     public UserList()
     {
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         setCellRenderer(new UserCellRenderer());
     }
     

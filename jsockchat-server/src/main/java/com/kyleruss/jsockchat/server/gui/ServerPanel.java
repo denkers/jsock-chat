@@ -7,17 +7,18 @@ import com.kyleruss.jsockchat.commons.user.UserList;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 public class ServerPanel extends JPanel
@@ -25,7 +26,7 @@ public class ServerPanel extends JPanel
     private static ServerPanel instance;
     private final LoggingList loggingList;
     private final ServerStatusPanel statusPanel;
-    private final JScrollPane loggingScrollPane;
+    private final JScrollPane loggingScrollPane, userScrollPane, roomScrollPane;
     private final JPanel leftPanel, rightPanel;
     private final JSplitPane treeServerSplit;
     private final JPanel userPanel;
@@ -46,6 +47,19 @@ public class ServerPanel extends JPanel
         userPanel           =   new JPanel(new BorderLayout());
         roomTree            =   new RoomTree("JSockchat Server");
         userList            =   new UserList();
+        userScrollPane      =   new JScrollPane(userList);
+        roomScrollPane      =   new JScrollPane(roomTree);
+        
+        roomTree.setFocusable(false);
+        loggingList.setSelectionModel(new NonSelectionModel());
+        userList.setSelectionModel(new NonSelectionModel());
+        
+        final int HOR_POLICY        =     ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
+        final int VERT_POLICY       =     ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED;
+        userScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
+        roomScrollPane.setHorizontalScrollBarPolicy(HOR_POLICY);
+        userScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
+        roomScrollPane.setVerticalScrollBarPolicy(VERT_POLICY);
         
         AppResources resources  =   AppResources.getInstance();
         roomTree.setServerIcon(new ImageIcon(resources.getServerImage()));
@@ -66,8 +80,12 @@ public class ServerPanel extends JPanel
         leftContentWrapper.setBorder(BorderFactory.createEmptyBorder(8, 3, 3, 3));
         leftContentWrapper.setPreferredSize(new Dimension(350, 0));
         
-        userPanel.add(userList);
-        treeWrapper.add(roomTree);
+        Color statusBackground  =   new Color(237, 237, 237);
+        roomTree.setBackground(statusBackground);
+        userList.setBackground(statusBackground);
+        
+        userPanel.add(userScrollPane);
+        treeWrapper.add(roomScrollPane);
         leftPanel.add(treeWrapper);
         leftPanel.add(userPanel);
         leftContentWrapper.add(leftPanel);
@@ -84,11 +102,19 @@ public class ServerPanel extends JPanel
         } catch (InterruptedException ex) {
             Logger.getLogger(ServerPanel.class.getName()).log(Level.SEVERE, null, ex);
         }*/
-        /*List<IUser> tempList2    =   new ArrayList<>();
+        List<IUser> tempList2    =   new ArrayList<>();
         tempList2.add(new User("usernameA", "displayA"));
         tempList2.add(new User("usernameB", "displayB"));
         userList.setListData(tempList2.toArray());
-        userList.revalidate(); */
+    }
+    
+    private class NonSelectionModel extends DefaultListSelectionModel
+    {
+        @Override
+        public void setSelectionInterval(int indexA, int indexB)
+        {
+            super.setSelectionInterval(-1, -1);
+        }
     }
     
     public static ServerPanel getInstance()

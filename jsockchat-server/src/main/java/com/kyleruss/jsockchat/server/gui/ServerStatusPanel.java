@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
 
 public class ServerStatusPanel extends JPanel
@@ -73,31 +74,34 @@ public class ServerStatusPanel extends JPanel
     
     public void setServerStatus(boolean status, int serverCode)
     {
-        JPanel serverStatusPanel;
-        JLabel serverStatusLabel;
-        
-        switch(serverCode)
+        SwingUtilities.invokeLater(()->
         {
-            case ServerConfig.MESSAGE_LISTEN_SERVER_CODE:
-                serverStatusPanel   =   msgServerPanel;
-                serverStatusLabel   =   msgServerLabel;
-                break;
-                
-            case ServerConfig.MESSAGE_SEND_SERVER_CODE:
-                serverStatusPanel   =   msgSendServerPanel;
-                serverStatusLabel   =   msgSendServerLabel;
-                break;
-                
-            case ServerConfig.UPDATE_BROADCAST_SERVER_CODE:
-                serverStatusPanel       =   updateServerPanel;
-                serverStatusLabel       =   updateServerLabel;
-                break;
-                
-            default: return;
-        }
-        
-        serverStatusPanel.setBackground(status? new Color(52, 201, 57) : new Color(212, 42, 42));
-        serverStatusLabel.setText(status? "ONLINE" : "OFFLINE");
+            JPanel serverStatusPanel;
+            JLabel serverStatusLabel;
+
+            switch(serverCode)
+            {
+                case ServerConfig.MESSAGE_LISTEN_SERVER_CODE:
+                    serverStatusPanel   =   msgServerPanel;
+                    serverStatusLabel   =   msgServerLabel;
+                    break;
+
+                case ServerConfig.MESSAGE_SEND_SERVER_CODE:
+                    serverStatusPanel   =   msgSendServerPanel;
+                    serverStatusLabel   =   msgSendServerLabel;
+                    break;
+
+                case ServerConfig.UPDATE_BROADCAST_SERVER_CODE:
+                    serverStatusPanel       =   updateServerPanel;
+                    serverStatusLabel       =   updateServerLabel;
+                    break;
+
+                default: return;
+            }
+
+            serverStatusPanel.setBackground(status? new Color(52, 201, 57) : new Color(212, 42, 42));
+            serverStatusLabel.setText(status? "ONLINE" : "OFFLINE");
+        });
     }
     
     public static ServerStatusPanel getInstance()

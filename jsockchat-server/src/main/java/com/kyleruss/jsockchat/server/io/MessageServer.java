@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.server.core.ServerConfig;
+import com.kyleruss.jsockchat.server.gui.ServerStatusPanel;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -76,6 +77,13 @@ public final class MessageServer extends SyncedServer
         {
             System.out.println("[MessageServer@runServerOperations]: " + e.getMessage());
         }
+    }
+    
+    @Override
+    public synchronized void setServingSync(boolean serving)
+    {
+        super.setServingSync(serving);
+        ServerStatusPanel.getInstance().setServerStatus(serving, ServerConfig.MESSAGE_LISTEN_SERVER_CODE);
     }
     
     public static MessageServer getInstance()

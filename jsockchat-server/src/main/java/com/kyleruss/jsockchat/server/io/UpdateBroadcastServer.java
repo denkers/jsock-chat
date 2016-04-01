@@ -3,7 +3,6 @@ package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.user.IUser;
-import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.core.ServerManager;
 import com.kyleruss.jsockchat.server.core.SocketManager;

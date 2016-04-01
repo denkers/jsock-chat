@@ -128,7 +128,7 @@ public class RoomTree extends JTree
                     setIcon(userIcon);
             }
             
-            setPreferredSize(new Dimension(350, 15));
+            setPreferredSize(new Dimension(200, 15));
             return this;
         }
     }

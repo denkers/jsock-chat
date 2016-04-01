@@ -13,6 +13,7 @@ public class ServerMenuBar extends JMenuBar
     private final JMenu logsMenu;
     private final JMenu serverMenu;
     private final JMenu msgServerMenu;
+    private final JMenu msgSendServerMenu;
     private final JMenu updateServerMenu;
     private final Map<String, JMenuItem> items;
     private static ServerMenuBar instance;
@@ -22,11 +23,13 @@ public class ServerMenuBar extends JMenuBar
         aboutMenu           =   new JMenu("About");
         logsMenu            =   new JMenu("Logs");
         serverMenu          =   new JMenu("Server");
-        msgServerMenu       =   new JMenu("Message server");
+        msgServerMenu       =   new JMenu("Message listen server");
+        msgSendServerMenu   =   new JMenu("Message send server");
         updateServerMenu    =   new JMenu("Update broadcast server");
         items               =   new HashMap<>();
         
         serverMenu.add(msgServerMenu);
+        serverMenu.add(msgSendServerMenu);
         serverMenu.add(updateServerMenu);
         
         addItem("msgSvStopItem", new JMenuItem("Stop"), msgServerMenu);
@@ -35,7 +38,8 @@ public class ServerMenuBar extends JMenuBar
         addItem("updateSvStopItem", new JMenuItem("Stop"), updateServerMenu);
         addItem("authorItem", new JMenuItem("Author"), aboutMenu);
         addItem("logClearItem", new JMenuItem("Clear"), logsMenu);
-        addItem("reloadRoomsItem", new JMenuItem("Reload rooms.xml"), serverMenu);
+        addItem("msgSendSvStopItem", new JMenuItem("Stop"), msgSendServerMenu);
+        addItem("msgSendSvStartItem", new JMenuItem("Start"), msgSendServerMenu);
         
         add(serverMenu);
         add(logsMenu);
