@@ -34,9 +34,11 @@ public abstract class MessageListener<T extends Message> extends Thread
         {
             T message;
             while((message = getMessage(inputStream)) != null)
-                handleReceivedMessage(message);
+            {
+                MessageHandler handler  =   new MessageHandler(message);
+                handler.start();
+            }
             
-            System.out.println("[MessageListener]: SOCKET IS CLOSED");
             handleCleanup(inputStream);
         }
         
@@ -44,6 +46,22 @@ public abstract class MessageListener<T extends Message> extends Thread
         {
             System.out.println("[MessageListener@run]: " + e.getMessage());
             handleCleanup(null);
+        }
+    }
+    
+    protected class MessageHandler extends Thread
+    {
+        private final T message;
+        
+        public MessageHandler(T message)
+        {
+            this.message    =   message;
+        }
+        
+        @Override
+        public void run()
+        {
+            handleReceivedMessage(message);
         }
     }
 }

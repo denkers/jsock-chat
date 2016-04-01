@@ -71,10 +71,6 @@ public class ClientManager
             request.setDescription("HELLO FROM CLIENT");
             manager.sendRequest(request);
             
-            
-            CreateRoomMsgBean bean2   =   new CreateRoomMsgBean("noroom", "qweqwe", false);
-            RequestMessage request2 =   new RequestMessage("testaccount1", bean2);
-            manager.sendRequest(request2);
         }
         
         catch(IOException e)
