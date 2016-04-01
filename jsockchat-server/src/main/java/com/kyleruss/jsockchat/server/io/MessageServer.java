@@ -2,6 +2,9 @@
 package com.kyleruss.jsockchat.server.io;
 
 import com.kyleruss.jsockchat.server.core.ServerConfig;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.gui.ServerStatusPanel;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -21,15 +24,17 @@ public final class MessageServer extends SyncedServer
     {
         try
         {
-            if(serverSocket != null) return;
-            
             serverSocket    =   new ServerSocket(ServerConfig.MESSAGE_SERVER_PORT);
             serverSocket.setSoTimeout(ServerConfig.MESSAGE_SERVER_TIMEOUT);
+            
+            LoggingList.sendLogMessage(new LogMessage("[Message Server] Initialized sever socket on port " + ServerConfig.MESSAGE_SERVER_PORT, 
+            AppResources.getInstance().getServerOkImage()));
         }
         
         catch(IOException e)
         {
-            System.out.println("[MessageServer@startServer]: " + e.getMessage());
+            LoggingList.sendLogMessage(new LogMessage("[Message Server] Failed to initialize sever socket on port " + ServerConfig.MESSAGE_SERVER_PORT, 
+            AppResources.getInstance().getServerOkImage()));
         }
     }
     
@@ -53,7 +58,6 @@ public final class MessageServer extends SyncedServer
     
     private void handleClientSocket(Socket socket)
     {
-        System.out.println("[MessageServer] New connection: " + socket);
         ServerMessageListener messageHandler =   new ServerMessageListener(socket);
         messageHandler.start();
     }
@@ -82,8 +86,13 @@ public final class MessageServer extends SyncedServer
     @Override
     public synchronized void setServingSync(boolean serving)
     {
+        if(isServing == serving) return;
+        
         super.setServingSync(serving);
         ServerStatusPanel.getInstance().setServerStatus(serving, ServerConfig.MESSAGE_LISTEN_SERVER_CODE);
+        
+        LoggingList.sendLogMessage(new LogMessage("[Message Server] Server has " + (serving? "resumed" : "paused"), 
+            AppResources.getInstance().getServerOkImage()));
     }
     
     public static MessageServer getInstance()

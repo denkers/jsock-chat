@@ -1,5 +1,8 @@
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 
 public class SocketManager extends AbstractManager<String, UserSocket>
@@ -10,12 +13,12 @@ public class SocketManager extends AbstractManager<String, UserSocket>
     {
         if(find(username))
         {
+            LoggingList.sendLogMessage(new LogMessage("[Socket manager] Cleaning up resources for client '" + username + "'", AppResources.getInstance().getServerOkImage()));
+            
             UserSocket userSocket   =   get(username);
             userSocket.cleanUp();
             remove(username);
-            
-            UserManager userManager =   UserManager.getInstance();
-            userManager.remove(username);
+            UserManager.getInstance().remove(username);
         }
     }
     

@@ -6,6 +6,9 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 
 public class BroadcastMessageHandler implements ServerMessageHandler
 {
@@ -20,5 +23,7 @@ public class BroadcastMessageHandler implements ServerMessageHandler
         
         IUser user                  =   UserManager.getInstance().get(request.getUserSource());
         RoomManager.getInstance().sendMessageToRoom(room, response, RoomManager.createExclusions(user));
+        LoggingList.sendLogMessage(new LogMessage("[Message broadcast] User '" + user.getUsername() + "' has broadcasted to room '" + room + "'", 
+        AppResources.getInstance().getBroadcastImage()));
     }
 }

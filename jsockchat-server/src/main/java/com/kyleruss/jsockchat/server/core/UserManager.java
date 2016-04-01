@@ -11,6 +11,9 @@ import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.db.DBFriends;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.IOException;
@@ -49,7 +52,9 @@ public final class UserManager extends AbstractManager<String, IUser>
     {
         if(client == null) return;
         
-        data.remove(client.getUsername());
+        LoggingList.sendLogMessage(new LogMessage("[User manager] User '" + client.getUsername() + "' has exited", AppResources.getInstance().getDcImage()));
+        
+        remove(client.getUsername());
         RoomManager.getInstance().leaveAllRooms(client);
         SocketManager.getInstance().cleanUp(client.getUsername());
     }

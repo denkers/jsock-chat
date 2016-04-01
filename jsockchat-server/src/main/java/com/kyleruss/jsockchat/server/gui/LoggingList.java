@@ -10,7 +10,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 
 public class LoggingList extends JList
 {
@@ -29,14 +28,14 @@ public class LoggingList extends JList
     public void logMessage(LogMessage message)
     {
         if(model.size() >= ServerConfig.MAX_LOG_CAPACITY)
-        {
-            SwingUtilities.invokeLater(()->
-            {
-                model.removeRange(0, 40);
-            });
-        }
+            model.removeRange(0, 40);
         
         model.addElement(message);
+    }
+    
+    public static void sendLogMessage(LogMessage message)
+    {
+        getInstance().logMessage(message);
     }
     
     public static LoggingList getInstance()

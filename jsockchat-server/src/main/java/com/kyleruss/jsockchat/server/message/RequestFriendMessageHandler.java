@@ -5,6 +5,9 @@ import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import com.kyleruss.jsockchat.server.db.DBFriends;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import java.io.IOException;
 
 public class RequestFriendMessageHandler implements ServerMessageHandler
@@ -28,6 +31,9 @@ public class RequestFriendMessageHandler implements ServerMessageHandler
             String responseMsg  =   result? "Successfully sent " + bean.getFriendB() + " a friend request" : "Failed to send friend request";
             response.setStatus(result);
             response.setDescription(responseMsg);
+            
+            LoggingList.sendLogMessage(new LogMessage("[Friend request] User '" + source + "' has friend requested user '" + bean.getFriendB() + "'", 
+            AppResources.getInstance().getServerOkImage()));
         }
         
         try { UserManager.getInstance().sendMessageToUser(source, response); }

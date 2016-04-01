@@ -5,6 +5,9 @@ import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import com.kyleruss.jsockchat.server.db.DBFriends;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import java.io.IOException;
 
 public class AcceptFriendMessageHandler implements ServerMessageHandler
@@ -25,6 +28,13 @@ public class AcceptFriendMessageHandler implements ServerMessageHandler
         catch(IOException e)
         {
             System.out.println("[AcceptFriendMessageHandler@serverAction]: " + e.getMessage());
+        }
+        
+        if(result)
+        {
+            LoggingList.sendLogMessage(new LogMessage("[Friend response] User '" + source + "' has " + (bean.isAcceptRequest()? "accepted" : "declined") + " the friend request "
+            + "from user '" + bean.getFromUser() + "'", 
+            AppResources.getInstance().getAddFriendImage()));
         }
     }
 }

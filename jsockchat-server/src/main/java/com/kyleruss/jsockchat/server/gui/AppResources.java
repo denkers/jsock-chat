@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 public class AppResources 
 {
     private static AppResources instance;
-    private BufferedImage addImage, addFriendImage, authSuccessMessage, dcImage;
+    private BufferedImage addImage, addFriendImage, authSuccessImage, dcImage;
     private BufferedImage broadcastImage, pmImage, updateImage, serverOkImage, serverBadImage;
     private BufferedImage msgServerImage, updateServerImage, msgSendServerImage;
     private BufferedImage lockedChatImage, chatImage, serverImage, userImage;
@@ -26,7 +26,7 @@ public class AppResources
         {
             addImage            =   getImageResource("add.png");
             addFriendImage      =   getImageResource("add_friend.png");
-            authSuccessMessage  =   getImageResource("authsuccess.png");
+            authSuccessImage    =   getImageResource("authsuccess.png");
             dcImage             =   getImageResource("disconnect.png");
             broadcastImage      =   getImageResource("megaphone.png");
             pmImage             =   getImageResource("private-messaging.png");
@@ -64,9 +64,9 @@ public class AppResources
         return addFriendImage;
     }
 
-    public BufferedImage getAuthSuccessMessage() 
+    public BufferedImage getAuthSuccessImage() 
     {
-        return authSuccessMessage;
+        return authSuccessImage;
     }
 
     public BufferedImage getDcImage()

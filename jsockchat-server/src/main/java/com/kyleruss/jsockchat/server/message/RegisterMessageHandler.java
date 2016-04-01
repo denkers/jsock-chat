@@ -7,6 +7,9 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.db.DBUsers;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.IOException;
@@ -25,12 +28,12 @@ public class RegisterMessageHandler implements ServerMessageHandler
     {
         ResponseMessage response        =   new ResponseMessage(request);
         RegisterMsgBean registerBean    =   (RegisterMsgBean) request.getMessageBean();
-        String userame                  =   registerBean.getUsername();
+        String username                 =   registerBean.getUsername();
         String password                 =   registerBean.getPassword();
         String displayname              =   registerBean.getDisplayName();
         
         DBUsers userModel               =   DBUsers.getInstance();
-        User existingUser               =   userModel.getuser(userame);
+        User existingUser               =   userModel.getuser(username);
         
         if(existingUser != null)
         {
@@ -40,7 +43,7 @@ public class RegisterMessageHandler implements ServerMessageHandler
         
         else
         {
-            boolean result      =   userModel.createUser(userame, password, displayname);
+            boolean result      =   userModel.createUser(username, password, displayname);
             String responseMsg  =   result? "Your account has been successfully created" : "Failed to create account";   
             response.setStatus(result);
             response.setDescription(responseMsg);
@@ -48,20 +51,17 @@ public class RegisterMessageHandler implements ServerMessageHandler
         
         UserSocket userSocket   =   SocketManager.getInstance().get(servingUser);
         
-        if(userSocket == null)
-            System.out.println("User socket not found");
-        else
+        try
         {
-            try
-            {
-                MessageQueueItem messageItem   =   new MessageQueueItem(userSocket.getSocketOutputStream(), response);
-                ServerMessageSender.getInstance().addMessage(messageItem);
-            }
-            
-            catch(IOException e)
-            {
-                System.out.println("[RegisterMessageHandler@serverAction]: " + e.getMessage());
-            }
+            MessageQueueItem messageItem   =   new MessageQueueItem(userSocket.getSocketOutputStream(), response);
+            ServerMessageSender.getInstance().addMessage(messageItem);
+            LoggingList.sendLogMessage(new LogMessage("[Registration] User '" + username + "' has created an account", 
+            AppResources.getInstance().getAddFriendImage()));
+        }
+
+        catch(IOException e)
+        {
+            System.out.println("[RegisterMessageHandler@serverAction]: " + e.getMessage());
         }
     }
 }

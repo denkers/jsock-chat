@@ -8,6 +8,9 @@ import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.server.core.RoomManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import java.io.IOException;
 
 
@@ -56,6 +59,9 @@ public class JoinRoomMessageHandler implements ServerMessageHandler
                      response.setStatus(true);
                      response.setDescription(source + " (" + user.getDisplayName() + ") has joined the room");
                      RoomManager.getInstance().sendMessageToRoom(roomName, response, null);
+                     
+                     LoggingList.sendLogMessage(new LogMessage("[Join room] User '" + source + "' has joined room '" + roomName + "'", 
+                     AppResources.getInstance().getAddImage()));
                  }
             }
         }

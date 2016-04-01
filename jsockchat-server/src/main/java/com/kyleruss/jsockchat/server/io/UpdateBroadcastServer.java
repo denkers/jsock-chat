@@ -9,6 +9,9 @@ import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.core.ServerManager;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.gui.ServerPanel;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -87,9 +90,13 @@ public class UpdateBroadcastServer extends SyncedServer
             try { sendUpdates(updates, user); } 
             catch(IOException e)
             {
-                System.out.println("[AbstractBroadcaster@updateUsers]: " + e.getMessage());
+                LoggingList.sendLogMessage(new LogMessage("[Update Broadcast Server] Failed to send updates to user '" + user.getUsername() + "'",
+                AppResources.getInstance().getServerBadImage()));
             }
         }
+        
+        LoggingList.sendLogMessage(new LogMessage("[Update Broadcast Server] Updates sent to online users, next update in " + (ServerConfig.BROADCAST_DELAY / 1000) + " second(s)", 
+        AppResources.getInstance().getUpdateImage()));
     }
     
     protected synchronized void updateServer()

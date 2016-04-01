@@ -9,6 +9,9 @@ import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import com.kyleruss.jsockchat.server.db.DBUsers;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.IOException;
@@ -46,6 +49,9 @@ public class AuthMessageHandler implements ServerMessageHandler
             
             AuthPackage authPackage =   userManager.prepareAuthPackage(authUser);
             response.setResponseData(authPackage);
+            
+            LoggingList.sendLogMessage(new LogMessage("[Log in] User '" + authUser.getUsername() + "' has successfully logged in", 
+            AppResources.getInstance().getAuthSuccessImage()));
         }
         
         else

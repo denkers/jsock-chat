@@ -9,6 +9,9 @@ import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.room.Room;
 import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.File;
@@ -81,18 +84,28 @@ public final class RoomManager extends AbstractManager<String, Room>
     {
         if(find(roomName))
         {
+            LoggingList.sendLogMessage(new LogMessage("[Room manager] User '" + user.getUsername() + "' has left room '" + roomName + "'", 
+            AppResources.getInstance().getDcImage()));
+            
             user.getCurrentRooms().remove(roomName);
             Room room   =   get(roomName);
             room.leaveRoom(user);
             
             if(room.isEmpty() && !room.isFixed())
+            {
                 data.remove(roomName);
+                LoggingList.sendLogMessage(new LogMessage("[Room manager] Room '" + roomName + "' is empty, destroying...", AppResources.getInstance().getServerOkImage()));
+            }
+            
             else
             {
                 DisconnectMsgBean bean      =   new DisconnectMsgBean(user.getUsername(), room.getRoomName(), false);
                 RequestMessage request      =   new RequestMessage(user.getUsername(), bean);
                 ResponseMessage response    =   new ResponseMessage(request);
                 sendMessageToRoom(room.getRoomName(), response, createExclusions(user));
+                
+                LoggingList.sendLogMessage(new LogMessage("[Room manager] Notified witnesses of room '" + roomName + "' that user '" + user.getUsername() + "' has left", 
+                AppResources.getInstance().getBroadcastImage()));
             }
         }
     }
@@ -135,11 +148,14 @@ public final class RoomManager extends AbstractManager<String, Room>
                 Room room           =   new Room(roomName, false, password, true);
                 add(roomName, room);
             }
+            
+            LoggingList.sendLogMessage(new LogMessage("[Room manager] Fixed rooms from rooms.xml has been initialized", AppResources.getInstance().getServerOkImage()));
         }
         
         catch(IOException | ParserConfigurationException | SAXException e)
         {
             System.out.println("[RoomManager@initFixedRooms]: " + e.getMessage());
+            LoggingList.sendLogMessage(new LogMessage("[Room manager] Failed to initialize fixed rooms from rooms.xml", AppResources.getInstance().getServerBadImage()));
         }
     }
     

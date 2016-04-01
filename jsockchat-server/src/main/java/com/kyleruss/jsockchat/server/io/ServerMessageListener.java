@@ -16,6 +16,9 @@ import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.server.message.BroadcastMessageHandler;
 import com.kyleruss.jsockchat.server.message.CreateRoomMessageHandler;
@@ -44,17 +47,13 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
     {
         if(socket != null)
         {
-            String clientIP             =   socket.getInetAddress().getHostAddress();
-            System.out.println(clientIP);
+            String address              =   socket.getRemoteSocketAddress().toString();
             SocketManager sockManager   =   SocketManager.getInstance();
             
-            if(!sockManager.find(clientIP))
-            {
-                UserSocket userSocket       =   new UserSocket(socket);
-                sockManager.add(clientIP, userSocket);
-                servingUser =   clientIP;
-            }
-            
+            UserSocket userSocket       =   new UserSocket(socket);
+            sockManager.add(address, userSocket);
+            servingUser =   address;
+            LoggingList.sendLogMessage(new LogMessage("[Message Server] Serving new client '" + address + "'", AppResources.getInstance().getAddImage()));
         }
     }
     
@@ -99,8 +98,6 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         {
             if(request.getUserSource() != null)
                 servingUser = request.getUserSource();
-            
-            System.out.println("Request description: " + request.getDescription());
             
             MessageBean bean                =   request.getMessageBean();
             ServerMessageHandler handler    =   getHandler(bean);

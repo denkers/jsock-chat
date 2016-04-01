@@ -6,6 +6,9 @@ import com.kyleruss.jsockchat.commons.updatebean.RoomsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import com.kyleruss.jsockchat.commons.updatebean.UsersUpdateBean;
 import com.kyleruss.jsockchat.commons.user.IUser;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.MessageServer;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UpdateBroadcastServer;
@@ -18,12 +21,15 @@ public class ServerManager
     
     private void startServers()
     {
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Message server...", AppResources.getInstance().getServerOkImage()));
         MessageServer messageServer     =   MessageServer.getInstance();
         messageServer.start();
         
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Message broadcast server...", AppResources.getInstance().getServerOkImage()));
         ServerMessageSender sendServer  =   ServerMessageSender.getInstance();
         sendServer.start();
         
+        LoggingList.sendLogMessage(new LogMessage("[Server manager] Starting Update broadcast server...", AppResources.getInstance().getServerOkImage()));
         UpdateBroadcastServer broadcastServer =   UpdateBroadcastServer.getInstance();
         broadcastServer.start();
     }

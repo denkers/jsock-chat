@@ -1,9 +1,10 @@
 package com.kyleruss.jsockchat.server.core;
 
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -18,10 +19,11 @@ public class DBManager
     
     private void initDriver()
     {
+        LoggingList.sendLogMessage(new LogMessage("[DB manager] Registering database driver...", AppResources.getInstance().getServerOkImage()));
         try { Class.forName(ServerConfig.JDBC_CLASS); }
         catch(ClassNotFoundException e)
         {
-            System.out.println("[DBManager@initDriver]: " + e.getMessage());
+            LoggingList.sendLogMessage(new LogMessage("[DB manager] Failed to register database driver", AppResources.getInstance().getServerBadImage()));
         }
     }
     

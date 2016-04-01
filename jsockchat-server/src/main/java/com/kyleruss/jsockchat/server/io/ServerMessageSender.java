@@ -5,6 +5,9 @@ import com.kyleruss.jsockchat.commons.io.MessageSender;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.server.core.ServerConfig;
 import com.kyleruss.jsockchat.server.core.UserManager;
+import com.kyleruss.jsockchat.server.gui.AppResources;
+import com.kyleruss.jsockchat.server.gui.LogMessage;
+import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.gui.ServerStatusPanel;
 
 public class ServerMessageSender extends MessageSender
@@ -35,8 +38,12 @@ public class ServerMessageSender extends MessageSender
     
     public synchronized void setSending(boolean sending)
     {
-        this.isSending  =   sending;
+        if(isSending == sending) return;
+        
+        isSending  =   sending;
         ServerStatusPanel.getInstance().setServerStatus(sending, ServerConfig.MESSAGE_SEND_SERVER_CODE);
+        LoggingList.sendLogMessage(new LogMessage("[Message Send Server] Server has " + (sending? "resumed" : "paused"), 
+            AppResources.getInstance().getServerOkImage()));
         notify();
     }
     
