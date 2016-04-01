@@ -8,6 +8,7 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import net.miginfocom.swing.MigLayout;
@@ -76,29 +77,40 @@ public class ServerStatusPanel extends JPanel
     {
         SwingUtilities.invokeLater(()->
         {
+            ServerMenuBar menuBar   =   ServerMenuBar.getInstance();
             JPanel serverStatusPanel;
             JLabel serverStatusLabel;
+            JMenuItem startItem, stopItem;
 
             switch(serverCode)
             {
                 case ServerConfig.MESSAGE_LISTEN_SERVER_CODE:
                     serverStatusPanel   =   msgServerPanel;
                     serverStatusLabel   =   msgServerLabel;
+                    stopItem            =   menuBar.getItem("msgSvStopItem");
+                    startItem           =   menuBar.getItem("msgSvStartItem");
                     break;
 
                 case ServerConfig.MESSAGE_SEND_SERVER_CODE:
                     serverStatusPanel   =   msgSendServerPanel;
                     serverStatusLabel   =   msgSendServerLabel;
+                    stopItem            =   menuBar.getItem("msgSendSvStopItem");
+                    startItem           =   menuBar.getItem("msgSendSvStartItem");
                     break;
 
                 case ServerConfig.UPDATE_BROADCAST_SERVER_CODE:
                     serverStatusPanel       =   updateServerPanel;
                     serverStatusLabel       =   updateServerLabel;
+                    startItem           =   menuBar.getItem("updateSvStartItem");
+                    stopItem            =   menuBar.getItem("updateSvStopItem");
                     break;
 
                 default: return;
             }
 
+            startItem.setEnabled(!status);
+            stopItem.setEnabled(status);
+            
             serverStatusPanel.setBackground(status? new Color(52, 201, 57) : new Color(212, 42, 42));
             serverStatusLabel.setText(status? "ONLINE" : "OFFLINE");
         });
