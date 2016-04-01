@@ -20,6 +20,7 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListSelectionModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -56,6 +57,7 @@ public class ServerPanel extends JPanel
         roomScrollPane      =   new JScrollPane(roomTree);
         
         roomTree.setFocusable(false);
+        userList.setFocusable(false);
         loggingList.setSelectionModel(new NonSelectionModel());
         userList.setSelectionModel(new NonSelectionModel());
         
@@ -126,6 +128,9 @@ public class ServerPanel extends JPanel
             
             else if(src == menu.getItem("updateSvStartItem") || src == menu.getItem("updateSvStopItem"))
                 UpdateBroadcastServer.getInstance().setServingSync(src == menu.getItem("updateSvStartItem"));
+            
+            else if(src == menu.getItem("authorItem"))
+                JOptionPane.showMessageDialog(null, ServerConfig.AUTHOR_MESSAGE, "Software Author", JOptionPane.INFORMATION_MESSAGE);
         }
     }
     
