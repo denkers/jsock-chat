@@ -111,4 +111,10 @@ public class Room implements IRoom
     {
         return isFixed;
     }
+    
+    @Override
+    public String toString()
+    {
+        return name;
+    }
 }

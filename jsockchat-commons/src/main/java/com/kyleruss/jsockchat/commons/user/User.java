@@ -51,6 +51,12 @@ public class User implements IUser, Serializable
     {
         this.currentRooms = currentRooms;
     }
+    
+    @Override
+    public String toString()
+    {
+        return displayName;
+    }
 
     @Override
     public int hashCode()
