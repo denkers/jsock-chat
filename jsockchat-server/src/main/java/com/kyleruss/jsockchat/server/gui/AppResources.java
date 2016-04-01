@@ -13,6 +13,7 @@ public class AppResources
     private BufferedImage addImage, addFriendImage, authSuccessMessage, dcImage;
     private BufferedImage broadcastImage, pmImage, updateImage, serverOkImage, serverBadImage;
     private BufferedImage msgServerImage, updateServerImage, msgSendServerImage;
+    private BufferedImage lockedChatImage, chatImage, serverImage, userImage;
 
     private AppResources()
     {
@@ -35,6 +36,10 @@ public class AppResources
             msgServerImage      =   getImageResource("msg_server.png");
             updateServerImage   =   getImageResource("update_server.png");
             msgSendServerImage  =   getImageResource("message_send_server.png");
+            lockedChatImage     =   getImageResource("locked_chat.png");
+            chatImage           =   getImageResource("bubbles-alt.png");
+            serverImage         =   getImageResource("internet_icon.png");
+            userImage           =   getImageResource("user_icon.png");
         }
         
         catch(IOException e)
@@ -107,6 +112,26 @@ public class AppResources
     public BufferedImage getMsgSendServerImage()
     {
         return msgSendServerImage;
+    }
+    
+    public BufferedImage getLockedChatImage() 
+    {
+        return lockedChatImage;
+    }
+
+    public BufferedImage getChatImage() 
+    {
+        return chatImage;
+    }
+
+    public BufferedImage getServerImage()
+    {
+        return serverImage;
+    }
+    
+    public BufferedImage getUserImage()
+    {
+        return userImage;
     }
     
     public static AppResources getInstance()
