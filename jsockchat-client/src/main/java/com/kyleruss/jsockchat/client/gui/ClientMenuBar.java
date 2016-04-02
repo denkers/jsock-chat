@@ -24,6 +24,7 @@ public class ClientMenuBar extends MappedMenuBar
         addItem("joinRoomItem", new JMenuItem("Join room"), roomMenu);
         addItem("leaveRoomItem", new JMenuItem("Leave room"), roomMenu);
         addItem("createRoomItem", new JMenuItem("Create room"), roomMenu);
+        addItem("authorItem", new JMenuItem("Software author"), aboutMenu);
         
         add(fileMenu);
         add(accountMenu);

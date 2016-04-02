@@ -14,6 +14,7 @@ public class ClientGUIManager extends GUIManager
         initLookAndFeel(ClientConfig.LOOKNFEEL_PACKAGE);
         initFrame(ClientConfig.WINDOW_TITLE);
         attachMenubar(ClientMenuBar.getInstance());
+        ClientPanel.getInstance().setMenuListener();
     }
     
     public static ClientGUIManager getInstance()

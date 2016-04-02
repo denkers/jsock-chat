@@ -19,4 +19,9 @@ public class ClientConfig
     public static int WINDOW_WIDTH                  =   800;
     public static String WINDOW_TITLE               =   "JSockChat";
     public static final String LOOKNFEEL_PACKAGE    =   "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel";
+    public static final String HOME_VIEW_CARD       =   "home_view";
+    public static final String LOGIN_VIEW_CARD      =   "login_view";
+    public static final String REGISTER_VIEW_CARD   =   "register_view";
+    public static final String TRANSITION_VIEW_CARD =   "transition_view";
+    public static final String IMAGES_DIR           =   "data/resources/";
 }
