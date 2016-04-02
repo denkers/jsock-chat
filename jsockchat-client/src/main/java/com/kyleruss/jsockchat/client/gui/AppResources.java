@@ -11,6 +11,7 @@ public class AppResources
 {
     private static AppResources instance;
     private BufferedImage registerImage, loginImage, addPersonImage, lockImage;
+    private BufferedImage connectImage, serverImage;
 
     private AppResources()
     {
@@ -25,6 +26,8 @@ public class AppResources
             loginImage      =   getImageResource("loginbutton.png");
             addPersonImage  =   getImageResource("add_friend.png");
             lockImage       =   getImageResource("lock.png");
+            connectImage    =   getImageResource("connectbutton.png");
+            serverImage     =   getImageResource("internet_icon.png");
         }
         
         catch(IOException e)
@@ -57,6 +60,17 @@ public class AppResources
     {
         return lockImage;
     }
+
+    public BufferedImage getConnectImage() 
+    {
+        return connectImage;
+    }
+
+    public BufferedImage getServerImage() 
+    {
+        return serverImage;
+    }
+    
     
     public static AppResources getInstance()
     {

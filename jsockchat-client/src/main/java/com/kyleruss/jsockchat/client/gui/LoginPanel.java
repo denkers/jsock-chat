@@ -1,5 +1,7 @@
 package com.kyleruss.jsockchat.client.gui;
 
+import com.kyleruss.jsockchat.client.core.ClientConfig;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,10 +22,15 @@ public class LoginPanel extends JPanel implements ActionListener
 {
     protected JTextField usernameField;
     protected JPasswordField passwordField;
-    protected JButton loginButton;
+    protected JButton submitButton;
     protected JPanel fieldPanel;
     protected JLabel titleLabel;
     protected Border fieldBorder;
+    protected JPanel processingPanel;
+    protected JLabel processingLabel;
+    
+    protected final String PROCESS_CARD =   "process_c";
+    protected final String CONTROL_CARD =   "control_c";
     
     public LoginPanel()
     {
@@ -32,7 +39,7 @@ public class LoginPanel extends JPanel implements ActionListener
         fieldPanel      =   new JPanel(new MigLayout());
         passwordField   =   new JPasswordField();
         usernameField   =   new JTextField();
-        loginButton     =   new JButton(new ImageIcon(AppResources.getInstance().getLoginImage()));
+        submitButton    =   new JButton(new ImageIcon(AppResources.getInstance().getLoginImage()));
         
         fieldBorder     =   BorderFactory.createMatteBorder(1, 1, 1, 1, Color.LIGHT_GRAY);
         fieldPanel.setBorder(fieldBorder);
@@ -42,10 +49,18 @@ public class LoginPanel extends JPanel implements ActionListener
         PromptSupport.setPrompt(" Enter existing username", usernameField);
         PromptSupport.setPrompt(" Enter account password", passwordField);
         
-        ClientPanel.removeBorder(loginButton);
+        ClientPanel.removeBorder(submitButton);
         titleLabel   =   new JLabel("Sign in");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 14));
         titleLabel.setIcon(new ImageIcon(AppResources.getInstance().getLockImage()));
+        
+        processingPanel =   new JPanel(new CardLayout());
+        processingLabel =   new JLabel("Processing");
+        processingLabel.setHorizontalAlignment(JLabel.CENTER);
+        processingLabel.setIcon(new ImageIcon(ClientConfig.IMAGES_DIR + "spinner_small.gif"));
+        processingPanel.add(submitButton, CONTROL_CARD);
+        processingPanel.add(processingLabel, PROCESS_CARD);
+        processingPanel.setBackground(Color.WHITE);
         
         usernameField.setPreferredSize(new Dimension(200, 28));
         passwordField.setPreferredSize(new Dimension(200, 28));
@@ -55,7 +70,7 @@ public class LoginPanel extends JPanel implements ActionListener
         fieldPanel.add(usernameField, "wrap");
         fieldPanel.add(new JLabel("Password"));
         fieldPanel.add(passwordField, "wrap");
-        fieldPanel.add(loginButton, "span 2, al center, gapy 15");
+        fieldPanel.add(processingPanel, "span 2, al center, gapy 15");
         
         
         JPanel fieldWrapperPanel    =   new JPanel();
@@ -64,8 +79,16 @@ public class LoginPanel extends JPanel implements ActionListener
         fieldWrapperPanel.setBorder(BorderFactory.createEmptyBorder(80, 0, 0, 0));
         
         add(fieldWrapperPanel);
-        
+        submitButton.addActionListener(this);
     }
+    
+    public void showProcessing(boolean process)
+    {
+        CardLayout cLayout  =   (CardLayout) processingPanel.getLayout();
+        cLayout.show(processingPanel, process? PROCESS_CARD : CONTROL_CARD);
+    }
+    
+    
     
     public JTextField getUsernameField() 
     {
@@ -77,9 +100,8 @@ public class LoginPanel extends JPanel implements ActionListener
         return passwordField;
     }
     
-    private void login()
+    protected void submit()
     {
-        
     }
 
     @Override
@@ -87,7 +109,7 @@ public class LoginPanel extends JPanel implements ActionListener
     {
         Object src  =   e.getSource();
        
-        if(src == loginButton)
-            login();
+        if(src == submitButton)
+            submit();
     }
 }

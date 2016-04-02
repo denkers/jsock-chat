@@ -16,6 +16,7 @@ public class ClientPanel extends JPanel
     private TransitionPanel transitionView;
     private ChatHomePanel homeView;
     private LoginPanel loginView;
+    private ConnectPanel connectView;
     private RegisterPanel registerView;
     
     private ClientPanel()
@@ -24,7 +25,7 @@ public class ClientPanel extends JPanel
         setLayout(new CardLayout());
         
         initViews();
-        changeView(ClientConfig.LOGIN_VIEW_CARD);
+        changeView(ClientConfig.CONNECT_VIEW_CARD);
     }
     
     private void initViews()
@@ -33,11 +34,13 @@ public class ClientPanel extends JPanel
         loginView       =   new LoginPanel();
         registerView    =   new RegisterPanel();
         homeView        =   new ChatHomePanel();
+        connectView     =   new ConnectPanel();
         
         add(transitionView, ClientConfig.TRANSITION_VIEW_CARD);
         add(loginView, ClientConfig.LOGIN_VIEW_CARD);
         add(registerView, ClientConfig.REGISTER_VIEW_CARD);
         add(homeView, ClientConfig.HOME_VIEW_CARD);
+        add(connectView, ClientConfig.CONNECT_VIEW_CARD);
     }
     
     public void changeView(String viewName)

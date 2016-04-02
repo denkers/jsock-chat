@@ -23,5 +23,6 @@ public class ClientConfig
     public static final String LOGIN_VIEW_CARD      =   "login_view";
     public static final String REGISTER_VIEW_CARD   =   "register_view";
     public static final String TRANSITION_VIEW_CARD =   "transition_view";
+    public static final String CONNECT_VIEW_CARD    =   "connect_view";
     public static final String IMAGES_DIR           =   "data/resources/";
 }

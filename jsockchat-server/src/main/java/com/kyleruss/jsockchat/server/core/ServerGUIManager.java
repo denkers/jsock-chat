@@ -10,8 +10,8 @@ public class ServerGUIManager extends GUIManager
     
     private ServerGUIManager()
     {
-        panel   =   ServerPanel.getInstance();
         initLookAndFeel(ServerConfig.LOOKNFEEL_PACKAGE);
+        panel   =   ServerPanel.getInstance();
         initFrame(ServerConfig.WINDOW_TITLE);
         attachMenubar(ServerMenuBar.getInstance());
     }
