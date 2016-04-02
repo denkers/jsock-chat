@@ -6,22 +6,38 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class ClientPanel extends JPanel
 {
     private static ClientPanel instance;
-    private TransitionView transitionView;
+    private TransitionPanel transitionView;
+    private ChatHomePanel homeView;
+    private LoginPanel loginView;
+    private RegisterPanel registerView;
     
     private ClientPanel()
     {
         setPreferredSize(new Dimension(ClientConfig.WINDOW_WIDTH, ClientConfig.WINDOW_HEIGHT));
         setLayout(new CardLayout());
         
-        transitionView  =   new TransitionView();
+        initViews();
+        changeView(ClientConfig.LOGIN_VIEW_CARD);
+    }
+    
+    private void initViews()
+    {
+        transitionView  =   new TransitionPanel();
+        loginView       =   new LoginPanel();
+        registerView    =   new RegisterPanel();
+        homeView        =   new ChatHomePanel();
+        
         add(transitionView, ClientConfig.TRANSITION_VIEW_CARD);
-        changeView(ClientConfig.TRANSITION_VIEW_CARD);
+        add(loginView, ClientConfig.LOGIN_VIEW_CARD);
+        add(registerView, ClientConfig.REGISTER_VIEW_CARD);
+        add(homeView, ClientConfig.HOME_VIEW_CARD);
     }
     
     public void changeView(String viewName)
@@ -33,6 +49,13 @@ public class ClientPanel extends JPanel
     public void setMenuListener()
     {
         ClientMenuBar.getInstance().setListener(new ClientMenuListener());
+    }
+    
+    public static void removeBorder(JButton button)
+    {
+        button.setBorder(null);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
     }
     
     public static ClientPanel getInstance()

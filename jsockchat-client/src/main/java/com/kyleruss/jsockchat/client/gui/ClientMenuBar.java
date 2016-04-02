@@ -15,7 +15,8 @@ public class ClientMenuBar extends MappedMenuBar
         fileMenu    =   new JMenu("File");
         accountMenu =   new JMenu("Account");
         roomMenu    =   new JMenu("Room");
-        
+
+        addItem("dcItem", new JMenuItem("Disconnect"), fileMenu);
         addItem("miniItem", new JMenuItem("Minimize"), fileMenu);
         addItem("exitItem", new JMenuItem("Exit"), fileMenu);
         addItem("loginItem", new JMenuItem("Login"), accountMenu);

@@ -10,8 +10,8 @@ public class ClientGUIManager extends GUIManager
     
     private ClientGUIManager()
     {
-        panel   =   ClientPanel.getInstance();
         initLookAndFeel(ClientConfig.LOOKNFEEL_PACKAGE);
+        panel   =   ClientPanel.getInstance();
         initFrame(ClientConfig.WINDOW_TITLE);
         attachMenubar(ClientMenuBar.getInstance());
         ClientPanel.getInstance().setMenuListener();

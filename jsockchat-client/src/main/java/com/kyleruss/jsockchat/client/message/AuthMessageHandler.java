@@ -20,17 +20,6 @@ public class AuthMessageHandler implements ClientMessageHandler
         AuthPackage authPackage =   (AuthPackage) response.getResponseData();
         User authUser = authPackage.getAuthenticatedUser();
         System.out.println("auth username: " + authUser.getUsername() + " auth displayname: " + authUser.getDisplayName());
-        
-        if(response.getStatus())
-        {
-            try {
-                CreateRoomMsgBean bean2   =   new CreateRoomMsgBean("noroom", "qweqwe", false);
-                RequestMessage request2 =   new RequestMessage("testaccount1", bean2);
-                ClientManager.getInstance().sendRequest(request2);
-            } catch (IOException ex) {
-                Logger.getLogger(AuthMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
 
     @Override

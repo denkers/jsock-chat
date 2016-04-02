@@ -7,11 +7,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class TransitionView extends JPanel
+public class TransitionPanel extends JPanel
 {
     private final JLabel spinnerLabel;
     
-    public TransitionView()
+    public TransitionPanel()
     {
         super(new BorderLayout());
         setBackground(Color.WHITE);
