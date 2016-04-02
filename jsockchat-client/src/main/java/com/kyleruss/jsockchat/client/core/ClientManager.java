@@ -9,11 +9,13 @@ import com.kyleruss.jsockchat.client.updatebean.FriendsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.RoomsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.UsersUpdateBeanHandler;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
+import com.kyleruss.jsockchat.commons.message.DisconnectMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import javax.swing.JOptionPane;
 
 public class ClientManager 
 {
@@ -73,8 +75,22 @@ public class ClientManager
         Thread thread   = new Thread(()->
         {
             UserManager userManager =   UserManager.getInstance();
-            userManager.setActiveUser(null);
-            ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+            
+            try
+            {
+                DisconnectMsgBean bean  =   new DisconnectMsgBean(DisconnectMsgBean.CLIENT_LOGOUT);
+                RequestMessage request  =   new RequestMessage(userManager.getActiveUser().getUsername(), bean);
+                ClientManager.getInstance().sendRequest(request);
+
+                userManager.setActiveUser(null);
+                ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+            }
+            
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "Failed to send logout request", "Logout request message", JOptionPane.ERROR_MESSAGE);
+            }
+            
         });
         
         thread.start();

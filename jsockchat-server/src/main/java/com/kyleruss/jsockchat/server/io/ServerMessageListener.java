@@ -98,6 +98,11 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         {
             if(request.getUserSource() != null)
                 servingUser = request.getUserSource();
+            else
+            {
+                String address  =   socket.getRemoteSocketAddress().toString();
+                servingUser     =   address;
+            }
             
             MessageBean bean                =   request.getMessageBean();
             ServerMessageHandler handler    =   getHandler(bean);

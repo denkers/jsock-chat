@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class ClientPanel extends JPanel
 {
@@ -47,7 +48,15 @@ public class ClientPanel extends JPanel
     public void changeView(String viewName)
     {
         CardLayout cLayout  =   (CardLayout) getLayout();
-        cLayout.show(this, viewName);
+        cLayout.show(this, ClientConfig.TRANSITION_VIEW_CARD);
+        
+        Timer transitionTimer   =   new Timer(1500, (ActionEvent e) ->
+        {
+            cLayout.show(this, viewName);
+        });
+        
+        transitionTimer.setRepeats(false);
+        transitionTimer.start();
     }
     
     public void setMenuListener()

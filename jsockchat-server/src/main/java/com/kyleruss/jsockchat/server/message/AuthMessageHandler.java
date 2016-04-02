@@ -34,7 +34,7 @@ public class AuthMessageHandler implements ServerMessageHandler
         
         SocketManager socketManager =   SocketManager.getInstance();
         UserSocket userSocket       =   socketManager.get(servingUser);
-        
+        System.out.println("Serving user: " + servingUser + " socket: " + userSocket);
         
         if(authUser != null)
         {
