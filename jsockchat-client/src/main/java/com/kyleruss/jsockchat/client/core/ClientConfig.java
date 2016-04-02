@@ -15,7 +15,8 @@ public class ClientConfig
     //---------------------------------------------------------
     //  GUI CONSTS
     //---------------------------------------------------------
-    public static int WINDOW_HEIGHT     =   500;
-    public static int WINDOW_WIDTH      =   800;
-    public static String WINDOW_TITLE   =   "JSockChat";
+    public static int WINDOW_HEIGHT                 =   500;
+    public static int WINDOW_WIDTH                  =   800;
+    public static String WINDOW_TITLE               =   "JSockChat";
+    public static final String LOOKNFEEL_PACKAGE    =   "de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel";
 }

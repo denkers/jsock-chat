@@ -12,10 +12,7 @@ public abstract class GUIManager
     protected JPanel panel;
     protected JFrame frame;
     
-    public GUIManager()
-    {
-        
-    }
+    public GUIManager() {}
     
     protected void initFrame(String title)
     {
