@@ -6,6 +6,7 @@ import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.server.core.RoomManager;
+import com.kyleruss.jsockchat.server.core.SocketManager;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class DisconnectMessageHandler implements ServerMessageHandler
         response.setDescription(source + " (" + user.getDisplayName() + ") has left the room");
         response.setStatus(true);
         
-        if(!bean.isClientDisconnect())
+        if(bean.getDisconnectType() == DisconnectMsgBean.ROOM_LEAVE)
         {
             String roomName   =   bean.getRoom();
             roomManager.leaveRoom(user, roomName);
@@ -38,7 +39,11 @@ public class DisconnectMessageHandler implements ServerMessageHandler
             for(String roomName : rooms)
                 roomManager.sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
 
-            UserManager.getInstance().clientExit(user);
+            if(bean.getDisconnectType() == DisconnectMsgBean.CLIENT_CLOSE)
+                UserManager.getInstance().clientExit(user);
+            
+            else
+                SocketManager.getInstance().processLogout(user.getUsername());
         }
     }
 }

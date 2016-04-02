@@ -1,8 +1,10 @@
 
 package com.kyleruss.jsockchat.client.io;
 
+import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.SocketManager;
 import com.kyleruss.jsockchat.client.core.UserManager;
+import com.kyleruss.jsockchat.client.gui.ClientPanel;
 import com.kyleruss.jsockchat.client.message.AcceptFriendMessageHandler;
 import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.client.message.BroadcastMessageHandler;
@@ -26,10 +28,12 @@ import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
+import com.kyleruss.jsockchat.commons.user.IUser;
 import com.kyleruss.jsockchat.commons.user.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 public class ClientMessageListener extends MessageListener<ResponseMessage>
 {
@@ -79,7 +83,7 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
     {
         RequestMessage request          =   response.getRequestMessage();
         MessageBean bean                =   request.getMessageBean();
-        User user                       =   UserManager.getInstance().getActiveUser();
+        IUser user                      =   UserManager.getInstance().getActiveUser();
         ClientMessageHandler handler    =   getHandler(bean);
         
         if(handler != null)
@@ -99,6 +103,9 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         {
             if(inputStream != null) inputStream.close();
             SocketManager.getInstance().cleanUp();
+            
+            JOptionPane.showMessageDialog(null, "You have disconnected from the server", "Disconnect", JOptionPane.ERROR_MESSAGE);
+            ClientPanel.getInstance().changeView(ClientConfig.CONNECT_VIEW_CARD);
         }
         
         catch(IOException e)

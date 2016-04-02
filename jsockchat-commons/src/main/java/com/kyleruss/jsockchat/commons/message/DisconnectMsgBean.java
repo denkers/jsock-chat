@@ -3,24 +3,26 @@ package com.kyleruss.jsockchat.commons.message;
 
 public class DisconnectMsgBean implements MessageBean
 {
+    public static final int ROOM_LEAVE      =   0;
+    public static final int CLIENT_LOGOUT   =   1;
+    public static final int CLIENT_CLOSE    =   2;
+    
     private String room;
-    private boolean isClientDisconnect;
+    private int disconnectType;
 
-    public DisconnectMsgBean(String source, String room, boolean isClientDisconnect)
+    public DisconnectMsgBean(int disconnectType)
     {
-        this.room               =   room;
-        this.isClientDisconnect =   isClientDisconnect;
+        this.disconnectType     =   disconnectType;
     }
-
 
     public String getRoom() 
     {
         return room;
     }
 
-    public boolean isClientDisconnect() 
+    public int getDisconnectType() 
     {
-        return isClientDisconnect;
+        return disconnectType;
     }
     
     public void setRoom(String room) 
@@ -28,8 +30,8 @@ public class DisconnectMsgBean implements MessageBean
         this.room   =   room;
     }
     
-    public void setIsClientDisconnect(boolean isClientDisconnect)
+    public void setDisconnectType(int disconnectType)
     {
-        this.isClientDisconnect =   isClientDisconnect;
+        this.disconnectType =   disconnectType;
     }
 }

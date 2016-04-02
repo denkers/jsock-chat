@@ -1,31 +1,39 @@
 
 package com.kyleruss.jsockchat.client.message;
 
+import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.ClientManager;
-import com.kyleruss.jsockchat.commons.message.CreateRoomMsgBean;
-import com.kyleruss.jsockchat.commons.message.RequestMessage;
+import com.kyleruss.jsockchat.client.core.UserManager;
+import com.kyleruss.jsockchat.client.gui.ClientPanel;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.AuthPackage;
 import com.kyleruss.jsockchat.commons.user.User;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class AuthMessageHandler implements ClientMessageHandler
 {
     @Override
     public void clientAction(ResponseMessage response) 
     {
-        System.out.println("Received message: " + response.getDescription());
-        AuthPackage authPackage =   (AuthPackage) response.getResponseData();
-        User authUser = authPackage.getAuthenticatedUser();
-        System.out.println("auth username: " + authUser.getUsername() + " auth displayname: " + authUser.getDisplayName());
+        if(response.getStatus())
+        {
+            AuthPackage authPackage =   (AuthPackage) response.getResponseData();
+            User authUser           =   authPackage.getAuthenticatedUser();
+            
+            UserManager.getInstance().setActiveUser(authUser);
+            ClientManager.getInstance().handleUpdates(authPackage.getListDump());
+            
+            ClientPanel.getInstance().getLoginView().showProcessing(false);
+            ClientPanel.getInstance().changeView(ClientConfig.HOME_VIEW_CARD);
+        }
+        
+        else
+        {
+            ClientPanel.getInstance().getLoginView().showProcessing(false);
+            JOptionPane.showMessageDialog(null, response.getDescription(), "Authentication failed", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @Override
-    public void witnessAction(ResponseMessage response) 
-    {
-    }
-
-    
+    public void witnessAction(ResponseMessage response) {}
 }

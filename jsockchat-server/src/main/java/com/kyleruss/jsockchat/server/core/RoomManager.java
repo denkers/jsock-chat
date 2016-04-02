@@ -99,7 +99,8 @@ public final class RoomManager extends AbstractManager<String, Room>
             
             else
             {
-                DisconnectMsgBean bean      =   new DisconnectMsgBean(user.getUsername(), room.getRoomName(), false);
+                DisconnectMsgBean bean      =   new DisconnectMsgBean(DisconnectMsgBean.ROOM_LEAVE);
+                bean.setRoom(room.getRoomName());
                 RequestMessage request      =   new RequestMessage(user.getUsername(), bean);
                 ResponseMessage response    =   new ResponseMessage(request);
                 sendMessageToRoom(room.getRoomName(), response, createExclusions(user));

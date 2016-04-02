@@ -1,6 +1,7 @@
 
 package com.kyleruss.jsockchat.client.core;
 
+import com.kyleruss.jsockchat.client.gui.ClientPanel;
 import com.kyleruss.jsockchat.client.io.ClientMessageListener;
 import com.kyleruss.jsockchat.client.io.ClientMessageSender;
 import com.kyleruss.jsockchat.client.io.ListUpdateListener;
@@ -8,7 +9,6 @@ import com.kyleruss.jsockchat.client.updatebean.FriendsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.RoomsUpdateBeanHandler;
 import com.kyleruss.jsockchat.client.updatebean.UsersUpdateBeanHandler;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
-import com.kyleruss.jsockchat.commons.message.CreateRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageQueueItem;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.updatebean.UpdateBeanDump;
@@ -18,20 +18,22 @@ import java.io.ObjectOutputStream;
 public class ClientManager 
 {
     private static ClientManager instance;
-    private static ClientMessageSender sender;
+    private ClientMessageSender sender;
+    private ClientMessageListener listener;
+    private ListUpdateListener listUpdateListener;
     
     private ClientManager() {}
     
-    private void startServers()
+    public void startServers()
     {
-        SocketManager sockMgr   =   SocketManager.getInstance();
-        ClientMessageListener listener  =   ClientMessageListener.getInstance(sockMgr.getTcpSocket());
+        SocketManager sockMgr           =   SocketManager.getInstance();
+        listener  =   ClientMessageListener.getInstance(sockMgr.getTcpSocket());
         listener.start();
         
         sender  =   ClientMessageSender.getInstance();
         sender.start();
         
-        ListUpdateListener listUpdateListener = new ListUpdateListener(sockMgr.getUdpSocket());
+        listUpdateListener = new ListUpdateListener(sockMgr.getUdpSocket());
         listUpdateListener.start();
     }
     
@@ -43,13 +45,39 @@ public class ClientManager
     
     public void handleUpdates(UpdateBeanDump update)
     {
-        FriendsUpdateBeanHandler friendsHandler =   new FriendsUpdateBeanHandler(update.getFriendsBean());
-        RoomsUpdateBeanHandler roomsHandler     =   new RoomsUpdateBeanHandler(update.getRoomsBean());
-        UsersUpdateBeanHandler usersHandler     =   new UsersUpdateBeanHandler(update.getUsersBean());
+        Thread updateThread =   new Thread(()->
+        {
+            FriendsUpdateBeanHandler friendsHandler =   new FriendsUpdateBeanHandler(update.getFriendsBean());
+            RoomsUpdateBeanHandler roomsHandler     =   new RoomsUpdateBeanHandler(update.getRoomsBean());
+            UsersUpdateBeanHandler usersHandler     =   new UsersUpdateBeanHandler(update.getUsersBean());
+
+            usersHandler.beanAction();
+            roomsHandler.beanAction();
+            friendsHandler.beanAction();
+        });
         
-        usersHandler.beanAction();
-        roomsHandler.beanAction();
-        friendsHandler.beanAction();
+        updateThread.start();
+    }
+    
+    public void clearUpdates()
+    {
+        UserManager.getInstance().setFriendsBean(null);
+        UserManager.getInstance().setUsersBean(null);
+        RoomManager.getInstance().setRoomsBean(null);
+    }
+    
+    public void logoutUser()
+    {
+        if(UserManager.getInstance().getActiveUser() == null) return;
+        
+        Thread thread   = new Thread(()->
+        {
+            UserManager userManager =   UserManager.getInstance();
+            userManager.setActiveUser(null);
+            ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+        });
+        
+        thread.start();
     }
     
     public void sendRequest(RequestMessage request) throws IOException

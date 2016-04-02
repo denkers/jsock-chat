@@ -1,16 +1,23 @@
 package com.kyleruss.jsockchat.client.gui;
 
 import com.kyleruss.jsockchat.client.core.ClientConfig;
+import com.kyleruss.jsockchat.client.core.ClientManager;
+import com.kyleruss.jsockchat.client.core.SocketManager;
+import com.kyleruss.jsockchat.client.io.ClientMessageSender;
+import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
+import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -102,6 +109,25 @@ public class LoginPanel extends JPanel implements ActionListener
     
     protected void submit()
     {
+        Thread authThread       =   new Thread(()->
+        {
+            try
+            {
+                showProcessing(true);
+                String username         =   usernameField.getText();
+                String password         =   new String(passwordField.getPassword());
+                AuthMsgBean bean        =   new AuthMsgBean(username, password, SocketManager.getInstance().getUdpPort());
+                RequestMessage request  =   new RequestMessage(null, bean);   
+                ClientManager.getInstance().sendRequest(request);
+            }
+            
+            catch(IOException e)
+            {   
+                JOptionPane.showMessageDialog(null, "Failed to send authentication request", "Authentication failed", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        
+        authThread.start();
     }
 
     @Override

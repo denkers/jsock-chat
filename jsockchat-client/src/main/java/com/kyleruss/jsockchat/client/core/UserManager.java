@@ -3,18 +3,25 @@ package com.kyleruss.jsockchat.client.core;
 
 import com.kyleruss.jsockchat.commons.updatebean.FriendsUpdateBean;
 import com.kyleruss.jsockchat.commons.updatebean.UsersUpdateBean;
-import com.kyleruss.jsockchat.commons.user.User;
+import com.kyleruss.jsockchat.commons.user.IUser;
 
 public class UserManager 
 {
     private static UserManager instance;
-    private User activeUser;
+    private IUser activeUser;
     private FriendsUpdateBean friendsBean;
     private UsersUpdateBean usersBean;
     
-    public User getActiveUser()
+    private UserManager() {}
+    
+    public IUser getActiveUser()
     {
         return activeUser;
+    }
+    
+    public void setActiveUser(IUser activeUser)
+    {
+        this.activeUser =   activeUser;
     }
     
     public void setFriendsBean(FriendsUpdateBean friendsBean)
@@ -35,6 +42,12 @@ public class UserManager
     public void setUsersBean(UsersUpdateBean usersBean)
     {
         this.usersBean  =   usersBean;
+    }
+    
+    public String getSource()
+    {
+        if(activeUser == null) return null;
+        else return activeUser.getUsername();
     }
     
     public static UserManager getInstance()

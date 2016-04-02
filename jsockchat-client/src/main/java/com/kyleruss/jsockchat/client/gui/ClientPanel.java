@@ -2,6 +2,7 @@
 package com.kyleruss.jsockchat.client.gui;
 
 import com.kyleruss.jsockchat.client.core.ClientConfig;
+import com.kyleruss.jsockchat.client.core.ClientManager;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -53,6 +54,33 @@ public class ClientPanel extends JPanel
     {
         ClientMenuBar.getInstance().setListener(new ClientMenuListener());
     }
+
+    public TransitionPanel getTransitionView() 
+    {
+        return transitionView;
+    }
+
+    public ChatHomePanel getHomeView() 
+    {
+        return homeView;
+    }
+
+    public LoginPanel getLoginView() 
+    {
+        return loginView;
+    }
+
+    public ConnectPanel getConnectView() 
+    {
+        return connectView;
+    }
+
+    public RegisterPanel getRegisterView()
+    {
+        return registerView;
+    }
+    
+    
     
     public static void removeBorder(JButton button)
     {
@@ -77,6 +105,15 @@ public class ClientPanel extends JPanel
             
             if(src == menu.getItem("authorItem"))
                 JOptionPane.showMessageDialog(null, "Kyle Russell\nAUT University\nwww.github.com/denkers");
+            
+            else if(src == menu.getItem("loginItem"))
+                changeView(ClientConfig.LOGIN_VIEW_CARD);
+            
+            else if(src == menu.getItem("registerItem"))
+                changeView(ClientConfig.REGISTER_VIEW_CARD);
+            
+            else if(src == menu.getItem("logoutItem"))
+                ClientManager.getInstance().logoutUser();
         }
     }
 }

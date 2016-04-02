@@ -22,6 +22,19 @@ public class SocketManager extends AbstractManager<String, UserSocket>
         }
     }
     
+    public void processLogout(String username)
+    {
+        if(find(username))
+        {
+            UserSocket userSocket   =   get(username);
+            remove(username);
+            add(userSocket.getSocket().getRemoteSocketAddress().toString(), userSocket);
+            
+            UserManager.getInstance().remove(username);
+            LoggingList.sendLogMessage(new LogMessage("[Logout] User '" + username + "' has logged out", AppResources.getInstance().getDcImage()));
+        }
+    }
+    
     public static SocketManager getInstance()
     {
         if(instance == null) instance = new SocketManager();

@@ -1,10 +1,13 @@
 
 package com.kyleruss.jsockchat.client.core;
 
+import com.kyleruss.jsockchat.client.gui.ClientPanel;
+import com.kyleruss.jsockchat.client.gui.ConnectPanel;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.DatagramSocket;
 import java.net.Socket;
+import javax.swing.JOptionPane;
 
 
 public class SocketManager 
@@ -14,23 +17,34 @@ public class SocketManager
     private DatagramSocket udpSocket;
     private ObjectOutputStream tcpOutputStream;
 
-    private SocketManager()
-    {
-        initSockets();
-    }
+    private SocketManager() {}
     
-    private void initSockets()
+    public void initSockets(String host, int port)
     {
-        try
+        Thread sockThread   =   new Thread(()->
         {
-            tcpSocket   =   new Socket(ClientConfig.MSG_SERVER_HOST, ClientConfig.MSG_SERVER_PORT);
-            udpSocket   =   new DatagramSocket();
-        }
+            ConnectPanel connectView =   ClientPanel.getInstance().getConnectView();
+            
+            try
+            {
+                tcpSocket       =   new Socket(host, port);
+                udpSocket       =   new DatagramSocket();
+                tcpOutputStream =   null;
+                ClientManager.getInstance().startServers();
+                
+                connectView.showProcessing(false);
+                ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+            }
         
-        catch(IOException e)
-        {
-            System.out.println("[SocketManager@initSocket]: " + e.getMessage());
-        }
+            catch(IOException e)
+            {
+                JOptionPane.showMessageDialog(null, "Failed to connect to server", "Connection failed", JOptionPane.ERROR_MESSAGE);
+                connectView.showProcessing(false);
+            }
+            
+        });
+        
+        sockThread.start();
     }
     
     public int getUdpPort()
