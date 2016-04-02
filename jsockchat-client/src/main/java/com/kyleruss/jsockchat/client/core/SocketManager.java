@@ -27,11 +27,11 @@ public class SocketManager
             
             try
             {
+                System.out.println("trying to init");
                 tcpSocket       =   new Socket(host, port);
                 udpSocket       =   new DatagramSocket();
                 tcpOutputStream =   null;
                 ClientManager.getInstance().startServers();
-                
                 connectView.showProcessing(false);
                 ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
             }
@@ -78,6 +78,11 @@ public class SocketManager
         catch(IOException e)
         {
             System.out.println("[SocketManager@cleanUp]: " + e.getMessage());
+        }
+        
+        finally
+        {
+            ClientManager.getInstance().disconnectUser();
         }
     }
     

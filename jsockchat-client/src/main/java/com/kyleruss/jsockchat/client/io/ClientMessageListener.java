@@ -29,15 +29,12 @@ import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
 import com.kyleruss.jsockchat.commons.user.IUser;
-import com.kyleruss.jsockchat.commons.user.User;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
-import javax.swing.JOptionPane;
 
 public class ClientMessageListener extends MessageListener<ResponseMessage>
 {
-    private static ClientMessageListener instance;
     
     public ClientMessageListener(Socket socket) 
     {
@@ -103,9 +100,6 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         {
             if(inputStream != null) inputStream.close();
             SocketManager.getInstance().cleanUp();
-            
-            JOptionPane.showMessageDialog(null, "You have disconnected from the server", "Disconnect", JOptionPane.ERROR_MESSAGE);
-            ClientPanel.getInstance().changeView(ClientConfig.CONNECT_VIEW_CARD);
         }
         
         catch(IOException e)
@@ -128,12 +122,6 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
             System.out.println("[ClientMessageListener@getMessage]: " + e.getMessage());
             return null;
         }
-    }
-    
-    public static ClientMessageListener getInstance(Socket socket)
-    {
-        if(instance == null) instance = new ClientMessageListener(socket);
-        return instance;
     }
     
 }

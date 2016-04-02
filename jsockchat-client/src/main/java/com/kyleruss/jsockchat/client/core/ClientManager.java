@@ -29,10 +29,10 @@ public class ClientManager
     public void startServers()
     {
         SocketManager sockMgr           =   SocketManager.getInstance();
-        listener  =   ClientMessageListener.getInstance(sockMgr.getTcpSocket());
+        listener    =   new ClientMessageListener(sockMgr.getTcpSocket());
         listener.start();
         
-        sender  =   ClientMessageSender.getInstance();
+        sender      =   new ClientMessageSender();
         sender.start();
         
         listUpdateListener = new ListUpdateListener(sockMgr.getUdpSocket());
@@ -84,6 +84,7 @@ public class ClientManager
 
                 userManager.setActiveUser(null);
                 ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+                clearUpdates();
             }
             
             catch(IOException e)
@@ -94,6 +95,14 @@ public class ClientManager
         });
         
         thread.start();
+    }
+    
+    public void disconnectUser()
+    {
+        clearUpdates();
+        UserManager.getInstance().setActiveUser(null);
+        JOptionPane.showMessageDialog(null, "You have disconnected from the server", "Connection failed", JOptionPane.ERROR_MESSAGE);
+        ClientPanel.getInstance().changeView(ClientConfig.CONNECT_VIEW_CARD);
     }
     
     public void sendRequest(RequestMessage request) throws IOException

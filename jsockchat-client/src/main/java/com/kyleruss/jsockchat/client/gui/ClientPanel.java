@@ -3,6 +3,7 @@ package com.kyleruss.jsockchat.client.gui;
 
 import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.ClientManager;
+import com.kyleruss.jsockchat.client.core.SocketManager;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -89,8 +90,6 @@ public class ClientPanel extends JPanel
         return registerView;
     }
     
-    
-    
     public static void removeBorder(JButton button)
     {
         button.setBorder(null);
@@ -123,6 +122,9 @@ public class ClientPanel extends JPanel
             
             else if(src == menu.getItem("logoutItem"))
                 ClientManager.getInstance().logoutUser();
+            
+            else if(src == menu.getItem("dcItem"))
+                SocketManager.getInstance().cleanUp();
         }
     }
 }

@@ -6,8 +6,6 @@ import com.kyleruss.jsockchat.commons.io.MessageSender;
 
 public class ClientMessageSender extends MessageSender
 {
-    private static ClientMessageSender instance;
-    
     @Override
     protected void cleanUp(String source)
     {
@@ -18,11 +16,5 @@ public class ClientMessageSender extends MessageSender
     protected boolean isStopped() 
     {
         return false;
-    }
-    
-    public static ClientMessageSender getInstance()
-    {
-        if(instance == null) instance   =   new ClientMessageSender();
-        return instance;
     }
 }
