@@ -1,8 +1,18 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.updatebean;
 
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * A bean that maintains all beans available
+ * Has friends, rooms and users beans
+ */
 public class UpdateBeanDump implements Serializable
 {
     private FriendsUpdateBean friendsBean;

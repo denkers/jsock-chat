@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.core;
 
@@ -17,6 +22,7 @@ import com.kyleruss.jsockchat.server.io.UserSocket;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -26,16 +32,26 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Maintains the active rooms in the server
+ * Initializes static rooms from data/rooms.xml
+ */
 public final class RoomManager extends AbstractManager<String, Room>
 {
     private static RoomManager instance;
-    private String channelNotice;
+    private String serverNodeName;
     
     private RoomManager() 
     {
+        data    =   new LinkedHashMap<>();
         initFixedRooms();
     }
     
+    /**
+     * Gets the room with the passed roomName and returns its user list
+     * @param roomName The name of the room/key in data 
+     * @return A list of users in this room
+     */
     public synchronized List<IUser> getUsersInRoom(String roomName)
     {
         Room room           =   get(roomName);
@@ -44,6 +60,12 @@ public final class RoomManager extends AbstractManager<String, Room>
         else return new ArrayList<>();
     }
     
+    /**
+     * Sends the passed message to all users in the room (exception those in exclusions)
+     * @param roomName The name of the room to send to
+     * @param message The message to send users in the room
+     * @param exclusions Users in the room to ignore
+     */
     public synchronized void sendMessageToRoom(String roomName, Message message, List<IUser> exclusions)
     {
         if(!find(roomName))
@@ -71,6 +93,11 @@ public final class RoomManager extends AbstractManager<String, Room>
         }
     }
     
+    /**
+     * Creates a list of users to be ignored
+     * @param excludedUsers The users to exclude
+     * @return A list of users that should be ignored
+     */
     public static List<IUser> createExclusions(IUser... excludedUsers)
     {
         List<IUser> exclusions  =   new ArrayList<>();
@@ -80,6 +107,12 @@ public final class RoomManager extends AbstractManager<String, Room>
         return exclusions;
     }
     
+    /**
+     * Removes the user from the room
+     * Updates clients in the room of users exist
+     * @param user The user to remove from the room
+     * @param roomName The room to remove user from
+     */
     public synchronized void leaveRoom(IUser user, String roomName)
     {
         if(find(roomName))
@@ -111,27 +144,22 @@ public final class RoomManager extends AbstractManager<String, Room>
         }
     }
     
-    public void leaveAllRooms(IUser user)
+    /**
+     * Removes the user from all rooms its involved in
+     * @param user The user that's going to leave all their rooms
+     */
+    public synchronized void leaveAllRooms(IUser user)
     {
-        List<String> currentRooms   =   user.getCurrentRooms();
-        for(String roomName : currentRooms)
-            leaveRoom(user, roomName);
+        Object[] currentRooms   =    user.getCurrentRooms().toArray();
+       
+        for(Object room : currentRooms)
+            leaveRoom(user, room.toString());
     }
     
-    public void setChannelNotice(String channelNotice)
-    {
-        this.channelNotice  =   channelNotice;
-    }
-    
-    public RoomsUpdateBean createRoomsBean()
-    {
-        RoomsUpdateBean bean    =   new RoomsUpdateBean();
-        bean.setChannelNotice(channelNotice);
-        bean.setData(data);
-        
-        return bean;
-    }
-    
+    /**
+     * Parses the static rooms file (default data/rooms.xml)
+     * Addes rooms the file to the manager
+     */
     private void initFixedRooms()
     {
         try
@@ -150,6 +178,8 @@ public final class RoomManager extends AbstractManager<String, Room>
                 add(roomName, room);
             }
             
+            serverNodeName  =   doc.getElementsByTagName("rootRoom").item(0).getTextContent();
+            
             LoggingList.sendLogMessage(new LogMessage("[Room manager] rooms.xml has been initialized", AppResources.getInstance().getServerOkImage()));
         }
         
@@ -158,6 +188,25 @@ public final class RoomManager extends AbstractManager<String, Room>
             System.out.println("[RoomManager@initFixedRooms]: " + e.getMessage());
             LoggingList.sendLogMessage(new LogMessage("[Room manager] Failed to initialize rooms.xml", AppResources.getInstance().getServerBadImage()));
         }
+    }
+    
+    public void setServerNodeName(String serverNodeName)
+    {
+        this.serverNodeName  =   serverNodeName;
+    }
+    
+    public String getServerNodeName(String serverNodeName)
+    {
+        return serverNodeName;
+    }
+    
+    public RoomsUpdateBean createRoomsBean()
+    {
+        RoomsUpdateBean bean    =   new RoomsUpdateBean();
+        bean.setServerNodeName(serverNodeName);
+        bean.setData(data);
+        
+        return bean;
     }
     
     public static RoomManager getInstance()

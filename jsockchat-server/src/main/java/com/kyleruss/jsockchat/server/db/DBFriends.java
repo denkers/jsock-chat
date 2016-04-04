@@ -1,7 +1,13 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.db;
 
 import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
+import com.kyleruss.jsockchat.commons.message.RemoveFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.server.core.DBManager;
 import java.sql.ResultSet;
@@ -11,6 +17,8 @@ import com.kyleruss.jsockchat.commons.user.User;
 import com.kyleruss.jsockchat.server.core.UserManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -35,11 +43,13 @@ public class DBFriends extends DBModel
         "FROM Friends, Users friend\n" +
         "WHERE Friends.friend_b = friend.username\n" +
         "AND Friends.friend_a = ?\n" +
+        "AND confirmed = 'TRUE'\n" + 
         "UNION\n" +
         "SELECT friend.*\n" +
         "FROM Friends, Users friend\n" +
         "WHERE Friends.friend_a = friend.username\n" +
-        "AND Friends.friend_b = ?";
+        "AND Friends.friend_b = ?" +
+        "AND confirmed = 'TRUE'";
         
         try(Connection conn     =   DBManager.getConnection())
         {
@@ -90,16 +100,16 @@ public class DBFriends extends DBModel
     public List<RequestFriendMsgBean> getPendingFriendRequests(String username)
     {
         String query    =   
-        "SELECT * FROM Friends "
-        + "WHERE friend_b = ? "
-        + "AND confirmed = ?";
+        "SELECT * FROM Friends\n" +
+        "WHERE friend_b = ?\n" +
+        "AND confirmed = 'FALSE'";
         
         List<RequestFriendMsgBean> pendingRequests  =   new ArrayList<>();
         try(Connection conn =   DBManager.getConnection())
         {
             PreparedStatement statement =   conn.prepareStatement(query);
+            SimpleDateFormat formatter  =   new SimpleDateFormat("yyyy-MM-dd");
             statement.setString(1, username);
-            statement.setBoolean(2, true);
             
             ResultSet rs    =   statement.executeQuery();
             while(rs.next())
@@ -107,7 +117,7 @@ public class DBFriends extends DBModel
                 int friendshipID                =   rs.getInt("id");
                 String friendA                  =   rs.getString("friend_a");
                 String friendB                  =   rs.getString("friend_b");
-                Date reqDate                    =   rs.getDate("befriend_date");
+                Date reqDate                    =   formatter.parse(rs.getString("befriend_date"));
                 
                 RequestFriendMsgBean reqBean    =   new RequestFriendMsgBean(friendA, friendB, reqDate);
                 reqBean.setFriendshipID(friendshipID);
@@ -115,7 +125,7 @@ public class DBFriends extends DBModel
             }
         }
         
-        catch(SQLException e)
+        catch(SQLException | ParseException e)
         {
             System.out.println("[DBFriends@getPendingFriendRequests]: " + e.getMessage());
         }
@@ -143,6 +153,34 @@ public class DBFriends extends DBModel
         }
     }
     
+    public boolean removeFriend(RemoveFriendMsgBean removeFriendBean)
+    {
+        String friendA  =   removeFriendBean.getFriendUsername();
+        String friendB  =   removeFriendBean.getSourceUsername();
+        
+        String query    =   
+        "DELETE FROM Friends "
+        + "WHERE (friend_a = ? AND friend_b = ?) "
+        + "OR (friend_a = ? AND friend_b = ?);";
+        
+        try(Connection conn =   DBManager.getConnection())
+        {
+            PreparedStatement statement =   conn.prepareStatement(query);
+            statement.setString(1, friendA);
+            statement.setString(2, friendB);
+            statement.setString(3, friendB);
+            statement.setString(4, friendA);
+            
+            return statement.executeUpdate() > 0;
+        }
+        
+        catch(SQLException e)
+        {
+            System.out.println("[DBFriends@removeFriend]: " + e.getMessage());
+            return false;
+        }
+    }
+    
     public boolean respondToFriendRequest(AcceptFriendMsgBean requestBean)
     {
         boolean isAccepting =   requestBean.isAcceptRequest();
@@ -153,7 +191,7 @@ public class DBFriends extends DBModel
         {
             query   =   
             "UPDATE Friends "
-            + "SET confirmed = ? "
+            + "SET confirmed = '" + (isAccepting? "TRUE" : "FALSE") + "' "
             + "WHERE id = ?";
         }
         
@@ -169,8 +207,7 @@ public class DBFriends extends DBModel
             
             if(isAccepting)
             {
-                statement.setBoolean(1, true);
-                statement.setInt(2, friendshipID);
+                statement.setInt(1, friendshipID);
             }
             
             else statement.setInt(1, friendshipID);
@@ -189,7 +226,7 @@ public class DBFriends extends DBModel
     {
         String query    =   
         "SELECT  * FROM Friends "
-        + "(WHERE friend_a = ? AND friend_b = ?) "
+        + "WHERE (friend_a = ? AND friend_b = ?) "
         + "OR (friend_a = ? AND friend_b = ?)";
         
         try(Connection conn =   DBManager.getConnection())

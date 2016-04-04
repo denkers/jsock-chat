@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.commons.user;
 
@@ -5,7 +10,9 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-
+/**
+ * @see com.kyleruss.jsockchat.commons.user.IUser
+ */
 public class User implements IUser, Serializable
 {
     private String username;

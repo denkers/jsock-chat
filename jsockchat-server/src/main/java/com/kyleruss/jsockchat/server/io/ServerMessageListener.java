@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
@@ -12,6 +17,7 @@ import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
 import com.kyleruss.jsockchat.commons.message.PrivateMsgBean;
 import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
+import com.kyleruss.jsockchat.commons.message.RemoveFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.server.core.SocketManager;
@@ -26,16 +32,23 @@ import com.kyleruss.jsockchat.server.message.DisconnectMessageHandler;
 import com.kyleruss.jsockchat.server.message.JoinRoomMessageHandler;
 import com.kyleruss.jsockchat.server.message.PrivateMessageHandler;
 import com.kyleruss.jsockchat.server.message.RegisterMessageHandler;
+import com.kyleruss.jsockchat.server.message.RemoveFriendMessageHandler;
 import com.kyleruss.jsockchat.server.message.RequestFriendMessageHandler;
 import com.kyleruss.jsockchat.server.message.ServerMessageHandler;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * A server for listening and interpreting messages from a client
+ * ServerMessageListener are spawned from io/MessageServer on socket.accept()
+ * Handeling of messages is performed by an appropriate message/*
+ * @see com.kyleruss.jsockchat.commons.io.MessageListener
+ */
 public class ServerMessageListener extends MessageListener<RequestMessage>
 {
     private static ServerMessageListener instance;
-    protected String servingUser;
+    protected String servingUser; //The messaging source (ip/username)
     
     public ServerMessageListener(Socket socket) 
     {
@@ -43,6 +56,11 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         initUserSocket();
     }
     
+    /**
+     * Initializes a UserSocket for the listeners socket
+     * Initializes the servingUser
+     * Associates the created UserSocket with the servingUser
+     */
     private void initUserSocket()
     {
         if(socket != null)
@@ -57,12 +75,22 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         }
     }
     
+    public synchronized void setServingUser(String servingUser)
+    {
+        this.servingUser    =   servingUser;
+    }
+    
+    /**
+     * Interprets a passed MessageBean and creates a handler based on the type of bean
+     * @param bean The bean that's type is associated with a handler
+     * @return A handler thats associated with the passed bean; null otherwise
+     */
     private ServerMessageHandler getHandler(MessageBean bean)
     {
         ServerMessageHandler handler    =   null;
             
         if(bean instanceof AuthMsgBean)
-            handler     =   new AuthMessageHandler(servingUser);
+            handler     =   new AuthMessageHandler(servingUser, this);
         
         else if(bean instanceof RegisterMsgBean)
             handler     =   new RegisterMessageHandler(servingUser);
@@ -88,9 +116,17 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         else if(bean instanceof CreateRoomMsgBean)
             handler     =   new CreateRoomMessageHandler();
         
+        else if(bean instanceof RemoveFriendMsgBean)
+            handler     =   new RemoveFriendMessageHandler();
+        
         return handler;
     }
     
+    /**
+     * Gets a handler for the request
+     * Performs the handlers  appropriate action
+     * @param request The request to handle
+     */
     @Override
     protected void handleReceivedMessage(RequestMessage request) 
     {
@@ -98,6 +134,7 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         {
             if(request.getUserSource() != null)
                 servingUser = request.getUserSource();
+            
             else
             {
                 String address  =   socket.getRemoteSocketAddress().toString();
@@ -112,6 +149,11 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         }
     }
 
+    /**
+     * Listens for a new request message and returns it
+     * @param inputStream The sockets input stream
+     * @return The request message sent
+     */
     @Override
     protected RequestMessage getMessage(ObjectInputStream inputStream)
     {
@@ -127,13 +169,16 @@ public class ServerMessageListener extends MessageListener<RequestMessage>
         }
     }
     
+    /**
+     * Closes up sockets/streams 
+     * @param inputStream The socket input stream
+     */
     @Override
     protected void handleCleanup(ObjectInputStream inputStream)
     {
         try
         {
             if(inputStream != null) inputStream.close();
-            
             if(UserManager.getInstance().find(servingUser))
                 UserManager.getInstance().clientExit(UserManager.getInstance().get(servingUser));
             

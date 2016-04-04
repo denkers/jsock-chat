@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.io;
 
 import com.kyleruss.jsockchat.commons.message.Message;
@@ -5,6 +11,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * A server that listens for incomming messages
+ * Should handle messages based on their bean type
+ * @param <T> client -> RequestMessage, server -> ResponseMessage
+ */
 public abstract class MessageListener<T extends Message> extends Thread
 {
     protected final Socket socket;
@@ -14,10 +25,23 @@ public abstract class MessageListener<T extends Message> extends Thread
         this.socket =   socket;
     }
     
+    /**
+     * Should perform the action on the passed mesage
+     * @param message The message to be handled
+     */
     protected abstract void handleReceivedMessage(T message);
     
+    /**
+     * Should block and listen for incomming messages
+     * @param inputStream The input stream to read from
+     * @return A The read message; null if exception
+     */
     protected abstract T getMessage(ObjectInputStream inputStream);
     
+    /**
+     * Performs some cleanup duties on the stream and its socket
+     * @param inputStream The current reading inputStream
+     */
     protected abstract void handleCleanup(ObjectInputStream inputStream);
     
     public Socket getSocket()

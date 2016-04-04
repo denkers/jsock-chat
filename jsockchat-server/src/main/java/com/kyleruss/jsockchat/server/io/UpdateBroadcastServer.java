@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
@@ -25,6 +30,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * A server that periodically pushes updates via UDP to clients
+ * Sends a UpdateDump every ClientConfig.BROADCAST_DELAY
+ */
 public class UpdateBroadcastServer extends SyncedServer
 {
     private static UpdateBroadcastServer instance;
@@ -35,11 +44,18 @@ public class UpdateBroadcastServer extends SyncedServer
         initSocket();
     }
     
+    /**
+     * Initializes the servers socket
+     * Server stops if failed 
+     */
     private void initSocket()
     {
         try
         {
             socket  =   new DatagramSocket();
+            
+            LoggingList.sendLogMessage(new LogMessage("[Update Broadcast Server] Sending updates to online users every " + (ServerConfig.BROADCAST_DELAY / 1000) + " second(s)", 
+            AppResources.getInstance().getUpdateImage()));
         }
         
         catch(SocketException e)
@@ -59,13 +75,16 @@ public class UpdateBroadcastServer extends SyncedServer
         return socket;
     }
     
+    /**
+     * Sends the passed update dump to the user
+     * @param updates The created update dump
+     * @param user The user to send the update dump to
+     */
     protected synchronized void sendUpdates(UpdateBeanDump updates, IUser user) throws IOException
     {
         UserSocket userSock             =       SocketManager.getInstance().get(user.getUsername());
         int port                        =       userSock.getUdpPort();
         if(port == -1) return;
-        
-        System.out.println("port: " + port);
         
         InetAddress host                =       InetAddress.getByName(userSock.getAddress());
         ByteArrayOutputStream baos      =   new ByteArrayOutputStream();
@@ -95,9 +114,6 @@ public class UpdateBroadcastServer extends SyncedServer
                 AppResources.getInstance().getServerBadImage()));
             }
         }
-        
-        LoggingList.sendLogMessage(new LogMessage("[Update Broadcast Server] Updates sent to online users, next update in " + (ServerConfig.BROADCAST_DELAY / 1000) + " second(s)", 
-        AppResources.getInstance().getUpdateImage()));
     }
     
     protected synchronized void updateServer()

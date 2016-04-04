@@ -1,6 +1,14 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
+/**
+ * A synced server that allows pausing/resuming
+ */
 public abstract class SyncedServer extends Thread
 {
     protected boolean isServing;
@@ -12,6 +20,10 @@ public abstract class SyncedServer extends Thread
         isStopped   =   false;
     }
     
+    /**
+     * Should the servers desired tasks here
+     * Used after getting lock
+     */
     protected abstract void runServerOperations();
     
     public boolean isStopped()

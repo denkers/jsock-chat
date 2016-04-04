@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.message;
 
@@ -44,7 +49,7 @@ public class JoinRoomMessageHandler implements ServerMessageHandler
             
             else
             {
-                 if(room.isPassProtected() && !room.getRoomName().equals(bean.getAttemptedPassword()))
+                 if(room.isPassProtected() && !room.getRoomPassword().equals(bean.getAttemptedPassword()))
                  {
                      response.setStatus(false);
                      response.setDescription("Invalid room password");

@@ -1,5 +1,12 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.message;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RequestFriendMsgBean implements MessageBean
@@ -39,5 +46,14 @@ public class RequestFriendMsgBean implements MessageBean
     public String getFriendB()
     {
         return friendB;
+    }
+    
+    @Override
+    public String toString()
+    {
+        SimpleDateFormat formatter  =   new SimpleDateFormat("dd-MM-yyyy");
+        String formattedDate        =   formatter.format(requestDate);
+        
+        return "[" + formattedDate + "] Request from: " + friendA;
     }
 }

@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.message;
 
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
@@ -15,9 +21,10 @@ public class RequestFriendMessageHandler implements ServerMessageHandler
     @Override
     public void serverAction(RequestMessage request) 
     {
-        RequestFriendMsgBean bean   =   (RequestFriendMsgBean) request.getMessageBean();
-        ResponseMessage response    =   new ResponseMessage(request);
-        String source               =   request.getUserSource();
+        RequestFriendMsgBean bean       =   (RequestFriendMsgBean) request.getMessageBean();
+        String source                   =   request.getUserSource();
+        ResponseMessage response        =   new ResponseMessage(request);
+        ResponseMessage sendResponse    =   null;
         
         if(DBFriends.getInstance().friendRequestExists(bean.getFriendA(), bean.getFriendB()))
         {
@@ -32,11 +39,23 @@ public class RequestFriendMessageHandler implements ServerMessageHandler
             response.setStatus(result);
             response.setDescription(responseMsg);
             
+            if(result)
+            {
+                sendResponse    =   new ResponseMessage(request);
+                sendResponse.setStatus(true);
+                sendResponse.setDescription(source + " has sent you a friend request");
+            }
+            
             LoggingList.sendLogMessage(new LogMessage("[Friend request] User '" + source + "' has friend requested user '" + bean.getFriendB() + "'", 
             AppResources.getInstance().getServerOkImage()));
         }
         
-        try { UserManager.getInstance().sendMessageToUser(source, response); }
+        try 
+        { 
+            UserManager.getInstance().sendMessageToUser(source, response); 
+            if(sendResponse != null) UserManager.getInstance().sendMessageToUser(source, sendResponse); 
+            
+        }
         catch(IOException e)
         {
             System.out.println("[RequestFriendMessageHandler@serverAction]: " + e.getMessage());

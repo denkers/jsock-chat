@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
@@ -10,6 +15,11 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * A server for handling incomming messages
+ * Initializes the servers TCP/UDP sockets
+ * 
+ */
 public final class MessageServer extends SyncedServer
 {
     private static MessageServer instance;
@@ -20,6 +30,10 @@ public final class MessageServer extends SyncedServer
         initSocket();
     }
     
+    /**
+     * Attempts to initialize the sockets
+     * Notifies user if initialization fails
+     */
     protected void initSocket()
     {
         try
@@ -56,6 +70,11 @@ public final class MessageServer extends SyncedServer
         }
     }
     
+    
+    /**
+     * Creates a new listener that listens on the passed socket
+     * @param socket The socket instance to listen on in the new listener
+     */
     private void handleClientSocket(Socket socket)
     {
         ServerMessageListener messageHandler =   new ServerMessageListener(socket);
@@ -68,6 +87,10 @@ public final class MessageServer extends SyncedServer
         return serverSocket == null || serverSocket.isClosed();
     }
 
+    /**
+     * Waits for a new socket
+     * Creates a new listener that listens on the socket
+     */
     @Override
     protected synchronized void runServerOperations() 
     {
@@ -83,6 +106,11 @@ public final class MessageServer extends SyncedServer
         }
     }
     
+    /**
+     * Sets isServing to the passed serving
+     * @see com.kyleruss.jsockchat.server.io.SyncedServer#SyncedServer() 
+     * @param serving true to enable listening and false to pause it
+     */
     @Override
     public synchronized void setServingSync(boolean serving)
     {

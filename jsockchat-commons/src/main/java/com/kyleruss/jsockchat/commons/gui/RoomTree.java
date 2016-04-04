@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.gui;
 
 import com.kyleruss.jsockchat.commons.room.Room;
@@ -54,10 +60,7 @@ public class RoomTree extends JTree
         DefaultMutableTreeNode roomNode =   new DefaultMutableTreeNode(room);
         List<IUser> roomUsers           =   room.getUserList();
         for(IUser user : roomUsers)
-        {
-            System.out.println("room user: " + user);
             roomNode.add(new DefaultMutableTreeNode(user));
-        }
         
         rootNode.add(roomNode);
     }
@@ -65,6 +68,11 @@ public class RoomTree extends JTree
     public void setRootNode(DefaultMutableTreeNode rootNode) 
     {
         this.rootNode = rootNode;
+    }
+    
+    public DefaultMutableTreeNode getRootNode()
+    {
+        return rootNode;
     }
 
     public void setTreeModel(DefaultTreeModel treeModel) 
@@ -94,7 +102,6 @@ public class RoomTree extends JTree
 
     private class RoomTreeCellRenderer extends DefaultTreeCellRenderer
     {
-
         @Override
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus)
         {

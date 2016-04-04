@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.core;
 
@@ -20,22 +25,30 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Manages users in the server
+ * Responsible for creating user and friends beans
+ */
 public final class UserManager extends AbstractManager<String, IUser>
 {
     private static UserManager instance;
     
     private UserManager() {}
     
+    /**
+     * Gets the passed user's friends from db query
+     * Creates and returns a new UpdateBean);
+     * @param username The user to fetch friends for
+     * @return A friends bean containing friends and online friends
+     */
     public FriendsUpdateBean createFriendsBean(String username)
     {
         FriendsUpdateBean bean                      =   new FriendsUpdateBean();
         DBFriends friendModel                       =   DBFriends.getInstance();
         Map<String, IUser> friends                  =   friendModel.getUsersFriends(username);
-        Map<String, IUser> onlineFriends            =   friendModel.getUsersOnlineFriends(username, friends);
         List<RequestFriendMsgBean> friendRequests   =   friendModel.getPendingFriendRequests(username);
         
         bean.setData(friends);
-        bean.setOnlineFriends(onlineFriends);
         bean.setPendingRequests(friendRequests);
         return bean;
     }
@@ -48,6 +61,12 @@ public final class UserManager extends AbstractManager<String, IUser>
         return bean;
     }
     
+    
+    /**
+     * Removes the user from the managed map
+     * Notifies room users of users exit
+     * @param client The user who is exiting
+     */
     public synchronized void clientExit(IUser client)
     {
         if(client == null) return;
@@ -59,6 +78,12 @@ public final class UserManager extends AbstractManager<String, IUser>
         SocketManager.getInstance().cleanUp(client.getUsername());
     }
     
+    
+    /**
+     * Sends a direct message to the passed user
+     * @param username The username to send to
+     * @param message The message being sent
+     */
     public synchronized void sendMessageToUser(String username, Message message) throws IOException
     {
         UserSocket userSocket     =   SocketManager.getInstance().get(username);
@@ -69,6 +94,7 @@ public final class UserManager extends AbstractManager<String, IUser>
             ServerMessageSender.getInstance().addMessage(messageItem);
         }
     }
+    
     
     public AuthPackage prepareAuthPackage(User user)
     {

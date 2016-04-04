@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.core;
 
 import com.kyleruss.jsockchat.server.gui.AppResources;
@@ -8,6 +14,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Manages database connections and drivers
+ * Initializes the JDBC driver and offers some db related utility functions
+ */
 public class DBManager 
 {
     private static DBManager instance;

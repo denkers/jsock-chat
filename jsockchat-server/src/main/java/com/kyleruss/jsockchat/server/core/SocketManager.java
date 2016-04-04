@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.core;
 
 import com.kyleruss.jsockchat.server.gui.AppResources;
@@ -5,10 +11,17 @@ import com.kyleruss.jsockchat.server.gui.LogMessage;
 import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.io.UserSocket;
 
+/**
+ * Manages UserSockets and their associated serveringUser keys
+ */
 public class SocketManager extends AbstractManager<String, UserSocket>
 {
     private static SocketManager instance;
     
+    /**
+     * Removes a users UserSocket and cleans up its socket
+     * @param username The user who's socket to clean up
+     */
     public void cleanUp(String username)
     {
         if(find(username))
@@ -23,6 +36,11 @@ public class SocketManager extends AbstractManager<String, UserSocket>
         }
     }
     
+    /**
+     * Changes the associated key for the passed users UserSocket
+     * Goes back to using the user's remote IP to identify
+     * @param username 
+     */
     public void processLogout(String username)
     {
         if(find(username))

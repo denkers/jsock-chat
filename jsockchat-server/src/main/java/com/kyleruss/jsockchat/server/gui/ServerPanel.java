@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.gui;
 
 import com.kyleruss.jsockchat.commons.gui.RoomTree;

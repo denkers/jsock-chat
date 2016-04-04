@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.gui;
 
 import com.kyleruss.jsockchat.server.core.ServerConfig;
@@ -68,10 +74,14 @@ public class LoggingList extends JScrollPane
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
         {
             JLabel label        =   (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            LogMessage message  =   (LogMessage) value;   
-            label.setIcon(new ImageIcon(message.getMessageImage()));
-            label.setForeground(Color.WHITE);
-            label.setFont(new Font("Arial", Font.BOLD, 12));
+            LogMessage message  =   (LogMessage) value;  
+            
+            if(label != null && message != null)
+            {
+                label.setIcon(new ImageIcon(message.getMessageImage()));
+                label.setForeground(Color.WHITE);
+                label.setFont(new Font("Arial", Font.BOLD, 12));
+            }
             
             return label;
         }

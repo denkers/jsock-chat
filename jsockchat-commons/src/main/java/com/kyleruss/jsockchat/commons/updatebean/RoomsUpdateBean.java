@@ -1,18 +1,24 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.updatebean;
 
 import com.kyleruss.jsockchat.commons.room.Room;
 
 public class RoomsUpdateBean extends AbstractUpdateBean<Room>
 {
-    private String channelNotice;
+    private String serverNodeName;
     
-    public String getChannelNotice()
+    public String getServerNodeName()
     {
-        return channelNotice;
+        return serverNodeName;
     }
     
-    public void setChannelNotice(String channelNotice)
+    public void setServerNodeName(String serverNodeName)
     {
-        this.channelNotice  =   channelNotice;
+        this.serverNodeName  =   serverNodeName;
     }
 }

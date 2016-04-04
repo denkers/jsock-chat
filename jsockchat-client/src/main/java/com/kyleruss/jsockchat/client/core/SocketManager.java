@@ -1,6 +1,12 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.client.core;
 
+import com.kyleruss.jsockchat.client.gui.ClientMenuBar;
 import com.kyleruss.jsockchat.client.gui.ClientPanel;
 import com.kyleruss.jsockchat.client.gui.ConnectPanel;
 import java.io.IOException;
@@ -9,7 +15,10 @@ import java.net.DatagramSocket;
 import java.net.Socket;
 import javax.swing.JOptionPane;
 
-
+/**
+ * Maintains the client sockets and output stream
+ * Comparable to io/UserSocket in jsockchat-server
+ */
 public class SocketManager 
 {
     private static SocketManager instance;
@@ -27,13 +36,18 @@ public class SocketManager
             
             try
             {
-                System.out.println("trying to init");
                 tcpSocket       =   new Socket(host, port);
                 udpSocket       =   new DatagramSocket();
                 tcpOutputStream =   null;
                 ClientManager.getInstance().startServers();
                 connectView.showProcessing(false);
                 ClientPanel.getInstance().changeView(ClientConfig.LOGIN_VIEW_CARD);
+                
+                ClientMenuBar menu  =   ClientMenuBar.getInstance();
+                menu.getItem("loginItem").setEnabled(true);
+                menu.getItem("registerItem").setEnabled(true);
+                menu.getItem("logoutItem").setEnabled(false);
+                menu.getItem("dcItem").setEnabled(true);
             }
         
             catch(IOException e)
@@ -60,8 +74,12 @@ public class SocketManager
         if(tcpOutputStream == null) tcpOutputStream = new ObjectOutputStream(tcpSocket.getOutputStream());
         return tcpOutputStream;
     }
-    
-    public void cleanUp()
+
+    /**
+     * flushes and closes output streams
+     * closes TCP and UDP sockets
+     */
+    public synchronized void cleanUp()
     {
         try
         {

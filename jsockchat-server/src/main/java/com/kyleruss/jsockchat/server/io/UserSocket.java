@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
@@ -5,6 +10,10 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+/**
+ * Maintains a servingUser's sockets
+ * Has functions for cleaning up its own sockets
+ */
 public class UserSocket
 {
     private Socket socket;
@@ -18,6 +27,9 @@ public class UserSocket
         udpPort     =   -1;
     }
     
+    /**
+     * flushes & closes the output stream & closes the socket
+     */
     public void cleanUp()
     {
         try

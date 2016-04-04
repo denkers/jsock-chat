@@ -1,9 +1,19 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.commons.room;
 
 import com.kyleruss.jsockchat.commons.user.IUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A room is a chat room for users to message each other
+ * Allows private rooms/protected rooms
+ */
 public class Room implements IRoom
 {
     private List<IUser> userList;

@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.client.io;
 
@@ -10,6 +15,10 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+/**
+ * A update listening server
+ * Listens for updates and passes them to ClientManager to handle
+ */
 public class ListUpdateListener extends Thread
 {
     private final DatagramSocket socket;
@@ -19,6 +28,9 @@ public class ListUpdateListener extends Thread
         this.socket =   socket;
     }
     
+    /**
+     * Receives a UpdateBeanDump and pushes it to ClientManager for handeling
+     */
     @Override
     public void run()
     {

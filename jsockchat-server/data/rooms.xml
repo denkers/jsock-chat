@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <rooms>
+	<rootRoom>Jsockchat</rootRoom>
 	<room>
 		<name>General discussion</name>
 		<password />
@@ -11,7 +12,22 @@
 	</room>
 
 	<room>
-		<name>Pleb chat</name>
+		<name>RoomA</name>
+		<password />
+	</room>
+
+	<room>
+		<name>RoomB</name>
+		<password />
+	</room>
+
+	<room>
+		<name>RoomC</name>
+		<password />
+	</room>
+
+	<room>
+		<name>RoomD</name>
 		<password />
 	</room>
 </rooms>

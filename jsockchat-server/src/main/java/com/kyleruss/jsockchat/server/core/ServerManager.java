@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.core;
 
@@ -13,12 +18,19 @@ import com.kyleruss.jsockchat.server.io.MessageServer;
 import com.kyleruss.jsockchat.server.io.ServerMessageSender;
 import com.kyleruss.jsockchat.server.io.UpdateBroadcastServer;
 
+/**
+ * Main class of the jsockchat-server
+ * initializes servers and prepares updates
+ */
 public class ServerManager 
 {
     private static ServerManager instance;
     
     private ServerManager() {} 
     
+    /**
+     * Initializes and starts listening and send message servers as well as update the broadcast server
+     */
     private void startServers()
     {
         MessageServer messageServer     =   MessageServer.getInstance();
@@ -34,6 +46,11 @@ public class ServerManager
         LoggingList.sendLogMessage(new LogMessage("[Server manager] Started Update broadcast server", AppResources.getInstance().getServerOkImage()));
     }
     
+    /**
+     * Creates the MessageBeans and organizes them into a update dump
+     * @param user The user who updates will be prepared for
+     * @return A update dump from the created beans
+     */
     public UpdateBeanDump prepareUpdates(IUser user)
     {
         RoomsUpdateBean roomsBean       =   RoomManager.getInstance().createRoomsBean();

@@ -1,3 +1,9 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.server.message;
 
 import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
@@ -24,7 +30,18 @@ public class AcceptFriendMessageHandler implements ServerMessageHandler
         response.setStatus(result);
         response.setDescription(responseMsg);
         
-        try { UserManager.getInstance().sendMessageToUser(source, response); } 
+        try 
+        { 
+            UserManager.getInstance().sendMessageToUser(source, response); 
+            
+            if(result)
+            {
+                ResponseMessage senderResponse  =   new ResponseMessage(request);
+                senderResponse.setStatus(true);
+                senderResponse.setDescription(source + " has accepted your friend request");
+                UserManager.getInstance().sendMessageToUser(bean.getFromUser(), senderResponse); 
+            }
+        } 
         catch(IOException e)
         {
             System.out.println("[AcceptFriendMessageHandler@serverAction]: " + e.getMessage());

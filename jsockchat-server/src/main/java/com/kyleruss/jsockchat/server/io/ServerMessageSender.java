@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.io;
 
@@ -10,6 +15,11 @@ import com.kyleruss.jsockchat.server.gui.LogMessage;
 import com.kyleruss.jsockchat.server.gui.LoggingList;
 import com.kyleruss.jsockchat.server.gui.ServerStatusPanel;
 
+/**
+ * A server for sending messages in a queue
+ * @see com.kyleruss.jsockchat.commons.io.MessageSender
+ * @author denker
+ */
 public class ServerMessageSender extends MessageSender
 {
     private static ServerMessageSender instance;
@@ -20,6 +30,10 @@ public class ServerMessageSender extends MessageSender
         isSending = true;
     }
     
+    /**
+     * gets the parent lock -> locks if the message queue is empty
+     * get this lock -> if !isSending (paused)
+     */
     @Override
     public synchronized void getLock() 
     {
@@ -36,6 +50,10 @@ public class ServerMessageSender extends MessageSender
         }
     }
     
+    /**
+     * Resumes/pauses the server 
+     * @param sending The status of the server
+     */
     public synchronized void setSending(boolean sending)
     {
         if(isSending == sending) return;
@@ -49,6 +67,10 @@ public class ServerMessageSender extends MessageSender
         AppResources.getInstance().getServerOkImage()));
     }
     
+    /**
+     * Cleans up the associated socket 
+     * @param source The user who's socket to clean up
+     */
     @Override
     protected void cleanUp(String source)
     {

@@ -1,14 +1,30 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.commons.message;
 
-public class PrivateMsgBean extends BroadcastMsgBean 
+public class PrivateMsgBean implements MessageBean
 {
     private String destinationUser;
+    private String content;
     
-    public PrivateMsgBean(String source, String destinationUser, String content, String room)
+    public PrivateMsgBean(String destinationUser, String content)
     {
-        super(room, content);
         this.destinationUser    =   destinationUser;
+        this.content            =   content;
+    }
+
+    public String getContent()
+    {
+        return content;
+    }
+
+    public void setContent(String content) 
+    {
+        this.content = content;
     }
 
     public String getDestinationUser() 

@@ -1,10 +1,13 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.client.io;
 
-import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.SocketManager;
 import com.kyleruss.jsockchat.client.core.UserManager;
-import com.kyleruss.jsockchat.client.gui.ClientPanel;
 import com.kyleruss.jsockchat.client.message.AcceptFriendMessageHandler;
 import com.kyleruss.jsockchat.client.message.AuthMessageHandler;
 import com.kyleruss.jsockchat.client.message.BroadcastMessageHandler;
@@ -14,6 +17,7 @@ import com.kyleruss.jsockchat.client.message.DisconnectMessageHandler;
 import com.kyleruss.jsockchat.client.message.JoinRoomMessageHandler;
 import com.kyleruss.jsockchat.client.message.PrivateMessageHandler;
 import com.kyleruss.jsockchat.client.message.RegisterMessageHandler;
+import com.kyleruss.jsockchat.client.message.RemoveFriendMessageHandler;
 import com.kyleruss.jsockchat.client.message.RequestFriendMessageHandler;
 import com.kyleruss.jsockchat.commons.io.MessageListener;
 import com.kyleruss.jsockchat.commons.message.AcceptFriendMsgBean;
@@ -25,6 +29,7 @@ import com.kyleruss.jsockchat.commons.message.JoinRoomMsgBean;
 import com.kyleruss.jsockchat.commons.message.MessageBean;
 import com.kyleruss.jsockchat.commons.message.PrivateMsgBean;
 import com.kyleruss.jsockchat.commons.message.RegisterMsgBean;
+import com.kyleruss.jsockchat.commons.message.RemoveFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestFriendMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import com.kyleruss.jsockchat.commons.message.ResponseMessage;
@@ -33,14 +38,20 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+/**
+ * A server that listens and handles server response messages
+ */
 public class ClientMessageListener extends MessageListener<ResponseMessage>
 {
-    
     public ClientMessageListener(Socket socket) 
     {
         super(socket);
     }
 
+    /**
+     * @param bean The request bean
+     * @return An appropriate handler for the passed bean
+     */
     private ClientMessageHandler getHandler(MessageBean bean)
     {
         ClientMessageHandler handler    =   null;   
@@ -66,15 +77,23 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         else if(bean instanceof AcceptFriendMsgBean)
             handler     =   new AcceptFriendMessageHandler();
         
-        else if(bean instanceof RequestFriendMsgBean)
-            handler     =   new RequestFriendMessageHandler();
-        
         else if(bean instanceof CreateRoomMsgBean)
             handler     =   new CreateRoomMessageHandler();
+        
+        else if(bean instanceof RemoveFriendMsgBean)
+            handler     =   new RemoveFriendMessageHandler();
+        
+        else if(bean instanceof RequestFriendMsgBean)
+            handler     =   new RequestFriendMessageHandler();
         
         return handler;
     }
     
+    /**
+     * Handles a response message
+     * Uses appropriate action function based on witness status
+     * @param response The read ResponseMessage
+     */
     @Override
     protected void handleReceivedMessage(ResponseMessage response)
     {
@@ -93,6 +112,10 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         }
     }
     
+    /**
+     * Closes the passed inputStream and cleanup in SocketManager
+     * @param inputStream The client's inputstream
+     */
     @Override
     protected void handleCleanup(ObjectInputStream inputStream)
     {
@@ -108,6 +131,11 @@ public class ClientMessageListener extends MessageListener<ResponseMessage>
         }
     }
 
+    /**
+     * Waits for a ResponseMessage (blocks) and returns it
+     * @param inputStream The input stream to read from
+     * @return A response message from the stream
+     */
     @Override
     protected ResponseMessage getMessage(ObjectInputStream inputStream) 
     {

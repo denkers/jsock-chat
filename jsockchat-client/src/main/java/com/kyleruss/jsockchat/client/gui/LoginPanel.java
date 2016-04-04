@@ -1,9 +1,14 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
+
 package com.kyleruss.jsockchat.client.gui;
 
 import com.kyleruss.jsockchat.client.core.ClientConfig;
 import com.kyleruss.jsockchat.client.core.ClientManager;
 import com.kyleruss.jsockchat.client.core.SocketManager;
-import com.kyleruss.jsockchat.client.io.ClientMessageSender;
 import com.kyleruss.jsockchat.commons.message.AuthMsgBean;
 import com.kyleruss.jsockchat.commons.message.RequestMessage;
 import java.awt.CardLayout;

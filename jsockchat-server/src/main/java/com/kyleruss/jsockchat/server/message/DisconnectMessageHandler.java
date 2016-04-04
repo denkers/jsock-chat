@@ -1,3 +1,8 @@
+//========================================
+//  Kyle Russell
+//  AUT University 2016
+//  Distributed & Mobile Systems
+//========================================
 
 package com.kyleruss.jsockchat.server.message;
 
@@ -28,7 +33,6 @@ public class DisconnectMessageHandler implements ServerMessageHandler
         {
             String roomName   =   bean.getRoom();
             roomManager.leaveRoom(user, roomName);
-            roomManager.sendMessageToRoom(roomName, response, RoomManager.createExclusions(user));
         }
         
         else
