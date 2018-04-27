@@ -7,7 +7,8 @@
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
 
 JSock Chat is a desktop chat application that uses message passing  
-via TCP socket communication and client message broadcasting via UDP
+via TCP socket communication and client message broadcasting via UDP  
+For a complete user guide and technical notes see the [documentation](Documentation/UserGuide.pdf)
 
 ## Features
 #### User Registration
